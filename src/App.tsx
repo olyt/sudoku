@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { MouseEventHandler } from 'react';
+import Grid from './components/Grid/Grid';
+import Header from './components/Header/Header';
+import NumPad from './components/NumPad/NumPad';
+import Modal from './components/Modal/Modal';
+import { useAppContext } from './context/AppContext';
+import styled from 'styled-components';
+import { resetClickedCell } from './context/actions';
+import useGameStatusTracking from './hooks/useGameStatusTracking';
 
-function App() {
+const AppWrapper = styled.div`
+  text-align: center;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 0 30px 0;
+  position: relative;
+  background: rgba(237, 246, 249, 0.4);
+  //z-index: -1;
+`;
+
+const App: React.FC = () => {
+  const { state, dispatch } = useAppContext();
+  useGameStatusTracking();
+
+  const undoClickedCell: MouseEventHandler<HTMLDivElement> = (event) => {
+    if (event.target === event.currentTarget) {
+      dispatch(resetClickedCell);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppWrapper onClick={undoClickedCell}>
+      <Header />
+      <Grid />
+      <NumPad />
+      {state.modal.isOpen && <Modal />}
+    </AppWrapper>
   );
-}
-
+};
 export default App;
