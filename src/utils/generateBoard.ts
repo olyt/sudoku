@@ -65,11 +65,6 @@ export const generateBoard: generateFn = (difficulty) => {
   const { inARowMax, inABoxMax, numMax } = DIFFICULTY[difficulty];
   const board = copyBlankBoard();
   const solution = solve(board) as Board;
-  if (difficulty === 'easy') {
-    const newBoard = copyBoard(solution);
-    newBoard[0][0] = 0;
-    return { board: newBoard, solution };
-  }
   const boxes = new Boxes(board, inABoxMax);
   const nums: num = {
     '1': 0,
