@@ -72,5 +72,8 @@
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-processor-styled-components": "^1.10.0",
     "typescript-plugin-styled-components": "^2.0.0"
+  },
+  "engines": {
+    "node": "^14"
   }
 }
