@@ -6,7 +6,7 @@ import DifficultyButtons from '../DifficultyButtons/DifficultyButtons';
 import { aliceBlue } from '../../utils/COLORS';
 import WinBanner from '../WinBanner/WinBanner';
 import { GenericObject } from '../../types/types';
-import { GameStatus } from '../../context/types';
+import { EGameStatus } from '../../context/types';
 
 const OuterModal = styled.div`
   position: absolute;
@@ -46,7 +46,7 @@ const Modal: FC = () => {
 
   const closeModal: MouseEventHandler<HTMLDivElement> = (event) => {
     if (event.target === event.currentTarget) {
-      if (state.gameStatus === GameStatus.Win) {
+      if (state.gameStatus === EGameStatus.Win) {
         leaveAfterWin(dispatch);
       }
 

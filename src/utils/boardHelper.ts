@@ -1,12 +1,12 @@
-import { Board } from '../types/types';
+import { TBoard } from '../types/types';
 
-type CopyBoard = (board: Board) => Board;
-type SetValueToBoard = (
-  board: Board,
+type TCopyBoard = (board: TBoard) => TBoard;
+type TSetValueToBoard = (
+  board: TBoard,
   cell: { y: number; x: number; value: number }
-) => Board;
+) => TBoard;
 
-const BLANK_BOARD: Board = [
+const BLANK_BOARD: TBoard = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -18,10 +18,10 @@ const BLANK_BOARD: Board = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
 ];
 
-export const copyBoard: CopyBoard = (board) =>
+export const copyBoard: TCopyBoard = (board) =>
   board.map((row) => row.map((num) => num));
 
-export const updateValueOnBoard: SetValueToBoard = (board, cell) => {
+export const updateValueOnBoard: TSetValueToBoard = (board, cell) => {
   return board.map((row, y) => {
     return row.map((currentValue, x) => {
       return cell.y === y && cell.x === x ? cell.value : currentValue;
@@ -29,7 +29,7 @@ export const updateValueOnBoard: SetValueToBoard = (board, cell) => {
   });
 };
 
-export const copyBlankBoard = (): Board => {
+export const copyBlankBoard = (): TBoard => {
   return BLANK_BOARD.map((row: number[]) => {
     return row.map((i) => i);
   });

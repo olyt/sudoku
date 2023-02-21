@@ -1,9 +1,9 @@
 import { solve } from './solver';
-import { copyBlankBoard, copyBoard } from './boardHelper';
-import { Board, Difficulties } from '../types/types';
+import { copyBlankBoard } from './boardHelper';
+import { TBoard, IDifficulties } from '../types/types';
 import Boxes from './Boxes';
 
-interface num {
+interface INum {
   '1': number;
   '2': number;
   '3': number;
@@ -15,14 +15,14 @@ interface num {
   '9': number;
 }
 
-type numNum = keyof num;
-type checkFn = (_: number[], __: number) => boolean;
-type generateFn = (difficulty: keyof Difficulties) => {
-  board: Board;
-  solution: Board;
+type TNumNum = keyof INum;
+type TCheckFn = (_: number[], __: number) => boolean;
+type TGenerateFn = (difficulty: keyof IDifficulties) => {
+  board: TBoard;
+  solution: TBoard;
 };
 
-export const DIFFICULTY: Difficulties = {
+export const DIFFICULTY: IDifficulties = {
   easy: {
     mustFill: 50,
     inARowMax: 8,
@@ -46,7 +46,7 @@ export const DIFFICULTY: Difficulties = {
   },
 };
 
-const isRowFilledProperly: checkFn = (row, maxFill) => {
+const isRowFilledProperly: TCheckFn = (row, maxFill) => {
   let count = 0;
 
   for (let i = 0; i < row.length; i++) {
@@ -60,13 +60,13 @@ const isRowFilledProperly: checkFn = (row, maxFill) => {
   return true;
 };
 
-export const generateBoard: generateFn = (difficulty) => {
+export const generateBoard: TGenerateFn = (difficulty) => {
   let { mustFill } = DIFFICULTY[difficulty];
   const { inARowMax, inABoxMax, numMax } = DIFFICULTY[difficulty];
   const board = copyBlankBoard();
-  const solution = solve(board) as Board;
+  const solution = solve(board) as TBoard;
   const boxes = new Boxes(board, inABoxMax);
-  const nums: num = {
+  const nums: INum = {
     '1': 0,
     '2': 0,
     '3': 0,
@@ -83,7 +83,7 @@ export const generateBoard: generateFn = (difficulty) => {
     const x = Math.floor(Math.random() * 9);
     if (!board[y][x] || board[y][x] !== solution[y][x]) {
       let num: number = solution[y][x];
-      const numStr: numNum = <keyof num>num.toString();
+      const numStr: TNumNum = num.toString() as keyof INum;
 
       if (mustFill === 1) {
         for (const key in nums) {

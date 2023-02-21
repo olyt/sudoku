@@ -1,18 +1,18 @@
-import { Board } from '../types/types';
+import { TBoard } from '../types/types';
 
-type boxNode = {
+type TBoxNode = {
   x: number;
   y: number;
   value: number;
 };
 
 class Boxes {
-  boxes: boxNode[][];
+  boxes: TBoxNode[][];
   currentBoxIndex: number;
   currentValueIndex: number;
   private readonly _maxFill: number;
 
-  constructor(board: Board, maxFill: number) {
+  constructor(board: TBoard, maxFill: number) {
     this._maxFill = maxFill;
     this.currentBoxIndex = -1;
     this.currentValueIndex = -1;
@@ -36,7 +36,7 @@ class Boxes {
     this.boxes[this.currentBoxIndex][this.currentValueIndex].value = 0;
   }
 
-  private isBoxFilledProperly(box: boxNode[]): boolean {
+  private isBoxFilledProperly(box: TBoxNode[]): boolean {
     let count = 0;
     for (let i = 0; i < box.length; i++) {
       if (box[i].value) count++;
@@ -50,7 +50,7 @@ class Boxes {
     return this.isBoxFilledProperly(this.boxes[this.currentBoxIndex]);
   }
 
-  private generateInitialBoxes(board: Board): boxNode[][] {
+  private generateInitialBoxes(board: TBoard): TBoxNode[][] {
     return [
       [
         { y: 0, x: 0, value: board[0][0] },

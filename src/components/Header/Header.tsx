@@ -8,7 +8,7 @@ import {
 } from '../../context/actions';
 import { useAppContext } from '../../context/AppContext';
 import { aliceBlue, ming } from '../../utils/COLORS';
-import { GameStatus, ModalComponents } from '../../context/types';
+import { EGameStatus, EModalComponents } from '../../context/types';
 
 const StyledHeader = styled.header`
   box-sizing: border-box;
@@ -69,13 +69,13 @@ const Header: React.FC = () => {
   const { state, dispatch } = useAppContext();
 
   const startNewGame: MouseEventHandler<HTMLButtonElement> = () => {
-    dispatch(setModalComponent(ModalComponents.DifficultyButtons));
+    dispatch(setModalComponent(EModalComponents.DifficultyButtons));
     dispatch(setModal(true));
   };
 
   const resetGame: MouseEventHandler<HTMLButtonElement> = () => {
     dispatch(resetBoardToInitial(state.initialBoard));
-    if (state.gameStatus === GameStatus.Failed) {
+    if (state.gameStatus === EGameStatus.Failed) {
       dispatch(resetGameStatus);
     }
   };

@@ -5,7 +5,7 @@ import {
   setModalComponent,
   winGameStatus,
 } from '../context/actions';
-import { GameStatus, ModalComponents } from '../context/types';
+import { EGameStatus, EModalComponents } from '../context/types';
 import { useEffect } from 'react';
 
 const useGameStatusTracking = (): void => {
@@ -36,16 +36,16 @@ const useGameStatusTracking = (): void => {
   };
 
   const handleWin = (): void => {
-    dispatch(setModalComponent(ModalComponents.WinBanner));
+    dispatch(setModalComponent(EModalComponents.WinBanner));
     dispatch(setModal(true));
   };
 
   useEffect(() => {
     switch (gameStatus) {
-      case GameStatus.InProgress:
+      case EGameStatus.InProgress:
         checkInProgress();
         break;
-      case GameStatus.Win:
+      case EGameStatus.Win:
         handleWin();
         break;
     }

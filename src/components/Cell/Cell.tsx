@@ -4,34 +4,34 @@ import { useAppContext } from '../../context/AppContext';
 import { resetClickedCell, setClickedCell } from '../../context/actions';
 import { aliceBlue, middleBlueGreen, ming } from '../../utils/COLORS';
 
-enum CellStates {
+enum ECellStates {
   clicked = 'clicked',
   highlighted = 'highlighted',
   similarNum = 'similarNum',
   inactive = 'inactive',
 }
 
-interface CellProps {
+interface ICellProps {
   val: number;
   x: number;
   y: number;
 }
 
-interface StyledProps {
+interface IStyledProps {
   x: number;
   y: number;
-  state: CellStates;
+  state: ECellStates;
   a?: boolean;
   b?: boolean;
 }
 
-type checkCoordinate = (_: number) => boolean;
+type TCheckCoordinate = (_: number) => boolean;
 
-const checkXLeft: checkCoordinate = (x) => x === 0 || x === 3 || x === 6;
+const checkXLeft: TCheckCoordinate = (x) => x === 0 || x === 3 || x === 6;
 
-const checkYTop: checkCoordinate = (y) => y === 0 || y === 3 || y === 6;
+const checkYTop: TCheckCoordinate = (y) => y === 0 || y === 3 || y === 6;
 
-const StyledCell = styled.div<StyledProps>`
+const StyledCell = styled.div<IStyledProps>`
   font-size: 25px;
   border-left: ${({ x }) =>
     checkXLeft(x) ? '3px solid black' : '1px solid black'};
@@ -45,11 +45,11 @@ const StyledCell = styled.div<StyledProps>`
   align-items: center;
   background: ${({ state }) => {
     switch (state) {
-      case CellStates.clicked:
+      case ECellStates.clicked:
         return ming;
-      case CellStates.highlighted:
+      case ECellStates.highlighted:
         return middleBlueGreen;
-      case CellStates.similarNum:
+      case ECellStates.similarNum:
         return middleBlueGreen;
       default:
         return aliceBlue;
@@ -58,27 +58,27 @@ const StyledCell = styled.div<StyledProps>`
   cursor: pointer;
 `;
 
-const Cell: React.FC<CellProps> = ({ val, x, y }) => {
-  const [cellState, setCellState] = useState(CellStates.inactive);
+const Cell: React.FC<ICellProps> = ({ val, x, y }) => {
+  const [cellState, setCellState] = useState(ECellStates.inactive);
   const { state, dispatch } = useAppContext();
   const { y: clickedY, x: clickedX, value } = state.clickedCell;
 
   useEffect(() => {
     if (clickedY !== y && clickedX !== x) {
-      setCellState(CellStates.inactive);
+      setCellState(ECellStates.inactive);
     }
 
     if (
       (clickedY === y || clickedX === x) &&
       (clickedY !== y || clickedX !== x)
     ) {
-      setCellState(CellStates.highlighted);
+      setCellState(ECellStates.highlighted);
     }
 
     if (clickedY === -1 && clickedX === -1 && value && value === val) {
       setCellState((prev) => {
-        if (prev === CellStates.inactive) {
-          return CellStates.similarNum;
+        if (prev === ECellStates.inactive) {
+          return ECellStates.similarNum;
         }
         return prev;
       });
@@ -89,13 +89,13 @@ const Cell: React.FC<CellProps> = ({ val, x, y }) => {
     setCellState((prev) => {
       const clickUnmatched = clickedY === y && clickedX === x;
 
-      if (prev === CellStates.clicked || clickUnmatched) {
+      if (prev === ECellStates.clicked || clickUnmatched) {
         dispatch(resetClickedCell);
-        return CellStates.inactive;
+        return ECellStates.inactive;
       }
 
       dispatch(setClickedCell({ y, x, value: val }));
-      return CellStates.clicked;
+      return ECellStates.clicked;
     });
   };
 

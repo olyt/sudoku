@@ -1,45 +1,45 @@
 import React from 'react';
-import { Board } from '../types/types';
-import { Difficulties } from '../types/types';
-import { Action } from './actions';
+import { TBoard } from '../types/types';
+import { IDifficulties } from '../types/types';
+import { TAction } from './actions';
 
-export enum GameStatus {
+export enum EGameStatus {
   NotStarted = 'NOT_STARTED',
   InProgress = 'IN_PROGRESS',
   Failed = 'FAILED',
   Win = 'WIN',
 }
 
-export enum ModalComponents {
+export enum EModalComponents {
   DifficultyButtons = 'DifficultyButtons',
   WinBanner = 'WinBanner',
   Empty = 'empty',
 }
 
-export type ClickedCell = {
+export type TClickedCell = {
   y: number;
   x: number;
   value: number;
 };
 
-export type Modal = {
+export type TModal = {
   isOpen: boolean;
-  component: ModalComponents;
+  component: EModalComponents;
 };
 
-export interface AppContextInterface {
-  difficulty?: keyof Difficulties;
-  clickedCell: ClickedCell;
-  currentBoard: Board;
-  initialBoard: Board;
-  solution: Board;
-  modal: Modal;
-  gameStatus: GameStatus;
+export interface IAppContext {
+  difficulty?: keyof IDifficulties;
+  clickedCell: TClickedCell;
+  currentBoard: TBoard;
+  initialBoard: TBoard;
+  solution: TBoard;
+  modal: TModal;
+  gameStatus: EGameStatus;
 }
 
-export type State = {
-  state: AppContextInterface;
-  dispatch: React.Dispatch<Action>;
+export type TState = {
+  state: IAppContext;
+  dispatch: React.Dispatch<TAction>;
 };
 
-export type ActionCreator<Payload> = (payload: Payload) => Action;
+export type TActionCreator<Payload> = (payload: Payload) => TAction;

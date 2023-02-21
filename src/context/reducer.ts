@@ -1,49 +1,46 @@
-import { Action, ActionTypes } from './actions';
-import { AppContextInterface } from './types';
+import { TAction, EActionTypes } from './actions';
+import { IAppContext } from './types';
 import React from 'react';
 
-export const reducer: React.Reducer<AppContextInterface, Action> = (
-  state,
-  action
-) => {
+export const reducer: React.Reducer<IAppContext, TAction> = (state, action) => {
   switch (action.type) {
-    case ActionTypes.SetBoard:
+    case EActionTypes.SetBoard:
       return {
         ...state,
         currentBoard: action.payload,
       };
-    case ActionTypes.SetInitialBoard:
+    case EActionTypes.SetInitialBoard:
       return {
         ...state,
         initialBoard: action.payload,
       };
-    case ActionTypes.SetSolution:
+    case EActionTypes.SetSolution:
       return {
         ...state,
         solution: action.payload,
       };
-    case ActionTypes.SetGameStatus:
+    case EActionTypes.SetGameStatus:
       return {
         ...state,
         gameStatus: action.payload,
       };
-    case ActionTypes.SetDifficulty:
+    case EActionTypes.SetDifficulty:
       return { ...state, difficulty: action.payload };
-    case ActionTypes.SetClickedCell:
+    case EActionTypes.SetClickedCell:
       return { ...state, clickedCell: action.payload };
-    case ActionTypes.SetClickedCellValue:
+    case EActionTypes.SetClickedCellValue:
       return {
         ...state,
         clickedCell: { ...state.clickedCell, value: action.payload },
       };
-    case ActionTypes.ResetClickedCell:
+    case EActionTypes.ResetClickedCell:
       return { ...state, clickedCell: { y: -1, x: -1, value: 0 } };
-    case ActionTypes.SetModalOpen:
+    case EActionTypes.SetModalOpen:
       return {
         ...state,
         modal: { ...state.modal, isOpen: action.payload },
       };
-    case ActionTypes.SetModalComponent:
+    case EActionTypes.SetModalComponent:
       return {
         ...state,
         modal: { ...state.modal, component: action.payload },

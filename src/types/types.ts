@@ -1,10 +1,10 @@
-export type Board = number[][];
-export type Boards = number[][][];
+export type TBoard = number[][];
+export type TBoards = number[][][];
 export type GenericObject<T> = {
   [Key: string]: T;
 };
 
-type Difficulty = {
+type TDifficulty = {
   mustFill: number;
   inARowMax: number;
   inABoxMax: number;
@@ -12,8 +12,8 @@ type Difficulty = {
   numMin: number;
 };
 
-export interface Difficulties {
-  easy: Difficulty;
-  medium: Difficulty;
-  hard: Difficulty;
+export interface IDifficulties {
+  easy: TDifficulty;
+  medium: TDifficulty;
+  hard: TDifficulty;
 }

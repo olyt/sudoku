@@ -1,12 +1,12 @@
 import { generateBoard } from '../utils/generateBoard';
 import {
-  ActionCreator,
-  AppContextInterface,
-  ClickedCell,
-  GameStatus,
-  ModalComponents,
+  TActionCreator,
+  IAppContext,
+  TClickedCell,
+  EGameStatus,
+  EModalComponents,
 } from './types';
-import { Board, Difficulties } from '../types/types';
+import { TBoard, IDifficulties } from '../types/types';
 import React from 'react';
 import {
   copyBlankBoard,
@@ -14,7 +14,7 @@ import {
   updateValueOnBoard,
 } from '../utils/boardHelper';
 
-type ActionMap<M extends { [index: string]: any }> = {
+type TActionMap<M extends { [index: string]: any }> = {
   [Key in keyof M]: M[Key] extends undefined
     ? {
         type: Key;
@@ -25,7 +25,7 @@ type ActionMap<M extends { [index: string]: any }> = {
       };
 };
 
-export enum ActionTypes {
+export enum EActionTypes {
   SetDifficulty = 'SET_DIFFICULTY',
   SetClickedCell = 'SET_CLICKED_CELL',
   SetClickedCellValue = 'SET_CLICKED_CELL_VALUE',
@@ -38,103 +38,105 @@ export enum ActionTypes {
   SetGameStatus = 'SET_GAME_STATUS',
 }
 
-type Payload = {
-  [ActionTypes.SetBoard]: Board;
-  [ActionTypes.SetInitialBoard]: Board;
-  [ActionTypes.SetSolution]: Board;
-  [ActionTypes.SetDifficulty]: keyof Difficulties;
-  [ActionTypes.SetClickedCell]: ClickedCell;
-  [ActionTypes.ResetClickedCell]: undefined;
-  [ActionTypes.SetClickedCellValue]: number;
-  [ActionTypes.SetModalOpen]: boolean;
-  [ActionTypes.SetModalComponent]: ModalComponents;
-  [ActionTypes.SetGameStatus]: GameStatus;
+type TPayload = {
+  [EActionTypes.SetBoard]: TBoard;
+  [EActionTypes.SetInitialBoard]: TBoard;
+  [EActionTypes.SetSolution]: TBoard;
+  [EActionTypes.SetDifficulty]: keyof IDifficulties;
+  [EActionTypes.SetClickedCell]: TClickedCell;
+  [EActionTypes.ResetClickedCell]: undefined;
+  [EActionTypes.SetClickedCellValue]: number;
+  [EActionTypes.SetModalOpen]: boolean;
+  [EActionTypes.SetModalComponent]: EModalComponents;
+  [EActionTypes.SetGameStatus]: EGameStatus;
 };
 
-export type Action = ActionMap<Payload>[keyof ActionMap<Payload>];
+export type TAction = TActionMap<TPayload>[keyof TActionMap<TPayload>];
 
-export const setClickedCellValue: (payload: number) => Action = (payload) => ({
-  type: ActionTypes.SetClickedCellValue,
+export const setClickedCellValue: (payload: number) => TAction = (payload) => ({
+  type: EActionTypes.SetClickedCellValue,
   payload,
 });
 
-export const setModal: ActionCreator<boolean> = (payload) => ({
-  type: ActionTypes.SetModalOpen,
+export const setModal: TActionCreator<boolean> = (payload) => ({
+  type: EActionTypes.SetModalOpen,
   payload,
 });
 
-export const setModalComponent: ActionCreator<ModalComponents> = (payload) => ({
-  type: ActionTypes.SetModalComponent,
+export const setModalComponent: TActionCreator<EModalComponents> = (
+  payload
+) => ({
+  type: EActionTypes.SetModalComponent,
   payload,
 });
 
-export const setClickedCell: ActionCreator<ClickedCell> = (payload) => ({
-  type: ActionTypes.SetClickedCell,
+export const setClickedCell: TActionCreator<TClickedCell> = (payload) => ({
+  type: EActionTypes.SetClickedCell,
   payload,
 });
 
-export const setGameStatus: ActionCreator<GameStatus> = (payload) => ({
-  type: ActionTypes.SetGameStatus,
+export const setGameStatus: TActionCreator<EGameStatus> = (payload) => ({
+  type: EActionTypes.SetGameStatus,
   payload,
 });
 
-export const resetGameStatus: Action = {
-  type: ActionTypes.SetGameStatus,
-  payload: GameStatus.InProgress,
+export const resetGameStatus: TAction = {
+  type: EActionTypes.SetGameStatus,
+  payload: EGameStatus.InProgress,
 };
 
-export const failGameStatus: Action = {
-  type: ActionTypes.SetGameStatus,
-  payload: GameStatus.Failed,
+export const failGameStatus: TAction = {
+  type: EActionTypes.SetGameStatus,
+  payload: EGameStatus.Failed,
 };
 
-export const winGameStatus: Action = {
-  type: ActionTypes.SetGameStatus,
-  payload: GameStatus.Win,
+export const winGameStatus: TAction = {
+  type: EActionTypes.SetGameStatus,
+  payload: EGameStatus.Win,
 };
 
-export const notStartedStatus: Action = {
-  type: ActionTypes.SetGameStatus,
-  payload: GameStatus.NotStarted,
+export const notStartedStatus: TAction = {
+  type: EActionTypes.SetGameStatus,
+  payload: EGameStatus.NotStarted,
 };
 
-export const resetClickedCell: Action = {
-  type: ActionTypes.ResetClickedCell,
+export const resetClickedCell: TAction = {
+  type: EActionTypes.ResetClickedCell,
 };
 
-export const setBoard: ActionCreator<Board> = (board) => ({
-  type: ActionTypes.SetBoard,
+export const setBoard: TActionCreator<TBoard> = (board) => ({
+  type: EActionTypes.SetBoard,
   payload: board,
 });
 
-export const setSolution: ActionCreator<Board> = (board) => ({
-  type: ActionTypes.SetSolution,
+export const setSolution: TActionCreator<TBoard> = (board) => ({
+  type: EActionTypes.SetSolution,
   payload: board,
 });
 
-export const setInitialBoard: ActionCreator<Board> = (board) => ({
-  type: ActionTypes.SetInitialBoard,
+export const setInitialBoard: TActionCreator<TBoard> = (board) => ({
+  type: EActionTypes.SetInitialBoard,
   payload: board,
 });
 
 export const startGame: (
-  difficulty: keyof Difficulties,
-  dispatch: React.Dispatch<Action>
+  difficulty: keyof IDifficulties,
+  dispatch: React.Dispatch<TAction>
 ) => void = (difficulty, dispatch) => {
   const { board, solution } = generateBoard(difficulty);
 
   dispatch(setInitialBoard(copyBoard(board)));
   dispatch(setBoard(board));
   dispatch(setSolution(solution));
-  dispatch(setGameStatus(GameStatus.InProgress));
+  dispatch(setGameStatus(EGameStatus.InProgress));
 };
 
-export const resetBoardToInitial: (board: Board) => Action = (board) => ({
-  type: ActionTypes.SetBoard,
+export const resetBoardToInitial: (board: TBoard) => TAction = (board) => ({
+  type: EActionTypes.SetBoard,
   payload: copyBoard(board),
 });
 
-export const leaveAfterWin = (dispatch: React.Dispatch<Action>): void => {
+export const leaveAfterWin = (dispatch: React.Dispatch<TAction>): void => {
   dispatch(setBoard(copyBlankBoard()));
   dispatch(setInitialBoard(copyBlankBoard()));
   dispatch(setSolution(copyBlankBoard()));
@@ -142,13 +144,13 @@ export const leaveAfterWin = (dispatch: React.Dispatch<Action>): void => {
   dispatch(notStartedStatus);
 };
 
-export const startNewAfterWin = (dispatch: React.Dispatch<Action>): void => {
-  dispatch(setModalComponent(ModalComponents.DifficultyButtons));
+export const startNewAfterWin = (dispatch: React.Dispatch<TAction>): void => {
+  dispatch(setModalComponent(EModalComponents.DifficultyButtons));
 };
 
 export const setValueToBoard: (
-  state: AppContextInterface,
-  dispatch: React.Dispatch<Action>,
+  state: IAppContext,
+  dispatch: React.Dispatch<TAction>,
   newValue: number
 ) => void = (state, dispatch, newValue) => {
   const { y, x } = state.clickedCell;
@@ -157,14 +159,14 @@ export const setValueToBoard: (
     x,
     value: newValue,
   });
-  const actionToUpdateBoard: Action = {
-    type: ActionTypes.SetBoard,
+  const actionToUpdateBoard: TAction = {
+    type: EActionTypes.SetBoard,
     payload: updatedBoard,
   };
 
   dispatch(actionToUpdateBoard);
 
   if (state.solution[y][x] !== updatedBoard[y][x]) {
-    dispatch(setGameStatus(GameStatus.Failed));
+    dispatch(setGameStatus(EGameStatus.Failed));
   }
 };

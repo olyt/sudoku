@@ -3,15 +3,15 @@ import styled from 'styled-components';
 import { useAppContext } from '../../context/AppContext';
 import { setClickedCellValue, setValueToBoard } from '../../context/actions';
 
-interface NumBoxProps {
+interface INumBoxProps {
   value: number;
 }
 
-interface StyledNumBoxInterface {
+interface IStyledNumBoxInterface {
   num: number;
 }
 
-const StyledNumBox = styled.div<StyledNumBoxInterface>`
+const StyledNumBox = styled.div<IStyledNumBoxInterface>`
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -21,7 +21,7 @@ const StyledNumBox = styled.div<StyledNumBoxInterface>`
   cursor: pointer;
 `;
 
-const NumBox: React.FC<NumBoxProps> = ({ value }) => {
+const NumBox: React.FC<INumBoxProps> = ({ value }) => {
   const { state, dispatch } = useAppContext();
   const { y, x } = state.clickedCell;
 

@@ -1,4 +1,4 @@
-import { Board, Boards } from '../types/types';
+import { TBoard, TBoards } from '../types/types';
 
 const BOX_COORDINATES = [
   [0, 0],
@@ -12,15 +12,15 @@ const BOX_COORDINATES = [
   [2, 2],
 ];
 
-type solution = (boards: Boards) => Board | boolean;
-type solvedFn = (board: Board) => boolean;
-type solveFn = (board: Board) => Board | boolean;
-type nextBoardsFn = (board: Board) => Boards;
-type findSquareFn = (board: Board) => number[] | void;
-type isValidFn = (board: Board) => boolean;
-type isValidBoardsFn = (boards: Boards) => Boards;
+type TSolution = (boards: TBoards) => TBoard | boolean;
+type TSolvedFn = (board: TBoard) => boolean;
+type TSolveFn = (board: TBoard) => TBoard | boolean;
+type TNextBoardsFn = (board: TBoard) => TBoards;
+type TFindSquareFn = (board: TBoard) => number[] | void;
+type TIsValidFn = (board: TBoard) => boolean;
+type TIsValidBoardsFn = (boards: TBoards) => TBoards;
 
-const searchForSolution: solution = (validBoards) => {
+const searchForSolution: TSolution = (validBoards) => {
   if (!validBoards.length) return false;
 
   const first = validBoards.shift();
@@ -30,7 +30,7 @@ const searchForSolution: solution = (validBoards) => {
   return tryPath ? tryPath : searchForSolution(validBoards);
 };
 
-const solved: solvedFn = (board) => {
+const solved: TSolvedFn = (board) => {
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
       if (!board[i][j]) {
@@ -42,7 +42,7 @@ const solved: solvedFn = (board) => {
   return true;
 };
 
-const nextBoards: nextBoardsFn = (board) => {
+const nextBoards: TNextBoardsFn = (board) => {
   const res = [];
   const firstEmpty = findEmptySquare(board);
 
@@ -62,7 +62,7 @@ const nextBoards: nextBoardsFn = (board) => {
   return res;
 };
 
-const findEmptySquare: findSquareFn = (board) => {
+const findEmptySquare: TFindSquareFn = (board) => {
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
       if (!board[i][j]) {
@@ -72,7 +72,7 @@ const findEmptySquare: findSquareFn = (board) => {
   }
 };
 
-const isValidRow: isValidFn = (board) => {
+const isValidRow: TIsValidFn = (board) => {
   for (let i = 0; i < 9; i++) {
     const current: number[] = [];
     for (let j = 0; j < 9; j++) {
@@ -87,7 +87,7 @@ const isValidRow: isValidFn = (board) => {
   return true;
 };
 
-const isValidColumn: isValidFn = (board) => {
+const isValidColumn: TIsValidFn = (board) => {
   for (let i = 0; i < 9; i++) {
     const current: number[] = [];
     for (let j = 0; j < 9; j++) {
@@ -102,7 +102,7 @@ const isValidColumn: isValidFn = (board) => {
   return true;
 };
 
-const isValidBoxes: isValidFn = (board) => {
+const isValidBoxes: TIsValidFn = (board) => {
   for (let y = 0; y < 9; y += 3) {
     for (let x = 0; x < 9; x += 3) {
       const current: number[] = [];
@@ -123,21 +123,21 @@ const isValidBoxes: isValidFn = (board) => {
   return true;
 };
 
-const validBoard: isValidFn = (board) => {
+const validBoard: TIsValidFn = (board) => {
   return isValidRow(board) && isValidColumn(board) && isValidBoxes(board);
 };
 
-const keepOnlyValid: isValidBoardsFn = (boards) => {
-  return boards.filter((board: Board) => {
+const keepOnlyValid: TIsValidBoardsFn = (boards) => {
+  return boards.filter((board: TBoard) => {
     return validBoard(board);
   });
 };
 
-export const solve: solveFn = (board) => {
+export const solve: TSolveFn = (board) => {
   if (solved(board)) return board;
 
   const possibilities = nextBoards(board);
-  const validBoards: Boards = keepOnlyValid(possibilities);
+  const validBoards: TBoards = keepOnlyValid(possibilities);
 
   return searchForSolution(validBoards);
 };

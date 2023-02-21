@@ -3,7 +3,7 @@ import NumBox from '../NumBox/NumBox';
 import styled from 'styled-components';
 import { ming } from '../../utils/COLORS';
 
-type numsFn = () => JSX.Element[];
+type TNumsFn = () => JSX.Element[];
 
 const StyledNumPad = styled.div`
   width: 60%;
@@ -29,7 +29,7 @@ const StyledNumPad = styled.div`
 `;
 
 const NumPad: React.FC = () => {
-  const generateNums: numsFn = () => {
+  const generateNums: TNumsFn = () => {
     const nums = [];
     for (let i = 1; i <= 9; i++) {
       nums.push(<NumBox value={i} key={i} />);
