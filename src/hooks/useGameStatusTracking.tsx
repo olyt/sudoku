@@ -14,33 +14,33 @@ const useGameStatusTracking = (): void => {
     dispatch,
   } = useAppContext();
 
-  const checkInProgress = (): void => {
-    let isFailed = false;
-
-    const isWined = currentBoard.every((row, y) => {
-      return row.every((value, x) => {
-        if (value && value !== solution[y][x]) {
-          isFailed = true;
-        }
-        return value ? value === solution[y][x] : false;
-      });
-    });
-
-    if (isFailed) {
-      dispatch(failGameStatus);
-    }
-
-    if (isWined) {
-      dispatch(winGameStatus);
-    }
-  };
-
-  const handleWin = (): void => {
-    dispatch(setModalComponent(EModalComponents.WinBanner));
-    dispatch(setModal(true));
-  };
-
   useEffect(() => {
+    const handleWin = (): void => {
+      dispatch(setModalComponent(EModalComponents.WinBanner));
+      dispatch(setModal(true));
+    };
+
+    const checkInProgress = (): void => {
+      let isFailed = false;
+
+      const isWined = currentBoard.every((row, y) => {
+        return row.every((value, x) => {
+          if (value && value !== solution[y][x]) {
+            isFailed = true;
+          }
+          return value ? value === solution[y][x] : false;
+        });
+      });
+
+      if (isFailed) {
+        dispatch(failGameStatus);
+      }
+
+      if (isWined) {
+        dispatch(winGameStatus);
+      }
+    };
+
     switch (gameStatus) {
       case EGameStatus.InProgress:
         checkInProgress();
