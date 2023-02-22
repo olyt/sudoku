@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "author": "Oleksandr Lytovchenko",
+  "homepage": "https://olyt.github.io/sudoku/",
   "repository": {
     "type": "git",
     "url": "https://github.com/olyt/sudoku"
