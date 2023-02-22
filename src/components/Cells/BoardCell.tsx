@@ -26,7 +26,12 @@ export interface StyledProps {
   b?: boolean;
 }
 
+const checkXLeftBold = (x: number): boolean => x === 3 || x === 6;
+const checkYTopBold = (y: number): boolean => y === 3 || y === 6;
+
 const StyledCell = styled(BasicCell)<StyledProps>`
+  border-left: ${({ x }) => (checkXLeftBold(x) ? 3 : 1)}px solid black;
+  border-top: ${({ y }) => (checkYTopBold(y) ? 3 : 1)}px solid black;
   background: ${({ state }) => {
     switch (state) {
       case ECellStates.clicked:
@@ -39,6 +44,14 @@ const StyledCell = styled(BasicCell)<StyledProps>`
         return aliceBlue;
     }
   }};
+
+  &:nth-child(9n + 1) {
+    border-left: none;
+  }
+
+  &:nth-child(-n + 9) {
+    border-top: none;
+  }
 `;
 
 const BoardCell: React.FC<CellProps> = ({ val, x, y }) => {

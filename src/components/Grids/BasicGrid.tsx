@@ -10,8 +10,6 @@ const BasicGrid = styled.section<Props>`
   max-height: 600px;
   max-width: 600px;
   display: grid;
-  grid-gap: 1px;
-  background-color: black;
   grid-template-columns: repeat(${({ columns }) => columns}, 1fr);
   grid-template-rows: repeat(${({ rows }) => rows}, 1fr);
   border: 3px solid black;

@@ -11,6 +11,11 @@ interface INumBoxProps {
 
 const StyledNumBox = styled(BasicCell)`
   background-color: ${aliceBlue};
+  border-right: 1px solid black;
+
+  &:last-child {
+    border-right: none;
+  }
 `;
 
 const DigitCell: React.FC<INumBoxProps> = ({ value }) => {
