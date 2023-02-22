@@ -1,13 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { buttonStyles } from '../../utils/buttonStyles';
 import { startNewAfterWin } from '../../context/actions';
 import { useAppContext } from '../../context/AppContext';
 import { ming } from '../../utils/COLORS';
-
-const NewGameButton = styled.button`
-  ${buttonStyles}
-`;
+import ModalButton from '../Buttons/ModalButton';
 
 const Text = styled.p`
   display: flex;
@@ -27,9 +23,9 @@ const WinBanner: React.FC = () => {
   return (
     <>
       <Text>Congratulations! You win!</Text>
-      <NewGameButton onClick={() => startNewAfterWin(dispatch)}>
+      <ModalButton onClick={() => startNewAfterWin(dispatch)}>
         Start New Game
-      </NewGameButton>
+      </ModalButton>
     </>
   );
 };

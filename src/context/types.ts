@@ -11,7 +11,7 @@ export enum EGameStatus {
 }
 
 export enum EModalComponents {
-  DifficultyButtons = 'DifficultyButtons',
+  DifficultyBlock = 'DifficultyBlock',
   WinBanner = 'WinBanner',
   Empty = 'empty',
 }

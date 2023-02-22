@@ -1,7 +1,7 @@
 import React, { MouseEventHandler } from 'react';
-import Grid from './components/Grid/Grid';
+import BoardGrid from './components/Grids/BoardGrid';
 import Header from './components/Header/Header';
-import NumPad from './components/NumPad/NumPad';
+import DigitsGrid from './components/Grids/DigitsGrid';
 import Modal from './components/Modal/Modal';
 import { useAppContext } from './context/AppContext';
 import styled from 'styled-components';
@@ -36,8 +36,8 @@ const App: React.FC = () => {
   return (
     <AppWrapper onClick={undoClickedCell}>
       <Header />
-      <Grid />
-      <NumPad />
+      <BoardGrid />
+      <DigitsGrid />
       {state.modal.isOpen && <Modal />}
     </AppWrapper>
   );

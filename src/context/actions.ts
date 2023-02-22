@@ -14,7 +14,7 @@ import {
   updateValueOnBoard,
 } from '../utils/boardHelper';
 
-type TActionMap<M extends { [index: string]: any }> = {
+type TActionMap<M extends { [index: string]: unknown }> = {
   [Key in keyof M]: M[Key] extends undefined
     ? {
         type: Key;
@@ -145,7 +145,7 @@ export const leaveAfterWin = (dispatch: React.Dispatch<TAction>): void => {
 };
 
 export const startNewAfterWin = (dispatch: React.Dispatch<TAction>): void => {
-  dispatch(setModalComponent(EModalComponents.DifficultyButtons));
+  dispatch(setModalComponent(EModalComponents.DifficultyBlock));
 };
 
 export const setValueToBoard: (

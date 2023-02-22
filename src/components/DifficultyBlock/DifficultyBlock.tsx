@@ -1,17 +1,12 @@
 import React from 'react';
-import styled from 'styled-components';
 import { DIFFICULTY } from '../../utils/generateBoard';
 import { IDifficulties } from '../../types/types';
 import { useAppContext } from '../../context/AppContext';
 import { setModal, setModalComponent, startGame } from '../../context/actions';
 import { EModalComponents } from '../../context/types';
-import { buttonStyles } from '../../utils/buttonStyles';
+import ModalButton from '../Buttons/ModalButton';
 
-const DifficultyButton = styled.button`
-  ${buttonStyles}
-`;
-
-const DifficultyButtons: React.FC = () => {
+const DifficultyBlock: React.FC = () => {
   const { dispatch } = useAppContext();
 
   const startNewGame: (difficulty: keyof IDifficulties) => void = (
@@ -29,16 +24,16 @@ const DifficultyButtons: React.FC = () => {
         .toUpperCase()
         .concat(difficulty.substring(1));
       return (
-        <DifficultyButton
+        <ModalButton
           key={difficulty}
           onClick={() => startNewGame(difficulty as keyof IDifficulties)}
         >
           {text}
-        </DifficultyButton>
+        </ModalButton>
       );
     });
   };
   return <>{generateButtons()}</>;
 };
 
-export default DifficultyButtons;
+export default DifficultyBlock;
