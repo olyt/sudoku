@@ -1,7 +1,10 @@
 import React from 'react';
-import { TBoard } from '../types/types';
+import { TBoard, TCell } from '../types/types';
 import { IDifficulties } from '../types/types';
-import { TAction } from './actions';
+import { TBoardsAction } from './boards/actions';
+import { TGameInfoAction } from './gameInfo/actions';
+import { TModalAction } from './modal/actions';
+import { TClickedCellAction } from './clickedCell/actions';
 
 export enum EGameStatus {
   NotStarted = 'NOT_STARTED',
@@ -16,30 +19,48 @@ export enum EModalComponents {
   Empty = 'empty',
 }
 
-export type TClickedCell = {
-  y: number;
-  x: number;
-  value: number;
+export type TBoardsState = {
+  currentBoard: TBoard;
+  initialBoard: TBoard;
+  solution: TBoard;
 };
 
-export type TModal = {
+export type TModalState = {
   isOpen: boolean;
   component: EModalComponents;
 };
 
-export interface IAppContext {
-  difficulty?: keyof IDifficulties;
-  clickedCell: TClickedCell;
-  currentBoard: TBoard;
-  initialBoard: TBoard;
-  solution: TBoard;
-  modal: TModal;
+export type TGameInfoState = {
+  chosenDifficulty: keyof IDifficulties | null;
   gameStatus: EGameStatus;
-}
-
-export type TState = {
-  state: IAppContext;
-  dispatch: React.Dispatch<TAction>;
 };
 
-export type TActionCreator<Payload> = (payload: Payload) => TAction;
+export interface IAppContext {
+  clickedCell: TCell;
+  boards: TBoardsState;
+  modal: TModalState;
+  gameInfo: TGameInfoState;
+}
+
+export type TAction =
+  | TBoardsAction
+  | TGameInfoAction
+  | TModalAction
+  | TClickedCellAction;
+
+export interface IState extends IAppContext {
+  dispatch: React.Dispatch<TAction>;
+}
+
+export type TActionCreator<T, M> = (payload: T) => M;
+
+export type TActionMap<M extends { [index: string]: unknown }> = {
+  [Key in keyof M]: M[Key] extends undefined
+    ? {
+        type: Key;
+      }
+    : {
+        type: Key;
+        payload: M[Key];
+      };
+};

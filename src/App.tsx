@@ -5,8 +5,8 @@ import DigitsGrid from './components/Grids/DigitsGrid';
 import Modal from './components/Modal/Modal';
 import { useAppContext } from './context/AppContext';
 import styled from 'styled-components';
-import { resetClickedCell } from './context/actions';
 import useGameStatusTracking from './hooks/useGameStatusTracking';
+import { resetClickedCell } from './context/clickedCell/actions';
 
 const AppWrapper = styled.div`
   text-align: center;
@@ -24,7 +24,7 @@ const AppWrapper = styled.div`
 `;
 
 const App: React.FC = () => {
-  const { state, dispatch } = useAppContext();
+  const { modal, dispatch } = useAppContext();
   useGameStatusTracking();
 
   const undoClickedCell: MouseEventHandler<HTMLDivElement> = (event) => {
@@ -38,7 +38,7 @@ const App: React.FC = () => {
       <Header />
       <BoardGrid />
       <DigitsGrid />
-      {state.modal.isOpen && <Modal />}
+      {modal.isOpen && <Modal />}
     </AppWrapper>
   );
 };

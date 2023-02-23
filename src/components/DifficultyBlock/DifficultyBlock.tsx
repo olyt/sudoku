@@ -2,9 +2,10 @@ import React from 'react';
 import { DIFFICULTY } from '../../utils/generateBoard';
 import { IDifficulties } from '../../types/types';
 import { useAppContext } from '../../context/AppContext';
-import { setModal, setModalComponent, startGame } from '../../context/actions';
+import { startGame } from '../../context/actions';
 import { EModalComponents } from '../../context/types';
 import ModalButton from '../Buttons/ModalButton';
+import { setModalComponent, setModalIsOpen } from '../../context/modal/actions';
 
 const DifficultyBlock: React.FC = () => {
   const { dispatch } = useAppContext();
@@ -13,7 +14,7 @@ const DifficultyBlock: React.FC = () => {
     difficulty
   ) => {
     startGame(difficulty, dispatch);
-    dispatch(setModal(false));
+    dispatch(setModalIsOpen(false));
     dispatch(setModalComponent(EModalComponents.Empty));
   };
 

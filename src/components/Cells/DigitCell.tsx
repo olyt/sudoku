@@ -1,9 +1,10 @@
 import React, { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { useAppContext } from '../../context/AppContext';
-import { setClickedCellValue, setValueToBoard } from '../../context/actions';
+import { setValueToBoard } from '../../context/actions';
 import { aliceBlue } from '../../utils/COLORS';
 import BasicCell from './BasicCell';
+import { setClickedCellValue } from '../../context/clickedCell/actions';
 
 interface INumBoxProps {
   value: number;
@@ -19,12 +20,12 @@ const StyledNumBox = styled(BasicCell)`
 `;
 
 const DigitCell: React.FC<INumBoxProps> = ({ value }) => {
-  const { state, dispatch } = useAppContext();
-  const { y, x } = state.clickedCell;
+  const { boards, clickedCell, dispatch } = useAppContext();
+  const { y, x } = clickedCell;
 
   const setNumToCell: MouseEventHandler<HTMLDivElement> = () => {
     if (y !== -1 && x !== -1) {
-      setValueToBoard(state, dispatch, value);
+      setValueToBoard(boards, clickedCell, dispatch, value);
     } else {
       dispatch(setClickedCellValue(value));
     }

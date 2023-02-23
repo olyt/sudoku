@@ -1,11 +1,12 @@
 import React, { FC, MouseEventHandler } from 'react';
-import { leaveAfterWin, setModal } from '../../context/actions';
+import { leaveAfterWin } from '../../context/actions';
 import { useAppContext } from '../../context/AppContext';
 import WinBanner from '../WinBanner/WinBanner';
 import { GenericObject } from '../../types/types';
 import { EGameStatus } from '../../context/types';
 import DifficultyBlock from '../DifficultyBlock/DifficultyBlock';
 import { InnerModal, OuterModal } from './styles';
+import { setModalIsOpen } from '../../context/modal/actions';
 
 const components: GenericObject<FC> = {
   DifficultyBlock,
@@ -13,16 +14,16 @@ const components: GenericObject<FC> = {
 };
 
 const Modal: FC = () => {
-  const { state, dispatch } = useAppContext();
-  const Component = components[state.modal.component];
+  const { modal, gameInfo, dispatch } = useAppContext();
+  const Component = components[modal.component];
 
   const closeModal: MouseEventHandler<HTMLDivElement> = (event) => {
     if (event.target === event.currentTarget) {
-      if (state.gameStatus === EGameStatus.Win) {
+      if (gameInfo.gameStatus === EGameStatus.Win) {
         leaveAfterWin(dispatch);
       }
 
-      dispatch(setModal(false));
+      dispatch(setModalIsOpen(false));
     }
   };
 

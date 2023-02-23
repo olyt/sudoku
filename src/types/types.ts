@@ -17,3 +17,9 @@ export interface IDifficulties {
   medium: TDifficulty;
   hard: TDifficulty;
 }
+
+export type TCell = {
+  y: number;
+  x: number;
+  value: number;
+};

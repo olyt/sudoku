@@ -1,23 +1,20 @@
 import { useAppContext } from '../context/AppContext';
-import {
-  failGameStatus,
-  setModal,
-  setModalComponent,
-  winGameStatus,
-} from '../context/actions';
 import { EGameStatus, EModalComponents } from '../context/types';
 import { useEffect } from 'react';
+import { setModalComponent, setModalIsOpen } from '../context/modal/actions';
+import { setGameStatus } from '../context/gameInfo/actions';
 
 const useGameStatusTracking = (): void => {
   const {
-    state: { currentBoard, solution, gameStatus },
+    boards: { currentBoard, solution },
+    gameInfo: { gameStatus },
     dispatch,
   } = useAppContext();
 
   useEffect(() => {
     const handleWin = (): void => {
       dispatch(setModalComponent(EModalComponents.WinBanner));
-      dispatch(setModal(true));
+      dispatch(setModalIsOpen(true));
     };
 
     const checkInProgress = (): void => {
@@ -33,11 +30,11 @@ const useGameStatusTracking = (): void => {
       });
 
       if (isFailed) {
-        dispatch(failGameStatus);
+        dispatch(setGameStatus(EGameStatus.Failed));
       }
 
       if (isWined) {
-        dispatch(winGameStatus);
+        dispatch(setGameStatus(EGameStatus.Win));
       }
     };
 

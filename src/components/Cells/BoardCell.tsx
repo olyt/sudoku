@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
-import { resetClickedCell, setClickedCell } from '../../context/actions';
 import styled from 'styled-components';
 import BasicCell from './BasicCell';
 import { aliceBlue, middleBlueGreen, ming } from '../../utils/COLORS';
+import { TCell } from '../../types/types';
+import {
+  resetClickedCell,
+  setClickedCell,
+} from '../../context/clickedCell/actions';
 
 export enum ECellStates {
   clicked = 'clicked',
   highlighted = 'highlighted',
   similarNum = 'similarNum',
   inactive = 'inactive',
-}
-
-export interface CellProps {
-  val: number;
-  x: number;
-  y: number;
 }
 
 export interface StyledProps {
@@ -54,10 +52,10 @@ const StyledCell = styled(BasicCell)<StyledProps>`
   }
 `;
 
-const BoardCell: React.FC<CellProps> = ({ val, x, y }) => {
+const BoardCell: React.FC<TCell> = ({ value, x, y }) => {
   const [cellState, setCellState] = useState(ECellStates.inactive);
-  const { state, dispatch } = useAppContext();
-  const { y: clickedY, x: clickedX, value } = state.clickedCell;
+  const { clickedCell, dispatch } = useAppContext();
+  const { y: clickedY, x: clickedX, value: clickedValue } = clickedCell;
 
   useEffect(() => {
     if (clickedY !== y && clickedX !== x) {
@@ -71,7 +69,12 @@ const BoardCell: React.FC<CellProps> = ({ val, x, y }) => {
       setCellState(ECellStates.highlighted);
     }
 
-    if (clickedY === -1 && clickedX === -1 && value && value === val) {
+    if (
+      clickedY === -1 &&
+      clickedX === -1 &&
+      clickedValue &&
+      clickedValue === value
+    ) {
       setCellState((prev) => {
         if (prev === ECellStates.inactive) {
           return ECellStates.similarNum;
@@ -79,7 +82,7 @@ const BoardCell: React.FC<CellProps> = ({ val, x, y }) => {
         return prev;
       });
     }
-  }, [x, y, clickedY, clickedX, value, val]);
+  }, [x, y, clickedY, clickedX, clickedValue, value]);
 
   const toggleChecked: () => void = () => {
     setCellState((prev) => {
@@ -90,14 +93,14 @@ const BoardCell: React.FC<CellProps> = ({ val, x, y }) => {
         return ECellStates.inactive;
       }
 
-      dispatch(setClickedCell({ y, x, value: val }));
+      dispatch(setClickedCell({ y, x, value }));
       return ECellStates.clicked;
     });
   };
 
   return (
     <StyledCell onClick={toggleChecked} x={x} y={y} state={cellState}>
-      {val || null}
+      {value || null}
     </StyledCell>
   );
 };

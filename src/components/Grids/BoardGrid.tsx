@@ -10,11 +10,11 @@ const StyledBoardGrid = styled(BasicGrid)`
 `;
 
 const BoardGrid: React.FC = () => {
-  const { state } = useAppContext();
+  const { boards } = useAppContext();
 
-  const cells = state.currentBoard.map((row, y) =>
+  const cells = boards.currentBoard.map((row, y) =>
     row.map((num, x) => (
-      <BoardCell val={num} x={x} y={y} key={`x:${x},y:${y}`} />
+      <BoardCell value={num} x={x} y={y} key={`x:${x},y:${y}`} />
     ))
   );
 
