@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { aliceBlue } from '../../utils/COLORS';
+import { aliceBlue } from '../../constants/colors';
 
 export const StyledHeader = styled.header`
   box-sizing: border-box;

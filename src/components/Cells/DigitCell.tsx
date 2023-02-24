@@ -2,7 +2,7 @@ import React, { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { useAppContext } from '../../context/AppContext';
 import { setValueToBoard } from '../../context/actions';
-import { aliceBlue } from '../../utils/COLORS';
+import { aliceBlue } from '../../constants/colors';
 import BasicCell from './BasicCell';
 import { setClickedCellValue } from '../../context/clickedCell/actions';
 

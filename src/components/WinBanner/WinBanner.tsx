@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { startNewAfterWin } from '../../context/actions';
 import { useAppContext } from '../../context/AppContext';
-import { ming } from '../../utils/COLORS';
+import { ming } from '../../constants/colors';
 import ModalButton from '../Buttons/ModalButton';
 
 const Text = styled.p`

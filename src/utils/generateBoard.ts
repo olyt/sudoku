@@ -3,24 +3,10 @@ import { copyBlankBoard } from './boardHelper';
 import { TBoard, IDifficulties } from '../types/types';
 import Boxes from './Boxes';
 
-interface INum {
-  '1': number;
-  '2': number;
-  '3': number;
-  '4': number;
-  '5': number;
-  '6': number;
-  '7': number;
-  '8': number;
-  '9': number;
-}
-
-type TNumNum = keyof INum;
 type TCheckFn = (_: number[], __: number) => boolean;
-type TGenerateFn = (difficulty: keyof IDifficulties) => {
-  board: TBoard;
-  solution: TBoard;
-};
+type TGenerateFn = (
+  difficulty: keyof IDifficulties
+) => [board: TBoard, solution: TBoard];
 
 export const DIFFICULTY: IDifficulties = {
   easy: {
@@ -66,50 +52,38 @@ export const generateBoard: TGenerateFn = (difficulty) => {
   const board = copyBlankBoard();
   const solution = solve(board) as TBoard;
   const boxes = new Boxes(board, inABoxMax);
-  const nums: INum = {
-    '1': 0,
-    '2': 0,
-    '3': 0,
-    '4': 0,
-    '5': 0,
-    '6': 0,
-    '7': 0,
-    '8': 0,
-    '9': 0,
-  };
+  const numbersCounter: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   while (mustFill) {
     const y = Math.floor(Math.random() * 9);
     const x = Math.floor(Math.random() * 9);
     if (!board[y][x] || board[y][x] !== solution[y][x]) {
       let num: number = solution[y][x];
-      const numStr: TNumNum = num.toString() as keyof INum;
 
       if (mustFill === 1) {
-        for (const key in nums) {
-          // @ts-ignore
-          if (!nums[key]) {
-            num = +key;
+        for (let i = 1; i < numbersCounter.length; i++) {
+          if (!numbersCounter[i]) {
+            num = i;
           }
         }
       }
 
       board[y][x] = num;
       boxes.setValue(num, y, x);
-      nums[numStr]++;
+      numbersCounter[num]++;
       if (
         isRowFilledProperly(board[y], inARowMax) &&
         boxes.checkBoxes() &&
-        nums[numStr] <= numMax
+        numbersCounter[num] <= numMax
       ) {
         mustFill--;
       } else {
         board[y][x] = 0;
         boxes.resetValue();
-        nums[numStr]--;
+        numbersCounter[num]--;
       }
     }
   }
 
-  return { board, solution };
+  return [board, solution];
 };

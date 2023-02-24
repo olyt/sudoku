@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import styled from 'styled-components';
 import BasicCell from './BasicCell';
-import { aliceBlue, middleBlueGreen, ming } from '../../utils/COLORS';
+import { aliceBlue, middleBlueGreen, ming } from '../../constants/colors';
 import { TCell } from '../../types/types';
 import {
   resetClickedCell,
@@ -53,7 +53,7 @@ const StyledCell = styled(BasicCell)<StyledProps>`
 `;
 
 const BoardCell: React.FC<TCell> = ({ value, x, y }) => {
-  const [cellState, setCellState] = useState(ECellStates.inactive);
+  const [cellState, setCellState] = useState<ECellStates>(ECellStates.inactive);
   const { clickedCell, dispatch } = useAppContext();
   const { y: clickedY, x: clickedX, value: clickedValue } = clickedCell;
 

@@ -16,7 +16,7 @@ export const startGame: (
   difficulty: keyof IDifficulties,
   dispatch: React.Dispatch<TAction>
 ) => void = (difficulty, dispatch) => {
-  const { board, solution } = generateBoard(difficulty);
+  const [board, solution] = generateBoard(difficulty);
 
   dispatch(setInitialBoard(copyBoard(board)));
   dispatch(setBoard(board));

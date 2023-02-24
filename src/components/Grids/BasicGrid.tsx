@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ming } from '../../utils/COLORS';
+import { ming } from '../../constants/colors';
 
 interface Props {
   rows: number;

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { aliceBlue, ming } from '../../utils/COLORS';
+import { aliceBlue, ming } from '../../constants/colors';
 import BasicButton from './BasicButton';
 
 const ModalButton = styled(BasicButton)`

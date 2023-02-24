@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import BasicButton from './BasicButton';
-import { aliceBlue, ming } from '../../utils/COLORS';
+import { aliceBlue, ming } from '../../constants/colors';
 
 const HeaderButton = styled(BasicButton)`
   box-sizing: border-box;

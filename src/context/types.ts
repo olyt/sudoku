@@ -1,6 +1,5 @@
 import React from 'react';
-import { TBoard, TCell } from '../types/types';
-import { IDifficulties } from '../types/types';
+import { TBoard, TCell, IDifficulties } from '../types/types';
 import { TBoardsAction } from './boards/actions';
 import { TGameInfoAction } from './gameInfo/actions';
 import { TModalAction } from './modal/actions';
