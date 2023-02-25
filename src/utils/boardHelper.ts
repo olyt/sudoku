@@ -34,3 +34,25 @@ export const copyBlankBoard = (): TBoard => {
     return row.map((i) => i);
   });
 };
+
+const checkFinishedRow: (board: TBoard, row: number) => boolean = (
+  board,
+  row
+) => {
+  return board[row].every((num) => !!num);
+};
+
+const checkFinishedColumn: (board: TBoard, column: number) => boolean = (
+  board,
+  column
+) => {
+  return board.every((row) => !!row[column]);
+};
+
+export const checkIfBoardPartFinished: (
+  board: TBoard,
+  y: number,
+  x: number
+) => boolean = (board, y, x) => {
+  return checkFinishedRow(board, y) || checkFinishedColumn(board, x);
+};
