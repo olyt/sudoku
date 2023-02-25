@@ -31,7 +31,7 @@ class Boxes {
   private static findCurrentBoxForCell(y: number, x: number): TBoxCoordinates {
     return this._boxPointer.find(({ y: boxYs, x: boxXs }) => {
       return !!~boxYs.indexOf(y) && !!~boxXs.indexOf(x);
-    })!;
+    }) as TBoxCoordinates;
   }
 
   public static checkFinishedBoxes(

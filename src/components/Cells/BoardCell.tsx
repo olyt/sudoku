@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import BasicCell from './BasicCell';
 import {
   aliceBlue,
+  lightBlue,
   middleBlueGreen,
   ming,
-  unbleachedSilk,
 } from '../../constants/colors';
 import { TCell } from '../../types/types';
 import {
@@ -46,7 +46,7 @@ const StyledCell = styled(BasicCell)<StyledProps>`
       case ECellStates.similarNum:
         return middleBlueGreen;
       case ECellStates.finished:
-        return unbleachedSilk;
+        return lightBlue;
       default:
         return aliceBlue;
     }
