@@ -2,17 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import styled from 'styled-components';
 import BasicCell from './BasicCell';
-import { aliceBlue, middleBlueGreen, ming } from '../../constants/colors';
+import {
+  aliceBlue,
+  lightBlue,
+  middleBlueGreen,
+  ming,
+} from '../../constants/colors';
 import { TCell } from '../../types/types';
 import {
   resetClickedCell,
   setClickedCell,
 } from '../../context/clickedCell/actions';
+import { checkIfBoardPartFinished } from '../../utils/boardHelper';
 
 export enum ECellStates {
   clicked = 'clicked',
   highlighted = 'highlighted',
   similarNum = 'similarNum',
+  finished = 'finished',
   inactive = 'inactive',
 }
 
@@ -38,6 +45,8 @@ const StyledCell = styled(BasicCell)<StyledProps>`
         return middleBlueGreen;
       case ECellStates.similarNum:
         return middleBlueGreen;
+      case ECellStates.finished:
+        return lightBlue;
       default:
         return aliceBlue;
     }
@@ -54,12 +63,16 @@ const StyledCell = styled(BasicCell)<StyledProps>`
 
 const BoardCell: React.FC<TCell> = ({ value, x, y }) => {
   const [cellState, setCellState] = useState<ECellStates>(ECellStates.inactive);
-  const { clickedCell, dispatch } = useAppContext();
+  const { boards, clickedCell, dispatch } = useAppContext();
   const { y: clickedY, x: clickedX, value: clickedValue } = clickedCell;
 
   useEffect(() => {
     if (clickedY !== y && clickedX !== x) {
-      setCellState(ECellStates.inactive);
+      if (value && checkIfBoardPartFinished(boards.currentBoard, y, x)) {
+        setCellState(ECellStates.finished);
+      } else {
+        setCellState(ECellStates.inactive);
+      }
     }
 
     if (
@@ -82,7 +95,7 @@ const BoardCell: React.FC<TCell> = ({ value, x, y }) => {
         return prev;
       });
     }
-  }, [x, y, clickedY, clickedX, clickedValue, value]);
+  }, [x, y, clickedY, clickedX, clickedValue, value, boards.currentBoard]);
 
   const toggleChecked: () => void = () => {
     setCellState((prev) => {

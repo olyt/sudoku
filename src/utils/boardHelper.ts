@@ -1,4 +1,5 @@
 import { TBoard } from '../types/types';
+import Boxes from './Boxes';
 
 type TCopyBoard = (board: TBoard) => TBoard;
 type TSetValueToBoard = (
@@ -33,4 +34,30 @@ export const copyBlankBoard = (): TBoard => {
   return BLANK_BOARD.map((row: number[]) => {
     return row.map((i) => i);
   });
+};
+
+const checkFinishedRow: (board: TBoard, row: number) => boolean = (
+  board,
+  row
+) => {
+  return board[row].every((num) => !!num);
+};
+
+const checkFinishedColumn: (board: TBoard, column: number) => boolean = (
+  board,
+  column
+) => {
+  return board.every((row) => !!row[column]);
+};
+
+export const checkIfBoardPartFinished: (
+  board: TBoard,
+  y: number,
+  x: number
+) => boolean = (board, y, x) => {
+  return (
+    checkFinishedRow(board, y) ||
+    checkFinishedColumn(board, x) ||
+    Boxes.checkFinishedBoxes(board, y, x)
+  );
 };
