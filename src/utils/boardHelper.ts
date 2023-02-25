@@ -1,4 +1,5 @@
 import { TBoard } from '../types/types';
+import Boxes from './Boxes';
 
 type TCopyBoard = (board: TBoard) => TBoard;
 type TSetValueToBoard = (
@@ -54,5 +55,9 @@ export const checkIfBoardPartFinished: (
   y: number,
   x: number
 ) => boolean = (board, y, x) => {
-  return checkFinishedRow(board, y) || checkFinishedColumn(board, x);
+  return (
+    checkFinishedRow(board, y) ||
+    checkFinishedColumn(board, x) ||
+    Boxes.checkFinishedBoxes(board, y, x)
+  );
 };
