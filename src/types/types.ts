@@ -18,8 +18,9 @@ export interface IDifficulties {
   hard: TDifficulty;
 }
 
-export type TCell = {
+export type TCellCoordinates = {
   y: number;
   x: number;
-  value: number;
 };
+
+export type TCell = TCellCoordinates & { value: number };
