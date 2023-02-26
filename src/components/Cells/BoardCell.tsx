@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { KeyboardEventHandler, useEffect, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import styled from 'styled-components';
 import BasicCell from './BasicCell';
@@ -14,6 +14,9 @@ import {
   setClickedCell,
 } from '../../context/clickedCell/actions';
 import { checkIfBoardPartFinished } from '../../utils/boardHelper';
+import { arrows, digits, numpadDigits } from '../../constants/keyboard';
+import { setValueToBoard } from '../../context/actions';
+import { EGameStatus } from '../../context/types';
 
 export enum ECellStates {
   clicked = 'clicked',
@@ -63,7 +66,7 @@ const StyledCell = styled(BasicCell)<StyledProps>`
 
 const BoardCell: React.FC<TCell> = ({ value, x, y }) => {
   const [cellState, setCellState] = useState<ECellStates>(ECellStates.inactive);
-  const { boards, clickedCell, dispatch } = useAppContext();
+  const { boards, clickedCell, gameInfo, dispatch } = useAppContext();
   const { y: clickedY, x: clickedX, value: clickedValue } = clickedCell;
 
   useEffect(() => {
@@ -111,8 +114,43 @@ const BoardCell: React.FC<TCell> = ({ value, x, y }) => {
     });
   };
 
+  const handleDigits: (code: string) => void = (code) => {
+    const newValue = digits[code] || numpadDigits[code] || 0;
+
+    if (newValue) {
+      setValueToBoard(boards, clickedCell, dispatch, newValue);
+    }
+  };
+
+  const handleArrows: (code: string) => void = () => {
+    console.log('arrow');
+  };
+
+  const onKey: KeyboardEventHandler<HTMLDivElement> = (event) => {
+    if (gameInfo.gameStatus === EGameStatus.InProgress) {
+      const { code } = event;
+
+      if (arrows.includes(code)) {
+        handleArrows(code);
+      }
+
+      if (
+        [...Object.keys(digits), ...Object.keys(numpadDigits)].includes(code)
+      ) {
+        handleDigits(code);
+      }
+    }
+  };
+
   return (
-    <StyledCell onClick={toggleChecked} x={x} y={y} state={cellState}>
+    <StyledCell
+      tabIndex={100}
+      onClick={toggleChecked}
+      onKeyPress={onKey}
+      x={x}
+      y={y}
+      state={cellState}
+    >
       {value || null}
     </StyledCell>
   );
