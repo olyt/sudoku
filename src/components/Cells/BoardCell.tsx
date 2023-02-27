@@ -14,6 +14,7 @@ import {
   setClickedCell,
 } from '../../context/clickedCell/actions';
 import { checkIfBoardPartFinished } from '../../utils/boardHelper';
+import { EGameStatus } from '../../context/types';
 
 export enum ECellStates {
   clicked = 'clicked',
@@ -27,8 +28,6 @@ export interface StyledProps {
   x: number;
   y: number;
   state: ECellStates;
-  a?: boolean;
-  b?: boolean;
 }
 
 const checkXLeftBold = (x: number): boolean => x === 3 || x === 6;
@@ -63,7 +62,7 @@ const StyledCell = styled(BasicCell)<StyledProps>`
 
 const BoardCell: React.FC<TCell> = ({ value, x, y }) => {
   const [cellState, setCellState] = useState<ECellStates>(ECellStates.inactive);
-  const { boards, clickedCell, dispatch } = useAppContext();
+  const { boards, clickedCell, gameInfo, dispatch } = useAppContext();
   const { y: clickedY, x: clickedX, value: clickedValue } = clickedCell;
 
   useEffect(() => {
@@ -82,6 +81,10 @@ const BoardCell: React.FC<TCell> = ({ value, x, y }) => {
       setCellState(ECellStates.highlighted);
     }
 
+    if (clickedY === y && clickedX === x) {
+      setCellState(ECellStates.clicked);
+    }
+
     if (
       clickedY === -1 &&
       clickedX === -1 &&
@@ -95,20 +98,27 @@ const BoardCell: React.FC<TCell> = ({ value, x, y }) => {
         return prev;
       });
     }
-  }, [x, y, clickedY, clickedX, clickedValue, value, boards.currentBoard]);
+  }, [
+    x,
+    y,
+    clickedY,
+    clickedX,
+    clickedValue,
+    value,
+    boards.currentBoard,
+    dispatch,
+  ]);
 
   const toggleChecked: () => void = () => {
-    setCellState((prev) => {
+    if (gameInfo.gameStatus !== EGameStatus.NotStarted) {
       const clickUnmatched = clickedY === y && clickedX === x;
 
-      if (prev === ECellStates.clicked || clickUnmatched) {
+      if (cellState === ECellStates.clicked || clickUnmatched) {
         dispatch(resetClickedCell);
-        return ECellStates.inactive;
       }
 
       dispatch(setClickedCell({ y, x, value }));
-      return ECellStates.clicked;
-    });
+    }
   };
 
   return (

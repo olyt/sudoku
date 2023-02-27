@@ -1,4 +1,4 @@
-import React, { FC, MouseEventHandler } from 'react';
+import React, { FC, MouseEventHandler, useCallback, useEffect } from 'react';
 import { leaveAfterWin } from '../../context/actions';
 import { useAppContext } from '../../context/AppContext';
 import WinBanner from '../WinBanner/WinBanner';
@@ -14,21 +14,43 @@ const components: GenericObject<FC> = {
 };
 
 const Modal: FC = () => {
-  const { modal, gameInfo, dispatch } = useAppContext();
+  const {
+    modal,
+    gameInfo: { gameStatus },
+    dispatch,
+  } = useAppContext();
   const Component = components[modal.component];
 
-  const closeModal: MouseEventHandler<HTMLDivElement> = (event) => {
-    if (event.target === event.currentTarget) {
-      if (gameInfo.gameStatus === EGameStatus.Win) {
-        leaveAfterWin(dispatch);
-      }
+  const closeModal: () => void = useCallback(() => {
+    if (gameStatus === EGameStatus.Win) {
+      leaveAfterWin(dispatch);
+    }
 
-      dispatch(setModalIsOpen(false));
+    dispatch(setModalIsOpen(false));
+  }, [gameStatus, dispatch]);
+
+  useEffect(() => {
+    const closeModalOnEsc = (event: KeyboardEvent): void => {
+      if (event.code === 'Escape') {
+        closeModal();
+      }
+    };
+
+    document.addEventListener('keyup', closeModalOnEsc);
+
+    return () => {
+      document.removeEventListener('keyup', closeModalOnEsc);
+    };
+  }, [closeModal]);
+
+  const closeModalOnClick: MouseEventHandler<HTMLDivElement> = (event) => {
+    if (event.target === event.currentTarget) {
+      closeModal();
     }
   };
 
   return (
-    <OuterModal onClick={closeModal}>
+    <OuterModal onClick={closeModalOnClick}>
       <InnerModal>
         <Component />
       </InnerModal>

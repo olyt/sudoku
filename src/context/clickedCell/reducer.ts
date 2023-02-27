@@ -14,6 +14,11 @@ const reducer: React.Reducer<TCell, TClickedCellAction> = (state, action) => {
         ...state,
         value: action.payload,
       };
+    case EClickedCellActionTypes.SetClickedCellCoordinates:
+      return {
+        ...state,
+        ...action.payload,
+      };
     default:
       return state;
   }

@@ -6,19 +6,9 @@ import BasicGrid from './BasicGrid';
 type TNumsFn = () => JSX.Element[];
 
 const StyledDigitsGrid = styled(BasicGrid)`
-  width: 60%;
-  height: 8%;
+  width: 60vw;
+  height: calc(60vh / 9);
   position: relative;
-
-  //&:after {
-  //  content: '';
-  //  position: absolute;
-  //  top: 0;
-  //  left: 0;
-  //  height: 100%;
-  //  width: 100%;
-  //  background: rgba(0, 0, 0, 0.2);
-  //}
 `;
 
 const DigitsGrid: React.FC = () => {
