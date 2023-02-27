@@ -9,7 +9,7 @@ import {
 } from '../utils/boardHelper';
 import { setBoard, setInitialBoard, setSolution } from './boards/actions';
 import { setGameDifficulty, setGameStatus } from './gameInfo/actions';
-import { resetClickedCell } from './clickedCell/actions';
+import { resetClickedCell, setClickedCellValue } from './clickedCell/actions';
 import { setModalComponent } from './modal/actions';
 
 export const startGame: (
@@ -52,6 +52,7 @@ export const setValueToBoard: (
   });
 
   dispatch(setBoard(updatedBoard));
+  dispatch(setClickedCellValue(newValue));
 
   if (boards.solution[y][x] !== updatedBoard[y][x]) {
     dispatch(setGameStatus(EGameStatus.Failed));

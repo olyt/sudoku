@@ -1,4 +1,4 @@
-import React, { KeyboardEventHandler, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import styled from 'styled-components';
 import BasicCell from './BasicCell';
@@ -14,8 +14,6 @@ import {
   setClickedCell,
 } from '../../context/clickedCell/actions';
 import { checkIfBoardPartFinished } from '../../utils/boardHelper';
-import { arrows, digits, numpadDigits } from '../../constants/keyboard';
-import { setValueToBoard } from '../../context/actions';
 import { EGameStatus } from '../../context/types';
 
 export enum ECellStates {
@@ -30,8 +28,6 @@ export interface StyledProps {
   x: number;
   y: number;
   state: ECellStates;
-  a?: boolean;
-  b?: boolean;
 }
 
 const checkXLeftBold = (x: number): boolean => x === 3 || x === 6;
@@ -85,6 +81,10 @@ const BoardCell: React.FC<TCell> = ({ value, x, y }) => {
       setCellState(ECellStates.highlighted);
     }
 
+    if (clickedY === y && clickedX === x) {
+      setCellState(ECellStates.clicked);
+    }
+
     if (
       clickedY === -1 &&
       clickedX === -1 &&
@@ -98,59 +98,31 @@ const BoardCell: React.FC<TCell> = ({ value, x, y }) => {
         return prev;
       });
     }
-  }, [x, y, clickedY, clickedX, clickedValue, value, boards.currentBoard]);
+  }, [
+    x,
+    y,
+    clickedY,
+    clickedX,
+    clickedValue,
+    value,
+    boards.currentBoard,
+    dispatch,
+  ]);
 
   const toggleChecked: () => void = () => {
-    setCellState((prev) => {
+    if (gameInfo.gameStatus !== EGameStatus.NotStarted) {
       const clickUnmatched = clickedY === y && clickedX === x;
 
-      if (prev === ECellStates.clicked || clickUnmatched) {
+      if (cellState === ECellStates.clicked || clickUnmatched) {
         dispatch(resetClickedCell);
-        return ECellStates.inactive;
       }
 
       dispatch(setClickedCell({ y, x, value }));
-      return ECellStates.clicked;
-    });
-  };
-
-  const handleDigits: (code: string) => void = (code) => {
-    const newValue = digits[code] || numpadDigits[code] || 0;
-
-    if (newValue) {
-      setValueToBoard(boards, clickedCell, dispatch, newValue);
-    }
-  };
-
-  const handleArrows: (code: string) => void = () => {
-    console.log('arrow');
-  };
-
-  const onKey: KeyboardEventHandler<HTMLDivElement> = (event) => {
-    if (gameInfo.gameStatus === EGameStatus.InProgress) {
-      const { code } = event;
-
-      if (arrows.includes(code)) {
-        handleArrows(code);
-      }
-
-      if (
-        [...Object.keys(digits), ...Object.keys(numpadDigits)].includes(code)
-      ) {
-        handleDigits(code);
-      }
     }
   };
 
   return (
-    <StyledCell
-      tabIndex={100}
-      onClick={toggleChecked}
-      onKeyPress={onKey}
-      x={x}
-      y={y}
-      state={cellState}
-    >
+    <StyledCell onClick={toggleChecked} x={x} y={y} state={cellState}>
       {value || null}
     </StyledCell>
   );

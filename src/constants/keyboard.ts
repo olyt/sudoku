@@ -22,4 +22,11 @@ export const numpadDigits: { [key: string]: number } = {
   Numpad9: 9,
 };
 
-export const arrows = ['ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft'];
+export const arrows: string[] = [
+  'ArrowUp',
+  'ArrowRight',
+  'ArrowDown',
+  'ArrowLeft',
+];
+
+export const escape = 'Escape';
