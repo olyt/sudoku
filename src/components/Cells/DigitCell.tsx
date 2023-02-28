@@ -23,7 +23,7 @@ const DigitCell: React.FC<INumBoxProps> = ({ value }) => {
   const { boards, clickedCell, dispatch } = useAppContext();
   const { y, x } = clickedCell;
 
-  const setNumToCell: MouseEventHandler<HTMLDivElement> = () => {
+  const setNumToCellOrHighlight: MouseEventHandler<HTMLDivElement> = () => {
     if (y !== -1 && x !== -1) {
       setValueToBoard(boards, clickedCell, dispatch, value);
     } else {
@@ -31,7 +31,7 @@ const DigitCell: React.FC<INumBoxProps> = ({ value }) => {
     }
   };
 
-  return <StyledNumBox onClick={setNumToCell}>{value}</StyledNumBox>;
+  return <StyledNumBox onClick={setNumToCellOrHighlight}>{value}</StyledNumBox>;
 };
 
 export default DigitCell;

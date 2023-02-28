@@ -7,6 +7,7 @@ import { arrows, digits, escape, numpadDigits } from '../../constants/keyboard';
 import { setValueToBoard } from '../../context/actions';
 import {
   resetClickedCell,
+  setClickedCell,
   setClickedCellCoordinates,
 } from '../../context/clickedCell/actions';
 import { EGameStatus } from '../../context/types';
@@ -60,44 +61,48 @@ const BoardGrid: React.FC = () => {
 
       switch (code) {
         case arrowUp:
-          dispatch(setClickedCellCoordinates({ y: newY, x }));
+          dispatch(
+            setClickedCell({ y: newY, x, value: boards.currentBoard[newY][x] })
+          );
           break;
         case arrowRight:
-          dispatch(setClickedCellCoordinates({ y, x: newX }));
+          dispatch(
+            setClickedCell({ y, x: newX, value: boards.currentBoard[y][newX] })
+          );
           break;
         case arrowDown:
-          dispatch(setClickedCellCoordinates({ y: newY, x }));
+          dispatch(
+            setClickedCell({ y: newY, x, value: boards.currentBoard[newY][x] })
+          );
           break;
         case arrowLeft:
-          dispatch(setClickedCellCoordinates({ y, x: newX }));
+          dispatch(
+            setClickedCell({ y, x: newX, value: boards.currentBoard[y][newX] })
+          );
           break;
         default:
           break;
       }
     },
-    [clickedCell, dispatch]
+    [clickedCell, dispatch, boards.currentBoard]
   );
 
   const onKeyUp = useCallback<(event: KeyboardEvent) => void>(
     (event) => {
-      if (gameInfo.gameStatus !== EGameStatus.NotStarted) {
-        const { code } = event;
+      const { code } = event;
 
-        if (code === escape) {
-          dispatch(resetClickedCell);
-        }
+      if (code === escape) {
+        dispatch(resetClickedCell);
+      }
 
-        if (
-          [...Object.keys(digits), ...Object.keys(numpadDigits)].includes(
-            code
-          ) &&
-          !clickedCell.value
-        ) {
-          handleDigits(code);
-        }
+      if (
+        [...Object.keys(digits), ...Object.keys(numpadDigits)].includes(code) &&
+        !clickedCell.value
+      ) {
+        handleDigits(code);
       }
     },
-    [clickedCell.value, dispatch, gameInfo.gameStatus, handleDigits]
+    [clickedCell, dispatch, handleDigits]
   );
 
   const onKeyDown = useCallback<(event: KeyboardEvent) => void>(
