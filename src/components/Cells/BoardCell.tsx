@@ -81,10 +81,6 @@ const BoardCell: React.FC<TCell> = ({ value, x, y }) => {
       setCellState(ECellStates.highlighted);
     }
 
-    if (clickedY === y && clickedX === x) {
-      setCellState(ECellStates.clicked);
-    }
-
     if (
       clickedY === -1 &&
       clickedX === -1 &&
@@ -92,11 +88,15 @@ const BoardCell: React.FC<TCell> = ({ value, x, y }) => {
       clickedValue === value
     ) {
       setCellState((prev) => {
-        if (prev === ECellStates.inactive) {
+        if (prev === ECellStates.inactive || prev === ECellStates.finished) {
           return ECellStates.similarNum;
         }
         return prev;
       });
+    }
+
+    if (clickedY === y && clickedX === x) {
+      setCellState(ECellStates.clicked);
     }
   }, [
     x,
