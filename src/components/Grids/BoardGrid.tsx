@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
-import styled from 'styled-components';
 import BoardCell from '../Cells/BoardCell';
 import { useAppContext } from '../../context/AppContext';
-import BasicGrid from './BasicGrid';
 import { arrows, digits, escape, numpadDigits } from '../../constants/keyboard';
 import { setValueToBoard } from '../../context/actions';
 import {
@@ -10,11 +8,7 @@ import {
   setClickedCellCoordinates,
 } from '../../context/clickedCell/actions';
 import { EGameStatus } from '../../context/types';
-
-const StyledBoardGrid = styled(BasicGrid)`
-  width: 60%;
-  height: 60%;
-`;
+import BasicGrid from './BasicGrid';
 
 const BoardGrid: React.FC = () => {
   const { boards, clickedCell, gameInfo, dispatch } = useAppContext();
@@ -127,9 +121,9 @@ const BoardGrid: React.FC = () => {
   );
 
   return (
-    <StyledBoardGrid columns={9} rows={9}>
+    <BasicGrid columns={9} rows={9}>
       {cells}
-    </StyledBoardGrid>
+    </BasicGrid>
   );
 };
 

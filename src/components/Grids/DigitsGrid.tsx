@@ -1,15 +1,8 @@
 import React from 'react';
 import DigitCell from '../Cells/DigitCell';
-import styled from 'styled-components';
 import BasicGrid from './BasicGrid';
 
 type TNumsFn = () => JSX.Element[];
-
-const StyledDigitsGrid = styled(BasicGrid)`
-  width: 60vw;
-  height: calc(60vh / 9);
-  position: relative;
-`;
 
 const DigitsGrid: React.FC = () => {
   const generateNums: TNumsFn = () => {
@@ -22,9 +15,9 @@ const DigitsGrid: React.FC = () => {
   };
 
   return (
-    <StyledDigitsGrid columns={9} rows={1}>
+    <BasicGrid columns={9} rows={1}>
       {generateNums()}
-    </StyledDigitsGrid>
+    </BasicGrid>
   );
 };
 

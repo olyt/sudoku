@@ -6,6 +6,7 @@ const BasicCell = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  aspect-ratio: 1 / 1;
 `;
 
 export default BasicCell;
