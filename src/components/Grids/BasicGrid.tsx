@@ -7,8 +7,9 @@ interface Props {
 }
 
 const BasicGrid = styled.section<Props>`
-  max-height: 600px;
-  max-width: 600px;
+  max-height: 500px;
+  max-width: 500px;
+  width: 60vw;
   display: grid;
   grid-template-columns: repeat(${({ columns }) => columns}, 1fr);
   grid-template-rows: repeat(${({ rows }) => rows}, 1fr);
