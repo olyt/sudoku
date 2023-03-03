@@ -1,2 +1,2 @@
-export const mobile = { max: 420 };
-export const tablet = { min: 421, max: 1199 };
+export const mobile = { max: '480px' };
+export const tablet = { min: '481px', max: '1000px' };
