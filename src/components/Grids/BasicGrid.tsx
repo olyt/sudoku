@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { ming } from '../../constants/colors';
+import { mobile, tablet } from '../../constants/breakpoints';
 
 interface Props {
   rows: number;
@@ -16,6 +17,14 @@ const BasicGrid = styled.section<Props>`
   border: 3px solid black;
   box-shadow: 0 0 30px 5px ${ming};
   cursor: pointer;
+
+  @media (min-width: ${tablet.min}) and (max-width: ${tablet.max}) {
+    width: 75vw;
+  }
+
+  @media (max-width: ${mobile.max}) {
+    width: 95vw;
+  }
 `;
 
 export default BasicGrid;
