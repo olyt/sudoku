@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import BasicButton from './BasicButton';
 import { aliceBlue, ming } from '../../constants/colors';
+import { mobile } from '../../constants/breakpoints';
 
 const HeaderButton = styled(BasicButton)`
   box-sizing: border-box;
@@ -14,6 +15,17 @@ const HeaderButton = styled(BasicButton)`
   &:hover {
     color: ${ming};
     background: ${aliceBlue};
+  }
+
+  @media (max-width: ${mobile.max}) {
+    max-width: initial;
+    width: 50%;
+
+    &:hover,
+    &:active {
+      color: ${ming};
+      background: none;
+    }
   }
 `;
 

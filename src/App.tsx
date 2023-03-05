@@ -7,6 +7,7 @@ import { useAppContext } from './context/AppContext';
 import styled from 'styled-components';
 import useGameStatusTracking from './hooks/useGameStatusTracking';
 import { resetClickedCell } from './context/clickedCell/actions';
+import { mobile, tablet } from './constants/breakpoints';
 
 const AppWrapper = styled.div`
   text-align: center;
@@ -20,7 +21,14 @@ const AppWrapper = styled.div`
   padding: 0 0 30px 0;
   position: relative;
   background: rgba(237, 246, 249, 0.4);
-  //z-index: -1;
+
+  @media (min-width: ${tablet.min}) and (max-width: ${tablet.max}) {
+    height: ${window.innerHeight}px;
+  }
+
+  @media (max-width: ${mobile.max}) {
+    height: ${window.innerHeight}px;
+  }
 `;
 
 const App: React.FC = () => {

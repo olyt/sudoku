@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { aliceBlue } from '../../constants/colors';
+import { mobile, tablet } from '../../constants/breakpoints';
 
 export const StyledHeader = styled.header`
   box-sizing: border-box;
@@ -11,12 +12,20 @@ export const StyledHeader = styled.header`
   grid-template-rows: 1fr;
   align-items: center;
   background: rgb(0, 109, 119);
-  background: linear-gradient(
-    180deg,
-    rgba(0, 109, 119, 1) 0%,
-    rgba(131, 197, 190, 1) 60%,
-    rgba(237, 246, 249, 0.4) 100%
-  );
+  background: linear-gradient(180deg,
+  rgba(0, 109, 119, 1) 0%,
+  rgba(131, 197, 190, 1) 60%,
+  rgba(237, 246, 249, 0.4) 100%);
+
+  @media (min-width: ${tablet.min}) and (max-width: ${tablet.max}) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: ${mobile.max}) {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, 1fr);
+  }
+}
 `;
 
 export const H1 = styled.h1`
@@ -25,7 +34,18 @@ export const H1 = styled.h1`
   grid-column-start: 2;
   justify-self: center;
   letter-spacing: 10px;
+  transform: translateX(5px);
   color: ${aliceBlue};
+
+  @media (min-width: ${tablet.min}) and (max-width: ${tablet.max}) {
+    justify-self: center;
+    grid-column-start: 1;
+  }
+
+  @media (max-width: ${mobile.max}) {
+    grid-column-start: initial;
+    justify-self: center;
+  }
 `;
 
 export const ButtonsWrapper = styled.div`
@@ -33,4 +53,12 @@ export const ButtonsWrapper = styled.div`
   justify-content: flex-end;
   align-items: center;
   height: 100%;
+
+  @media (min-width: ${tablet.min}) and (max-width: ${tablet.max}) {
+    justify-content: right;
+  }
+
+  @media (max-width: ${mobile.max}) {
+    justify-content: space-around;
+  }
 `;
