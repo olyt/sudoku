@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { aliceBlue } from '../../constants/colors';
+import { mobile, tablet } from '../../constants/breakpoints';
 
 export const OuterModal = styled.div`
   position: absolute;
@@ -12,6 +13,14 @@ export const OuterModal = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (min-width: ${tablet.min}) and (max-width: ${tablet.max}) {
+    height: ${window.innerHeight}px;
+  }
+
+  @media (max-width: ${mobile.max}) {
+    height: ${window.innerHeight}px;
+  }
 `;
 
 export const InnerModal = styled.div`
@@ -26,4 +35,14 @@ export const InnerModal = styled.div`
   background: ${aliceBlue};
   border-radius: 25px;
   overflow: hidden;
+
+  @media (min-width: ${tablet.min}) and (max-width: ${tablet.max}) {
+    width: 50%;
+    height: 50%;
+  }
+
+  @media (max-width: ${mobile.max}) {
+    width: 80%;
+    height: 50%;
+  }
 `;

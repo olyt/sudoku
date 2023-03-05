@@ -4,6 +4,7 @@ import { startNewAfterWin } from '../../context/actions';
 import { useAppContext } from '../../context/AppContext';
 import { ming } from '../../constants/colors';
 import ModalButton from '../Buttons/ModalButton';
+import { mobile, tablet } from '../../constants/breakpoints';
 
 const Text = styled.p`
   display: flex;
@@ -16,6 +17,16 @@ const Text = styled.p`
   align-items: center;
   padding: 0 100px;
   box-sizing: border-box;
+
+  @media (min-width: ${tablet.min}) and (max-width: ${tablet.max}) {
+    font-size: 30px;
+    line-height: 60px;
+  }
+
+  @media (max-width: ${mobile.max}) {
+    font-size: 25px;
+    line-height: 50px;
+  }
 `;
 
 const WinBanner: React.FC = () => {
