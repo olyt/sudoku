@@ -115,6 +115,7 @@ const BoardCell: React.FC<TCell> = ({ value, x, y }) => {
 
       if (cellState === ECellStates.clicked || clickUnmatched) {
         dispatch(resetClickedCell);
+        return;
       }
 
       dispatch(setClickedCell({ y, x, value }));
