@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import BasicButton from './BasicButton';
-import { aliceBlue, ming } from '../../constants/colors';
 import { mobile } from '../../constants/breakpoints';
 
 const HeaderButton = styled(BasicButton)`
@@ -8,13 +7,13 @@ const HeaderButton = styled(BasicButton)`
   font-size: 18px;
   height: 100%;
   width: 130px;
-  color: ${aliceBlue};
+  color: ${({ theme }) => theme.primaryLight};
   grid-column-start: 3;
   max-width: 30%;
 
   &:hover {
-    color: ${ming};
-    background: ${aliceBlue};
+    color: ${({ theme }) => theme.primary};
+    background: ${({ theme }) => theme.primaryLight};
   }
 
   @media (max-width: ${mobile.max}) {
@@ -23,7 +22,7 @@ const HeaderButton = styled(BasicButton)`
 
     &:hover,
     &:active {
-      color: ${ming};
+      color: ${({ theme }) => theme.primary};
       background: none;
     }
   }

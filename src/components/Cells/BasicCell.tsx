@@ -7,6 +7,7 @@ const BasicCell = styled.div`
   justify-content: center;
   align-items: center;
   aspect-ratio: 1 / 1;
+  background: ${({ theme }) => theme.primaryLight};
 `;
 
 export default BasicCell;

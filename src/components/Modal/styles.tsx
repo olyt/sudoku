@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { aliceBlue } from '../../constants/colors';
 import { mobile, tablet } from '../../constants/breakpoints';
 
 export const OuterModal = styled.div`
@@ -32,7 +31,7 @@ export const InnerModal = styled.div`
   justify-content: space-evenly;
   align-items: center;
   z-index: 15;
-  background: ${aliceBlue};
+  background: ${({ theme }) => theme.primaryLight};
   border-radius: 25px;
   overflow: hidden;
 

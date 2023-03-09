@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { ming } from '../../constants/colors';
 import { mobile, tablet } from '../../constants/breakpoints';
 
 interface Props {
@@ -15,7 +14,7 @@ const BasicGrid = styled.section<Props>`
   grid-template-columns: repeat(${({ columns }) => columns}, 1fr);
   grid-template-rows: repeat(${({ rows }) => rows}, 1fr);
   border: 3px solid black;
-  box-shadow: 0 0 30px 5px ${ming};
+  box-shadow: 0 0 30px 5px ${({ theme }) => theme.primary};
   cursor: pointer;
 
   @media (min-width: ${tablet.min}) and (max-width: ${tablet.max}) {

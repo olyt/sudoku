@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { aliceBlue } from '../../constants/colors';
 import { mobile, tablet } from '../../constants/breakpoints';
 
 export const StyledHeader = styled.header`
@@ -35,7 +34,7 @@ export const H1 = styled.h1`
   justify-self: center;
   letter-spacing: 10px;
   transform: translateX(5px);
-  color: ${aliceBlue};
+  color: ${({ theme }) => theme.primaryLight};
 
   @media (min-width: ${tablet.min}) and (max-width: ${tablet.max}) {
     justify-self: center;

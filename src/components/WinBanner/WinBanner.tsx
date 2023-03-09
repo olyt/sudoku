@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { startNewAfterWin } from '../../context/actions';
 import { useAppContext } from '../../context/AppContext';
-import { ming } from '../../constants/colors';
 import ModalButton from '../Buttons/ModalButton';
 import { mobile, tablet } from '../../constants/breakpoints';
 
@@ -10,7 +9,7 @@ const Text = styled.p`
   display: flex;
   height: calc((100% / 3) * 2);
   width: 100%;
-  color: ${ming};
+  color: ${({ theme }) => theme.primary};
   font-size: 35px;
   line-height: 70px;
   justify-content: center;
