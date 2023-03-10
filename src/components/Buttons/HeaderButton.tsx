@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import BasicButton from './BasicButton';
-import { mobile } from '../../constants/breakpoints';
 
 const HeaderButton = styled(BasicButton)`
   box-sizing: border-box;
@@ -16,7 +15,7 @@ const HeaderButton = styled(BasicButton)`
     background: ${({ theme }) => theme.primaryLight};
   }
 
-  @media (max-width: ${mobile.max}) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}}) {
     max-width: initial;
     width: 50%;
 

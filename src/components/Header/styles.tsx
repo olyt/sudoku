@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { mobile, tablet } from '../../constants/breakpoints';
 
 export const StyledHeader = styled.header`
   box-sizing: border-box;
@@ -16,11 +15,13 @@ export const StyledHeader = styled.header`
   rgba(131, 197, 190, 1) 60%,
   rgba(237, 246, 249, 0.4) 100%);
 
-  @media (min-width: ${tablet.min}) and (max-width: ${tablet.max}) {
+  @media (min-width: ${({ theme }) =>
+    theme.breakpoints.smPlus}) and (max-width: ${({ theme }) =>
+  theme.breakpoints.lg}) {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media (max-width: ${mobile.max}) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(2, 1fr);
   }
@@ -36,12 +37,14 @@ export const H1 = styled.h1`
   transform: translateX(5px);
   color: ${({ theme }) => theme.primaryLight};
 
-  @media (min-width: ${tablet.min}) and (max-width: ${tablet.max}) {
+  @media (min-width: ${({ theme }) =>
+      theme.breakpoints.smPlus}) and (max-width: ${({ theme }) =>
+      theme.breakpoints.lg}) {
     justify-self: center;
     grid-column-start: 1;
   }
 
-  @media (max-width: ${mobile.max}) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     grid-column-start: initial;
     justify-self: center;
   }
@@ -53,11 +56,13 @@ export const ButtonsWrapper = styled.div`
   align-items: center;
   height: 100%;
 
-  @media (min-width: ${tablet.min}) and (max-width: ${tablet.max}) {
+  @media (min-width: ${({ theme }) =>
+      theme.breakpoints.smPlus}) and (max-width: ${({ theme }) =>
+      theme.breakpoints.lg}) {
     justify-content: right;
   }
 
-  @media (max-width: ${mobile.max}) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     justify-content: space-around;
   }
 `;

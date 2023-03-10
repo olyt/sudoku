@@ -5,12 +5,12 @@ import './index.css';
 import App from './App';
 import { AppContextProvider } from './context/AppContext';
 import { ThemeProvider } from 'styled-components';
-import defaultTheme from './constants/themes';
+import theme from './constants/themes';
 
 ReactDOM.render(
   <React.StrictMode>
     <AppContextProvider>
-      <ThemeProvider theme={defaultTheme}>
+      <ThemeProvider theme={theme}>
         <App />
       </ThemeProvider>
     </AppContextProvider>

@@ -24,7 +24,6 @@ export interface StyledProps {
   state: ECellStates;
 }
 
-// TODO: refactor to one union function
 const checkXLeftBold = (x: number): boolean => x === 3 || x === 6;
 const checkYTopBold = (y: number): boolean => y === 3 || y === 6;
 

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { mobile, tablet } from '../../constants/breakpoints';
 
 interface Props {
   rows: number;
@@ -17,11 +16,13 @@ const BasicGrid = styled.section<Props>`
   box-shadow: 0 0 30px 5px ${({ theme }) => theme.primary};
   cursor: pointer;
 
-  @media (min-width: ${tablet.min}) and (max-width: ${tablet.max}) {
+  @media (min-width: ${({ theme }) =>
+      theme.breakpoints.smPlus}) and (max-width: ${({ theme }) =>
+      theme.breakpoints.lg}) {
     width: 75vw;
   }
 
-  @media (max-width: ${mobile.max}) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     width: 95vw;
   }
 `;

@@ -19,6 +19,11 @@ const defaultTheme = {
   primaryLight: aliceBlue,
   error: bittersweet,
   lightError: unbleachedSilk,
+  breakpoints: {
+    sm: '480px',
+    smPlus: '481px',
+    lg: '1000px',
+  },
 };
 
 export default defaultTheme;
