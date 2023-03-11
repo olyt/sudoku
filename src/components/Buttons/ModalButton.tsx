@@ -1,16 +1,15 @@
 import styled from 'styled-components';
-import { aliceBlue, ming } from '../../constants/colors';
 import BasicButton from './BasicButton';
 
 const ModalButton = styled(BasicButton)`
   height: calc(100% / 3);
   width: 100%;
-  color: ${ming};
+  color: ${({ theme }) => theme.primary};
   font-size: 25px;
 
   &:hover {
-    color: ${aliceBlue};
-    background: ${ming};
+    color: ${({ theme }) => theme.primaryLight};
+    background: ${({ theme }) => theme.primary};
   }
 `;
 

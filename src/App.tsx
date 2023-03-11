@@ -7,7 +7,6 @@ import { useAppContext } from './context/AppContext';
 import styled from 'styled-components';
 import useGameStatusTracking from './hooks/useGameStatusTracking';
 import { resetClickedCell } from './context/clickedCell/actions';
-import { mobile, tablet } from './constants/breakpoints';
 
 const AppWrapper = styled.div`
   text-align: center;
@@ -22,11 +21,13 @@ const AppWrapper = styled.div`
   position: relative;
   background: rgba(237, 246, 249, 0.4);
 
-  @media (min-width: ${tablet.min}) and (max-width: ${tablet.max}) {
+  @media (min-width: ${({ theme }) =>
+      theme.breakpoints.smPlus}) and (max-width: ${({ theme }) =>
+      theme.breakpoints.lg}) {
     height: ${window.innerHeight}px;
   }
 
-  @media (max-width: ${mobile.max}) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     height: ${window.innerHeight}px;
   }
 `;

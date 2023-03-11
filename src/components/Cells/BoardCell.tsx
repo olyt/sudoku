@@ -2,12 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import styled from 'styled-components';
 import BasicCell from './BasicCell';
-import {
-  aliceBlue,
-  lightBlue,
-  middleBlueGreen,
-  ming,
-} from '../../constants/colors';
 import { TCell } from '../../types/types';
 import {
   resetClickedCell,
@@ -36,18 +30,18 @@ const checkYTopBold = (y: number): boolean => y === 3 || y === 6;
 const StyledCell = styled(BasicCell)<StyledProps>`
   border-left: ${({ x }) => (checkXLeftBold(x) ? 3 : 1)}px solid black;
   border-top: ${({ y }) => (checkYTopBold(y) ? 3 : 1)}px solid black;
-  background: ${({ state }) => {
+  background: ${({ state, theme }) => {
     switch (state) {
       case ECellStates.clicked:
-        return ming;
+        return theme.primary;
       case ECellStates.highlighted:
-        return middleBlueGreen;
+        return theme.secondary;
       case ECellStates.similarNum:
-        return middleBlueGreen;
+        return theme.secondary;
       case ECellStates.finished:
-        return lightBlue;
+        return theme.secondaryLight;
       default:
-        return aliceBlue;
+        return theme.primaryLight;
     }
   }};
 

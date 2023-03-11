@@ -2,7 +2,6 @@ import React, { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { useAppContext } from '../../context/AppContext';
 import { setValueToBoard } from '../../context/actions';
-import { aliceBlue } from '../../constants/colors';
 import BasicCell from './BasicCell';
 import { setClickedCellValue } from '../../context/clickedCell/actions';
 
@@ -11,7 +10,6 @@ interface INumBoxProps {
 }
 
 const StyledNumBox = styled(BasicCell)`
-  background-color: ${aliceBlue};
   border-right: 1px solid black;
 
   &:last-child {

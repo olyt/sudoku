@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import { ming } from '../../constants/colors';
-import { mobile, tablet } from '../../constants/breakpoints';
 
 interface Props {
   rows: number;
@@ -15,14 +13,16 @@ const BasicGrid = styled.section<Props>`
   grid-template-columns: repeat(${({ columns }) => columns}, 1fr);
   grid-template-rows: repeat(${({ rows }) => rows}, 1fr);
   border: 3px solid black;
-  box-shadow: 0 0 30px 5px ${ming};
+  box-shadow: 0 0 30px 5px ${({ theme }) => theme.primary};
   cursor: pointer;
 
-  @media (min-width: ${tablet.min}) and (max-width: ${tablet.max}) {
+  @media (min-width: ${({ theme }) =>
+      theme.breakpoints.smPlus}) and (max-width: ${({ theme }) =>
+      theme.breakpoints.lg}) {
     width: 75vw;
   }
 
-  @media (max-width: ${mobile.max}) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     width: 95vw;
   }
 `;

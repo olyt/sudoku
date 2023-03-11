@@ -2,15 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { startNewAfterWin } from '../../context/actions';
 import { useAppContext } from '../../context/AppContext';
-import { ming } from '../../constants/colors';
 import ModalButton from '../Buttons/ModalButton';
-import { mobile, tablet } from '../../constants/breakpoints';
 
 const Text = styled.p`
   display: flex;
   height: calc((100% / 3) * 2);
   width: 100%;
-  color: ${ming};
+  color: ${({ theme }) => theme.primary};
   font-size: 35px;
   line-height: 70px;
   justify-content: center;
@@ -18,12 +16,14 @@ const Text = styled.p`
   padding: 0 100px;
   box-sizing: border-box;
 
-  @media (min-width: ${tablet.min}) and (max-width: ${tablet.max}) {
+  @media (min-width: ${({ theme }) =>
+      theme.breakpoints.smPlus}) and (max-width: ${({ theme }) =>
+      theme.breakpoints.lg}) {
     font-size: 30px;
     line-height: 60px;
   }
 
-  @media (max-width: ${mobile.max}) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     font-size: 25px;
     line-height: 50px;
   }
