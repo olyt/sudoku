@@ -5,7 +5,7 @@ import './index.css';
 import App from './App';
 import { AppContextProvider } from './context/AppContext';
 import { ThemeProvider } from 'styled-components';
-import theme from './constants/themes';
+import theme from './theming/themes';
 
 ReactDOM.render(
   <React.StrictMode>
