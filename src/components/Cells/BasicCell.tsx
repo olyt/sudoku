@@ -8,6 +8,10 @@ const BasicCell = styled.div`
   align-items: center;
   aspect-ratio: 1 / 1;
   background: ${({ theme }) => theme.primaryLight};
+
+  &:hover {
+    background: ${({ theme }) => theme.secondaryLight};
+  }
 `;
 
 export default BasicCell;
