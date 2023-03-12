@@ -30,6 +30,8 @@ const checkYTopBold = (y: number): boolean => y === 3 || y === 6;
 const StyledCell = styled(BasicCell)<StyledProps>`
   border-left: ${({ x }) => (checkXLeftBold(x) ? 3 : 1)}px solid black;
   border-top: ${({ y }) => (checkYTopBold(y) ? 3 : 1)}px solid black;
+  color: ${({ state, theme }) =>
+    state === ECellStates.clicked ? theme.primaryLight : 'black'};
   background: ${({ state, theme }) => {
     switch (state) {
       case ECellStates.clicked:
