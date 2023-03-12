@@ -10,7 +10,8 @@ const BasicCell = styled.div`
   background: ${({ theme }) => theme.primaryLight};
 
   &:hover {
-    background: ${({ theme }) => theme.secondaryLight};
+    background: ${({ theme }) => theme.primary};
+    color: ${({ theme }) => theme.primaryLight};
   }
 `;
 

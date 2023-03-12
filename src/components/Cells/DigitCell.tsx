@@ -19,10 +19,10 @@ const StyledNumBox = styled(BasicCell)`
 
 const DigitCell: React.FC<INumBoxProps> = ({ value }) => {
   const { boards, clickedCell, dispatch } = useAppContext();
-  const { y, x } = clickedCell;
+  const { y, x, value: clickedValue } = clickedCell;
 
   const setNumToCellOrHighlight: MouseEventHandler<HTMLDivElement> = () => {
-    if (y !== -1 && x !== -1) {
+    if (y !== -1 && x !== -1 && !clickedValue) {
       setValueToBoard(boards, clickedCell, dispatch, value);
     } else {
       dispatch(setClickedCellValue(value));
