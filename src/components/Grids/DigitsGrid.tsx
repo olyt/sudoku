@@ -2,10 +2,8 @@ import React from 'react';
 import DigitCell from '../Cells/DigitCell';
 import BasicGrid from './BasicGrid';
 
-type TNumsFn = () => JSX.Element[];
-
 const DigitsGrid: React.FC = () => {
-  const generateNums: TNumsFn = () => {
+  const generateNums = (): JSX.Element[] => {
     const nums = [];
     for (let i = 1; i <= 9; i++) {
       nums.push(<DigitCell value={i} key={i} />);

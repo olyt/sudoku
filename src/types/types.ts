@@ -1,8 +1,5 @@
 export type TBoard = number[][];
 export type TBoards = number[][][];
-export type GenericObject<T> = {
-  [Key: string]: T;
-};
 
 type TDifficulty = {
   mustFill: number;
