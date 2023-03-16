@@ -1,6 +1,6 @@
 import { solve } from './solver';
 import { copyBlankBoard } from './boardHelper';
-import { TBoard, IDifficulties } from '../types/types';
+import { IDifficulties, TBoard } from '../types/types';
 import Boxes from './Boxes';
 
 type TCheckFn = (_: number[], __: number) => boolean;
@@ -8,7 +8,7 @@ type TGenerateFn = (
   difficulty: keyof IDifficulties
 ) => [board: TBoard, solution: TBoard];
 
-export const DIFFICULTY: IDifficulties = {
+export const DIFFICULTIES: IDifficulties = {
   easy: {
     mustFill: 50,
     inARowMax: 8,
@@ -47,8 +47,8 @@ const isRowFilledProperly: TCheckFn = (row, maxFill) => {
 };
 
 export const generateBoard: TGenerateFn = (difficulty) => {
-  let { mustFill } = DIFFICULTY[difficulty];
-  const { inARowMax, inABoxMax, numMax } = DIFFICULTY[difficulty];
+  let { mustFill } = DIFFICULTIES[difficulty];
+  const { inARowMax, inABoxMax, numMax } = DIFFICULTIES[difficulty];
   const board = copyBlankBoard();
   const solution = solve(board) as TBoard;
   const boxes = new Boxes(board, inABoxMax);

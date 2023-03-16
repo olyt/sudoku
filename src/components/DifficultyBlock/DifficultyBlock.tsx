@@ -1,5 +1,5 @@
 import React from 'react';
-import { DIFFICULTY } from '../../utils/generateBoard';
+import { DIFFICULTIES } from '../../utils/generateBoard';
 import { IDifficulties } from '../../types/types';
 import { useAppContext } from '../../context/AppContext';
 import { startGame } from '../../context/actions';
@@ -19,7 +19,7 @@ const DifficultyBlock: React.FC = () => {
   };
 
   const generateButtons = (): JSX.Element[] => {
-    return Object.keys(DIFFICULTY).map((difficulty) => {
+    return Object.keys(DIFFICULTIES).map((difficulty) => {
       const text = difficulty
         .charAt(0)
         .toUpperCase()

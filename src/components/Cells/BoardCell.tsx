@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { MouseEventHandler, useEffect, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import styled from 'styled-components';
 import BasicCell from './BasicCell';
@@ -66,8 +66,6 @@ const BoardCell: React.FC<TCell> = ({ value, x, y }) => {
     if (clickedY !== y && clickedX !== x) {
       if (value && checkIfBoardPartFinished(boards.currentBoard, y, x)) {
         setCellState(ECellStates.finished);
-      } else {
-        setCellState(ECellStates.inactive);
       }
     }
 
@@ -95,18 +93,9 @@ const BoardCell: React.FC<TCell> = ({ value, x, y }) => {
     if (clickedY === y && clickedX === x) {
       setCellState(ECellStates.clicked);
     }
-  }, [
-    x,
-    y,
-    clickedY,
-    clickedX,
-    clickedValue,
-    value,
-    boards.currentBoard,
-    dispatch,
-  ]);
+  }, [x, y, clickedY, clickedX, clickedValue, value, boards.currentBoard]);
 
-  const toggleChecked: () => void = () => {
+  const toggleChecked: MouseEventHandler<HTMLDivElement> = () => {
     if (gameInfo.gameStatus !== EGameStatus.NotStarted) {
       const clickUnmatched = clickedY === y && clickedX === x;
 

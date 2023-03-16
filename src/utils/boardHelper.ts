@@ -42,11 +42,11 @@ const checkFinishedColumn: TBoardAxisChecker = (board, column) => {
   return board.every((row) => !!row[column]);
 };
 
-export const checkIfBoardPartFinished: (
+export const checkIfBoardPartFinished = (
   board: TBoard,
   y: number,
   x: number
-) => boolean = (board, y, x) => {
+): boolean => {
   return (
     checkFinishedRow(board, y) ||
     checkFinishedColumn(board, x) ||
