@@ -66,6 +66,8 @@ const BoardCell: React.FC<TCell> = ({ value, x, y }) => {
     if (clickedY !== y && clickedX !== x) {
       if (value && checkIfBoardPartFinished(boards.currentBoard, y, x)) {
         setCellState(ECellStates.finished);
+      } else {
+        setCellState(ECellStates.inactive);
       }
     }
 
