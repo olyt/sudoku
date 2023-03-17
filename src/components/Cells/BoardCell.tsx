@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useEffect, useState } from 'react';
+import React, { MouseEventHandler, useEffect, useMemo, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import styled from 'styled-components';
 import BasicCell from './BasicCell';
@@ -60,30 +60,37 @@ const StyledCell = styled(BasicCell)<StyledProps>`
 const BoardCell: React.FC<TCell> = ({ value, x, y }) => {
   const [cellState, setCellState] = useState<ECellStates>(ECellStates.inactive);
   const { boards, clickedCell, gameInfo, dispatch } = useAppContext();
-  const { y: clickedY, x: clickedX, value: clickedValue } = clickedCell;
+  const currentMoveInfo = useMemo<{ [Key: string]: boolean }>(
+    () => ({
+      sameY: clickedCell.y === y,
+      sameX: clickedCell.x === x,
+      sameCell: clickedCell.y === y && clickedCell.x === x,
+      sameValue: clickedCell.value === value,
+      digitClicked:
+        clickedCell.y === -1 && clickedCell.x === -1 && !!clickedCell.value,
+      areaFinished:
+        !!value && checkIfBoardPartFinished(boards.currentBoard, y, x),
+    }),
+    [clickedCell, boards.currentBoard, x, y, value]
+  );
 
   useEffect(() => {
-    if (clickedY !== y && clickedX !== x) {
-      if (value && checkIfBoardPartFinished(boards.currentBoard, y, x)) {
+    const { sameCell, sameValue, areaFinished, digitClicked, sameY, sameX } =
+      currentMoveInfo;
+
+    if (!sameCell) {
+      if (areaFinished) {
         setCellState(ECellStates.finished);
       } else {
         setCellState(ECellStates.inactive);
       }
     }
 
-    if (
-      (clickedY === y || clickedX === x) &&
-      (clickedY !== y || clickedX !== x)
-    ) {
+    if ((sameY && !sameX) || (!sameY && sameX)) {
       setCellState(ECellStates.highlighted);
     }
 
-    if (
-      clickedY === -1 &&
-      clickedX === -1 &&
-      clickedValue &&
-      clickedValue === value
-    ) {
+    if (digitClicked && sameValue) {
       setCellState((prev) => {
         if (prev === ECellStates.inactive || prev === ECellStates.finished) {
           return ECellStates.similarNum;
@@ -92,14 +99,14 @@ const BoardCell: React.FC<TCell> = ({ value, x, y }) => {
       });
     }
 
-    if (clickedY === y && clickedX === x) {
+    if (sameCell) {
       setCellState(ECellStates.clicked);
     }
-  }, [x, y, clickedY, clickedX, clickedValue, value, boards.currentBoard]);
+  }, [currentMoveInfo]);
 
   const toggleChecked: MouseEventHandler<HTMLDivElement> = () => {
     if (gameInfo.gameStatus !== EGameStatus.NotStarted) {
-      const clickUnmatched = clickedY === y && clickedX === x;
+      const clickUnmatched = clickedCell.y === y && clickedCell.x === x;
 
       if (cellState === ECellStates.clicked || clickUnmatched) {
         dispatch(resetClickedCell);
