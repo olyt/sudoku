@@ -13,11 +13,10 @@ const BOX_COORDINATES = [
 ];
 
 type TSolution = (boards: TBoards) => TBoard | boolean;
-type TSolvedFn = (board: TBoard) => boolean;
+type TBoardValidator = (board: TBoard) => boolean;
 type TSolveFn = (board: TBoard) => TBoard | boolean;
-type TNextBoardsFn = (board: TBoard) => TBoards;
+type TBoardsGenerator = (board: TBoard) => TBoards;
 type TFindSquareFn = (board: TBoard) => number[] | void;
-type TIsValidFn = (board: TBoard) => boolean;
 type TIsValidBoardsFn = (boards: TBoards) => TBoards;
 
 const searchForSolution: TSolution = (validBoards) => {
@@ -30,7 +29,7 @@ const searchForSolution: TSolution = (validBoards) => {
   return tryPath ? tryPath : searchForSolution(validBoards);
 };
 
-const solved: TSolvedFn = (board) => {
+const solved: TBoardValidator = (board) => {
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
       if (!board[i][j]) {
@@ -42,7 +41,7 @@ const solved: TSolvedFn = (board) => {
   return true;
 };
 
-const nextBoards: TNextBoardsFn = (board) => {
+const nextBoards: TBoardsGenerator = (board) => {
   const res = [];
   const firstEmpty = findEmptySquare(board);
 
@@ -72,7 +71,7 @@ const findEmptySquare: TFindSquareFn = (board) => {
   }
 };
 
-const isValidRow: TIsValidFn = (board) => {
+const isValidRow: TBoardValidator = (board) => {
   for (let i = 0; i < 9; i++) {
     const current: number[] = [];
     for (let j = 0; j < 9; j++) {
@@ -87,7 +86,7 @@ const isValidRow: TIsValidFn = (board) => {
   return true;
 };
 
-const isValidColumn: TIsValidFn = (board) => {
+const isValidColumn: TBoardValidator = (board) => {
   for (let i = 0; i < 9; i++) {
     const current: number[] = [];
     for (let j = 0; j < 9; j++) {
@@ -102,7 +101,7 @@ const isValidColumn: TIsValidFn = (board) => {
   return true;
 };
 
-const isValidBoxes: TIsValidFn = (board) => {
+const isValidBoxes: TBoardValidator = (board) => {
   for (let y = 0; y < 9; y += 3) {
     for (let x = 0; x < 9; x += 3) {
       const current: number[] = [];
@@ -123,7 +122,7 @@ const isValidBoxes: TIsValidFn = (board) => {
   return true;
 };
 
-const validBoard: TIsValidFn = (board) => {
+const validBoard: TBoardValidator = (board) => {
   return isValidRow(board) && isValidColumn(board) && isValidBoxes(board);
 };
 
