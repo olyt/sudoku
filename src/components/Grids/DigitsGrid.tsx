@@ -6,7 +6,7 @@ const DigitsGrid: React.FC = () => {
   const generateNums = (): JSX.Element[] => {
     const nums = [];
     for (let i = 1; i <= 9; i++) {
-      nums.push(<DigitCell value={i} key={i} />);
+      nums.push(<DigitCell digit={i} key={i} />);
     }
 
     return nums;
