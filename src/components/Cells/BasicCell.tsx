@@ -8,6 +8,7 @@ const BasicCell = styled.div`
   align-items: center;
   aspect-ratio: 1 / 1;
   background: ${({ theme }) => theme.primaryLight};
+  cursor: pointer;
 
   &:hover {
     background: ${({ theme }) => theme.primary};

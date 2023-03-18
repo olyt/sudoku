@@ -14,7 +14,6 @@ const BasicGrid = styled.section<Props>`
   grid-template-rows: repeat(${({ rows }) => rows}, 1fr);
   border: 3px solid black;
   box-shadow: 0 0 30px 5px ${({ theme }) => theme.primary};
-  cursor: pointer;
 
   @media (min-width: ${({ theme }) =>
       theme.breakpoints.smPlus}) and (max-width: ${({ theme }) =>
