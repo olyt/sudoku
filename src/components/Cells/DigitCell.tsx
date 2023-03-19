@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { useAppContext } from '../../context/AppContext';
 import { setValueToBoard } from '../../context/actions';
 import BasicCell from './BasicCell';
-import { setClickedCellValue } from '../../context/clickedCell/actions';
+import { setClickedCell } from '../../context/clickedCell/actions';
 
 interface IDigitCellProps {
   digit: number;
@@ -42,18 +42,20 @@ const DigitCell: React.FC<IDigitCellProps> = ({ digit }) => {
     );
   }, [boards.currentBoard, digit]);
 
-  const setNumToCellOrHighlight: MouseEventHandler<HTMLDivElement> = () => {
-    if (!isLocked) {
-      if (y !== -1 && x !== -1 && !clickedValue) {
-        setValueToBoard(boards, clickedCell, dispatch, digit);
-      } else {
-        dispatch(setClickedCellValue(digit));
-      }
+  const setNumToCellOrHighlight = (): void => {
+    if (y !== -1 && x !== -1 && !clickedValue) {
+      setValueToBoard(boards, clickedCell, dispatch, digit);
+    } else {
+      dispatch(setClickedCell({ y: -1, x: -1, value: digit }));
     }
   };
 
+  const onDigitClick: MouseEventHandler<HTMLDivElement> = () => {
+    !isLocked && setNumToCellOrHighlight();
+  };
+
   return (
-    <StyledNumBox onClick={setNumToCellOrHighlight} isLocked={isLocked}>
+    <StyledNumBox onClick={onDigitClick} isLocked={isLocked}>
       {digit}
     </StyledNumBox>
   );
