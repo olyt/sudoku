@@ -14,13 +14,11 @@ interface IStyledProps {
 }
 
 const lockedStyles = css`
-  cursor: default;
   color: ${({ theme }) => theme.primary};
   background: ${({ theme }) => theme.secondary};
-  pointer-events: none;
 `;
 
-const StyledNumBox = styled(BasicCell)<IStyledProps>`
+const StyledDigitCell = styled(BasicCell)<IStyledProps>`
   border-right: 1px solid black;
 
   ${({ isLocked }) => isLocked && lockedStyles}
@@ -42,7 +40,7 @@ const DigitCell: React.FC<IDigitCellProps> = ({ digit }) => {
     );
   }, [boards.currentBoard, digit]);
 
-  const setNumToCellOrHighlight = (): void => {
+  const setNumToCellOrHighlight: MouseEventHandler<HTMLDivElement> = () => {
     if (y !== -1 && x !== -1 && !clickedValue) {
       setValueToBoard(boards, clickedCell, dispatch, digit);
     } else {
@@ -50,14 +48,10 @@ const DigitCell: React.FC<IDigitCellProps> = ({ digit }) => {
     }
   };
 
-  const onDigitClick: MouseEventHandler<HTMLDivElement> = () => {
-    !isLocked && setNumToCellOrHighlight();
-  };
-
   return (
-    <StyledNumBox onClick={onDigitClick} isLocked={isLocked}>
+    <StyledDigitCell onClick={setNumToCellOrHighlight} isLocked={isLocked}>
       {digit}
-    </StyledNumBox>
+    </StyledDigitCell>
   );
 };
 
