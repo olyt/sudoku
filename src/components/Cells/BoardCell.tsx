@@ -28,11 +28,19 @@ const checkBoldBorder = (coordinate: number): boolean => {
   return coordinate === 3 || coordinate === 6;
 };
 
-const StyledCell = styled(BasicCell)<StyledProps>`
+const StyledBoardCell = styled(BasicCell)<StyledProps>`
   border-left: ${({ x }) => (checkBoldBorder(x) ? 3 : 1)}px solid black;
   border-top: ${({ y }) => (checkBoldBorder(y) ? 3 : 1)}px solid black;
-  color: ${({ state, theme }) =>
-    state === ECellStates.clicked ? theme.primaryLight : 'black'};
+  color: ${({ state, theme }) => {
+    switch (state) {
+      case ECellStates.clicked:
+        return theme.primaryLight;
+      case ECellStates.finished:
+        return theme.primary;
+      default:
+        return 'black';
+    }
+  }};
   background: ${({ state, theme }) => {
     switch (state) {
       case ECellStates.clicked:
@@ -118,9 +126,9 @@ const BoardCell: React.FC<TCell> = ({ value, x, y }) => {
   };
 
   return (
-    <StyledCell onClick={toggleChecked} x={x} y={y} state={cellState}>
+    <StyledBoardCell onClick={toggleChecked} x={x} y={y} state={cellState}>
       {value || null}
-    </StyledCell>
+    </StyledBoardCell>
   );
 };
 
