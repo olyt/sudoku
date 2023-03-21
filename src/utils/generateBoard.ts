@@ -1,6 +1,6 @@
 import { solve } from './solver';
 import { copyBlankBoard } from './boardHelper';
-import { IDifficulties, TBoard } from '../types/types';
+import { IDifficulties, TBoard, TCellCoordinates } from '../types/types';
 import Boxes from './Boxes';
 
 type TCheckFn = (_: number[], __: number) => boolean;
@@ -46,6 +46,39 @@ const isRowFilledProperly: TCheckFn = (row, maxFill) => {
   return true;
 };
 
+const getMirroredCoordinates = (board: TBoard): TCellCoordinates[] => {
+  const swap: { y: number; x: number }[] = [];
+
+  for (let row = 0; row < 8; row++) {
+    for (let nextRow = row + 1; nextRow < 9; nextRow++) {
+      const columns = getMirroredColumns(board[row], board[nextRow]);
+
+      if (columns.size) {
+        columns.forEach((column) => {
+          swap.push({ y: row, x: column });
+          swap.push({ y: nextRow, x: column });
+        });
+      }
+    }
+  }
+
+  return swap;
+};
+
+const getMirroredColumns = (row: number[], nextRow: number[]): Set<number> => {
+  const mirroredIndices: Set<number> = new Set();
+
+  row.forEach((cellValue, column) => {
+    const nextRowIndex = nextRow.indexOf(cellValue);
+    if (column !== nextRowIndex && nextRow[column] === row[nextRowIndex]) {
+      mirroredIndices.add(column);
+      mirroredIndices.add(nextRowIndex);
+    }
+  });
+
+  return mirroredIndices;
+};
+
 export const generateBoard: TGenerateFn = (difficulty) => {
   let { mustFill } = DIFFICULTIES[difficulty];
   const { inARowMax, inABoxMax, numMax } = DIFFICULTIES[difficulty];
@@ -53,10 +86,26 @@ export const generateBoard: TGenerateFn = (difficulty) => {
   const solution = solve(board) as TBoard;
   const boxes = new Boxes(board, inABoxMax);
   const numbersCounter: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  const mirroredCoordinates = getMirroredCoordinates(solution);
+  let atLeastOneMirroredDilled = !mirroredCoordinates.length;
 
   while (mustFill) {
-    const y = Math.floor(Math.random() * 9);
-    const x = Math.floor(Math.random() * 9);
+    let y: number;
+    let x: number;
+
+    if (!atLeastOneMirroredDilled) {
+      const { y: swapY, x: swapX } =
+        mirroredCoordinates[
+          Math.floor(Math.random() * mirroredCoordinates.length)
+        ];
+      y = swapY;
+      x = swapX;
+      atLeastOneMirroredDilled = true;
+    } else {
+      y = Math.floor(Math.random() * 9);
+      x = Math.floor(Math.random() * 9);
+    }
+
     if (!board[y][x] || board[y][x] !== solution[y][x]) {
       let num: number = solution[y][x];
 
