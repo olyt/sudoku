@@ -46,6 +46,21 @@ const isRowFilledProperly: TCheckFn = (row, maxFill) => {
   return true;
 };
 
+const isColumnFilledProperly = (board: TBoard, column: number): boolean => {
+  const MAX = 8;
+  let count = 0;
+
+  for (let i = 0; i < board.length; i++) {
+    if (board[i][column]) count++;
+
+    if (count > MAX) return false;
+
+    if (board[i][column] && board[i + 1] && !board[i + 1][column]) return true;
+  }
+
+  return true;
+};
+
 const getMirroredCoordinates = (board: TBoard): TCellCoordinates[] => {
   const swap: { y: number; x: number }[] = [];
 
@@ -122,6 +137,7 @@ export const generateBoard: TGenerateFn = (difficulty) => {
       numbersCounter[num]++;
       if (
         isRowFilledProperly(board[y], inARowMax) &&
+        isColumnFilledProperly(board, x) &&
         boxes.checkBoxes() &&
         numbersCounter[num] <= numMax
       ) {
