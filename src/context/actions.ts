@@ -3,8 +3,8 @@ import { EGameStatus, EModalComponents, TAction, TBoardsState } from './types';
 import { IDifficulties, TCell } from '../types/types';
 import React from 'react';
 import {
-  copyBlankBoard,
   copyBoard,
+  getBlankBoard,
   updateValueOnBoard,
 } from '../utils/boardHelper';
 import { setBoard, setInitialBoard, setSolution } from './boards/actions';
@@ -26,9 +26,9 @@ export const startGame: (
 };
 
 export const leaveAfterWin = (dispatch: React.Dispatch<TAction>): void => {
-  dispatch(setBoard(copyBlankBoard()));
-  dispatch(setInitialBoard(copyBlankBoard()));
-  dispatch(setSolution(copyBlankBoard()));
+  dispatch(setBoard(getBlankBoard()));
+  dispatch(setInitialBoard(getBlankBoard()));
+  dispatch(setSolution(getBlankBoard()));
   dispatch(resetClickedCell);
   dispatch(setGameStatus(EGameStatus.NotStarted));
   dispatch(setGameDifficulty(null));

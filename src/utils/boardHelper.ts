@@ -28,7 +28,7 @@ export const updateValueOnBoard: TBoardValueSetter = (board, cell) => {
   });
 };
 
-export const copyBlankBoard = (): TBoard => {
+export const getBlankBoard = (): TBoard => {
   return BLANK_BOARD.map((row: number[]) => {
     return row.map((i) => i);
   });
