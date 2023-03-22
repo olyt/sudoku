@@ -6,13 +6,13 @@ import {
   TGameInfoState,
   TModalState,
 } from './types';
-import { copyBlankBoard } from '../utils/boardHelper';
+import { getBlankBoard } from '../utils/boardHelper';
 import { TCell } from '../types/types';
 
 const initialBoardsState: TBoardsState = {
-  currentBoard: copyBlankBoard(),
-  initialBoard: copyBlankBoard(),
-  solution: copyBlankBoard(),
+  currentBoard: getBlankBoard(),
+  initialBoard: getBlankBoard(),
+  solution: getBlankBoard(),
 };
 
 const initialModalState: TModalState = {

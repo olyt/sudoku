@@ -1,5 +1,5 @@
 import { solve } from './solver';
-import { copyBlankBoard } from './boardHelper';
+import { getBlankBoard } from './boardHelper';
 import { IDifficulties, TBoard, TCellCoordinates } from '../types/types';
 import Boxes from './Boxes';
 
@@ -97,7 +97,7 @@ const getMirroredColumns = (row: number[], nextRow: number[]): Set<number> => {
 export const generateBoard: TGenerateFn = (difficulty) => {
   let { mustFill } = DIFFICULTIES[difficulty];
   const { inARowMax, inABoxMax, numMax } = DIFFICULTIES[difficulty];
-  const board = copyBlankBoard();
+  const board = getBlankBoard();
   const solution = solve(board) as TBoard;
   const boxes = new Boxes(board, inABoxMax);
   const numbersCounter: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
