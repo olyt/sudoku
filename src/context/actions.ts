@@ -1,7 +1,11 @@
 import { generateBoard } from '../utils/generateBoard';
-import { EGameStatus, EModalComponents, TAction, TBoardsState } from './types';
+import {
+  EGameStatus,
+  EModalComponents,
+  TBoardsState,
+  TDispatch,
+} from './types';
 import { IDifficulties, TCell } from '../types/types';
-import React from 'react';
 import {
   copyBoard,
   getBlankBoard,
@@ -14,7 +18,7 @@ import { setModalComponent } from './modal/actions';
 
 export const startGame: (
   difficulty: keyof IDifficulties,
-  dispatch: React.Dispatch<TAction>
+  dispatch: TDispatch
 ) => void = (difficulty, dispatch) => {
   const [board, solution] = generateBoard(difficulty);
 
@@ -25,7 +29,7 @@ export const startGame: (
   dispatch(setGameStatus(EGameStatus.InProgress));
 };
 
-export const leaveAfterWin = (dispatch: React.Dispatch<TAction>): void => {
+export const leaveAfterWin = (dispatch: TDispatch): void => {
   dispatch(setBoard(getBlankBoard()));
   dispatch(setInitialBoard(getBlankBoard()));
   dispatch(setSolution(getBlankBoard()));
@@ -34,14 +38,14 @@ export const leaveAfterWin = (dispatch: React.Dispatch<TAction>): void => {
   dispatch(setGameDifficulty(null));
 };
 
-export const startNewAfterWin = (dispatch: React.Dispatch<TAction>): void => {
+export const startNewAfterWin = (dispatch: TDispatch): void => {
   dispatch(setModalComponent(EModalComponents.DifficultyBlock));
 };
 
 export const setValueToBoard: (
   boards: TBoardsState,
   clickedCell: TCell,
-  dispatch: React.Dispatch<TAction>,
+  dispatch: TDispatch,
   newValue: number
 ) => void = (boards, clickedCell, dispatch, newValue) => {
   const { y, x } = clickedCell;
