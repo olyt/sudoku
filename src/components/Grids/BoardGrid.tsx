@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import BoardCell from '../Cells/BoardCell';
 import { useAppContext } from '../../context/AppContext';
 import { arrows, digits, escape, numpadDigits } from '../../constants/keyboard';
-import { setValueToBoard } from '../../context/actions';
+import { setValueToBoard } from '../../context/operations';
 import {
   resetClickedCell,
   setClickedCell,

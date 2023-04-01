@@ -16,18 +16,16 @@ import { setGameDifficulty, setGameStatus } from './gameInfo/actions';
 import { resetClickedCell, setClickedCellValue } from './clickedCell/actions';
 import { setModalComponent } from './modal/actions';
 
-export const startGame: (
-  difficulty: keyof IDifficulties,
-  dispatch: TDispatch
-) => void = (difficulty, dispatch) => {
-  const [board, solution] = generateBoard(difficulty);
+export const startGame =
+  (difficulty: keyof IDifficulties) => (dispatch: TDispatch) => {
+    const [board, solution] = generateBoard(difficulty);
 
-  dispatch(setInitialBoard(copyBoard(board)));
-  dispatch(setBoard(board));
-  dispatch(setSolution(solution));
-  dispatch(setGameDifficulty(difficulty));
-  dispatch(setGameStatus(EGameStatus.InProgress));
-};
+    dispatch(setInitialBoard(copyBoard(board)));
+    dispatch(setBoard(board));
+    dispatch(setSolution(solution));
+    dispatch(setGameDifficulty(difficulty));
+    dispatch(setGameStatus(EGameStatus.InProgress));
+  };
 
 export const leaveAfterWin = (dispatch: TDispatch): void => {
   dispatch(setBoard(getBlankBoard()));

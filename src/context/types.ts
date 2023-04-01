@@ -47,9 +47,14 @@ export type TAction =
   | TModalAction
   | TClickedCellAction;
 
-export type TDispatch = React.Dispatch<TAction>;
+export type TDispatch =
+  | React.Dispatch<TAction | TOperation>
+  | ((action: TAction | TOperation) => void);
 
-export type TOperation = (state: IAppContext, dispatch: TDispatch) => void;
+export type TOperation = (
+  dispatch: TDispatch,
+  state: IAppContext
+) => TAction | void;
 
 export interface IState extends IAppContext {
   dispatch: TDispatch;

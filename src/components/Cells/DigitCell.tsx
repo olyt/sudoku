@@ -1,7 +1,7 @@
 import React, { MouseEventHandler, useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { useAppContext } from '../../context/AppContext';
-import { setValueToBoard } from '../../context/actions';
+import { setValueToBoard } from '../../context/operations';
 import BasicCell from './BasicCell';
 import { setClickedCell } from '../../context/clickedCell/actions';
 
