@@ -45,11 +45,10 @@ export type TAction =
   | TBoardsAction
   | TGameInfoAction
   | TModalAction
-  | TClickedCellAction;
+  | TClickedCellAction
+  | TOperation;
 
-export type TDispatch =
-  | React.Dispatch<TAction | TOperation>
-  | ((action: TAction | TOperation) => void);
+export type TDispatch = React.Dispatch<TAction>;
 
 export type TOperation = (
   dispatch: TDispatch,
@@ -57,7 +56,7 @@ export type TOperation = (
 ) => TAction | void;
 
 export interface IState extends IAppContext {
-  dispatch: TDispatch;
+  dispatch: TDispatch | ((action: TAction | TOperation) => void);
 }
 
 export type TActionCreator<T, M> = (payload: T) => M;

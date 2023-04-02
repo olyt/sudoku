@@ -17,7 +17,6 @@ export const AppContextProvider: React.FC = ({ children }) => {
   );
   const dispatchWithThunk = (action: TAction | TOperation): TAction | void => {
     if (typeof action === 'function') {
-      // @ts-ignore
       return action(dispatch, state);
     }
 

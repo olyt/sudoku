@@ -17,7 +17,8 @@ import { resetClickedCell, setClickedCellValue } from './clickedCell/actions';
 import { setModalComponent } from './modal/actions';
 
 export const startGame =
-  (difficulty: keyof IDifficulties) => (dispatch: TDispatch) => {
+  (difficulty: keyof IDifficulties) =>
+  (dispatch: TDispatch): void => {
     const [board, solution] = generateBoard(difficulty);
 
     dispatch(setInitialBoard(copyBoard(board)));
