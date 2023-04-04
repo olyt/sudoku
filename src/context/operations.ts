@@ -1,5 +1,5 @@
 import { generateBoard } from '../utils/generateBoard';
-import { EGameStatus, EModalComponents, IAppContext, TDispatch } from './types';
+import { EGameStatus, EModalComponents, TOperation } from './types';
 import { IDifficulties } from '../types/types';
 import {
   copyBoard,
@@ -12,8 +12,8 @@ import { resetClickedCell, setClickedCellValue } from './clickedCell/actions';
 import { setModalComponent } from './modal/actions';
 
 export const startGame =
-  (difficulty: keyof IDifficulties) =>
-  (dispatch: TDispatch): void => {
+  (difficulty: keyof IDifficulties): TOperation =>
+  (dispatch) => {
     const [board, solution] = generateBoard(difficulty);
 
     dispatch(setInitialBoard(copyBoard(board)));
@@ -23,26 +23,22 @@ export const startGame =
     dispatch(setGameStatus(EGameStatus.InProgress));
   };
 
-export const leaveAfterWin =
-  () =>
-  (dispatch: TDispatch): void => {
-    dispatch(setBoard(getBlankBoard()));
-    dispatch(setInitialBoard(getBlankBoard()));
-    dispatch(setSolution(getBlankBoard()));
-    dispatch(resetClickedCell);
-    dispatch(setGameStatus(EGameStatus.NotStarted));
-    dispatch(setGameDifficulty(null));
-  };
+export const leaveAfterWin = (): TOperation => (dispatch) => {
+  dispatch(setBoard(getBlankBoard()));
+  dispatch(setInitialBoard(getBlankBoard()));
+  dispatch(setSolution(getBlankBoard()));
+  dispatch(resetClickedCell);
+  dispatch(setGameStatus(EGameStatus.NotStarted));
+  dispatch(setGameDifficulty(null));
+};
 
-export const startNewAfterWin =
-  () =>
-  (dispatch: TDispatch): void => {
-    dispatch(setModalComponent(EModalComponents.DifficultyBlock));
-  };
+export const startNewAfterWin = (): TOperation => (dispatch) => {
+  dispatch(setModalComponent(EModalComponents.DifficultyBlock));
+};
 
 export const setValueToBoard =
-  (newValue: number) =>
-  (dispatch: TDispatch, state: IAppContext): void => {
+  (newValue: number): TOperation =>
+  (dispatch, state) => {
     const { boards, clickedCell } = state;
     const { y, x } = clickedCell;
     const updatedBoard = updateValueOnBoard(boards.currentBoard, {
