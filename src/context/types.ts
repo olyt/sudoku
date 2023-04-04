@@ -1,5 +1,5 @@
 import React from 'react';
-import { TBoard, TCell, IDifficulties } from '../types/types';
+import { IDifficulties, TBoard, TCell } from '../types/types';
 import { TBoardsAction } from './boards/actions';
 import { TGameInfoAction } from './gameInfo/actions';
 import { TModalAction } from './modal/actions';
@@ -45,10 +45,18 @@ export type TAction =
   | TBoardsAction
   | TGameInfoAction
   | TModalAction
-  | TClickedCellAction;
+  | TClickedCellAction
+  | TOperation;
+
+export type TDispatch = React.Dispatch<TAction>;
+
+export type TOperation = (
+  dispatch: TDispatch,
+  state: IAppContext
+) => TAction | void;
 
 export interface IState extends IAppContext {
-  dispatch: React.Dispatch<TAction>;
+  dispatch: TDispatch | ((action: TAction | TOperation) => void);
 }
 
 export type TActionCreator<T, M> = (payload: T) => M;

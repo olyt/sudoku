@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { startNewAfterWin } from '../../context/actions';
+import { startNewAfterWin } from '../../context/operations';
 import { useAppContext } from '../../context/AppContext';
 import ModalButton from '../Buttons/ModalButton';
 
@@ -34,7 +34,7 @@ const WinBanner: React.FC = () => {
   return (
     <>
       <Text>Congratulations! You win!</Text>
-      <ModalButton onClick={() => startNewAfterWin(dispatch)}>
+      <ModalButton onClick={() => dispatch(startNewAfterWin())}>
         Start New Game
       </ModalButton>
     </>

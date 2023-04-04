@@ -1,5 +1,5 @@
 import React, { FC, MouseEventHandler, useCallback, useEffect } from 'react';
-import { leaveAfterWin } from '../../context/actions';
+import { leaveAfterWin } from '../../context/operations';
 import { useAppContext } from '../../context/AppContext';
 import WinBanner from '../WinBanner/WinBanner';
 import { EGameStatus } from '../../context/types';
@@ -22,7 +22,7 @@ const Modal: FC = () => {
 
   const closeModal: () => void = useCallback(() => {
     if (gameStatus === EGameStatus.Win) {
-      leaveAfterWin(dispatch);
+      dispatch(leaveAfterWin());
     }
 
     dispatch(setModalIsOpen(false));
