@@ -34,7 +34,7 @@ const WinBanner: React.FC = () => {
   return (
     <>
       <Text>Congratulations! You win!</Text>
-      <ModalButton onClick={() => startNewAfterWin(dispatch)}>
+      <ModalButton onClick={() => dispatch(startNewAfterWin())}>
         Start New Game
       </ModalButton>
     </>

@@ -1,11 +1,6 @@
 import { generateBoard } from '../utils/generateBoard';
-import {
-  EGameStatus,
-  EModalComponents,
-  TBoardsState,
-  TDispatch,
-} from './types';
-import { IDifficulties, TCell } from '../types/types';
+import { EGameStatus, EModalComponents, IAppContext, TDispatch } from './types';
+import { IDifficulties } from '../types/types';
 import {
   copyBoard,
   getBlankBoard,
@@ -28,36 +23,38 @@ export const startGame =
     dispatch(setGameStatus(EGameStatus.InProgress));
   };
 
-export const leaveAfterWin = (dispatch: TDispatch): void => {
-  dispatch(setBoard(getBlankBoard()));
-  dispatch(setInitialBoard(getBlankBoard()));
-  dispatch(setSolution(getBlankBoard()));
-  dispatch(resetClickedCell);
-  dispatch(setGameStatus(EGameStatus.NotStarted));
-  dispatch(setGameDifficulty(null));
-};
+export const leaveAfterWin =
+  () =>
+  (dispatch: TDispatch): void => {
+    dispatch(setBoard(getBlankBoard()));
+    dispatch(setInitialBoard(getBlankBoard()));
+    dispatch(setSolution(getBlankBoard()));
+    dispatch(resetClickedCell);
+    dispatch(setGameStatus(EGameStatus.NotStarted));
+    dispatch(setGameDifficulty(null));
+  };
 
-export const startNewAfterWin = (dispatch: TDispatch): void => {
-  dispatch(setModalComponent(EModalComponents.DifficultyBlock));
-};
+export const startNewAfterWin =
+  () =>
+  (dispatch: TDispatch): void => {
+    dispatch(setModalComponent(EModalComponents.DifficultyBlock));
+  };
 
-export const setValueToBoard: (
-  boards: TBoardsState,
-  clickedCell: TCell,
-  dispatch: TDispatch,
-  newValue: number
-) => void = (boards, clickedCell, dispatch, newValue) => {
-  const { y, x } = clickedCell;
-  const updatedBoard = updateValueOnBoard(boards.currentBoard, {
-    y,
-    x,
-    value: newValue,
-  });
+export const setValueToBoard =
+  (newValue: number) =>
+  (dispatch: TDispatch, state: IAppContext): void => {
+    const { boards, clickedCell } = state;
+    const { y, x } = clickedCell;
+    const updatedBoard = updateValueOnBoard(boards.currentBoard, {
+      y,
+      x,
+      value: newValue,
+    });
 
-  dispatch(setBoard(updatedBoard));
-  dispatch(setClickedCellValue(newValue));
+    dispatch(setBoard(updatedBoard));
+    dispatch(setClickedCellValue(newValue));
 
-  if (boards.solution[y][x] !== updatedBoard[y][x]) {
-    dispatch(setGameStatus(EGameStatus.Failed));
-  }
-};
+    if (boards.solution[y][x] !== updatedBoard[y][x]) {
+      dispatch(setGameStatus(EGameStatus.Failed));
+    }
+  };

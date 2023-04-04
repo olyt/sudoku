@@ -22,7 +22,7 @@ const Modal: FC = () => {
 
   const closeModal: () => void = useCallback(() => {
     if (gameStatus === EGameStatus.Win) {
-      leaveAfterWin(dispatch);
+      dispatch(leaveAfterWin());
     }
 
     dispatch(setModalIsOpen(false));

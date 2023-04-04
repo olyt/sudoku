@@ -19,10 +19,10 @@ const BoardGrid: React.FC = () => {
       const newValue = digits[code] || numpadDigits[code] || 0;
 
       if (newValue) {
-        setValueToBoard(boards, clickedCell, dispatch, newValue);
+        dispatch(setValueToBoard(newValue));
       }
     },
-    [boards, clickedCell, dispatch]
+    [dispatch]
   );
 
   const calculateNewCoordinate: (

@@ -42,7 +42,7 @@ const DigitCell: React.FC<IDigitCellProps> = ({ digit }) => {
 
   const setNumToCellOrHighlight: MouseEventHandler<HTMLDivElement> = () => {
     if (y !== -1 && x !== -1 && !clickedValue) {
-      setValueToBoard(boards, clickedCell, dispatch, digit);
+      dispatch(setValueToBoard(digit));
     } else {
       dispatch(setClickedCell({ y: -1, x: -1, value: digit }));
     }
