@@ -21,6 +21,7 @@ export const startGame =
     dispatch(setSolution(solution));
     dispatch(setGameDifficulty(difficulty));
     dispatch(setGameStatus(EGameStatus.InProgress));
+    dispatch(resetClickedCell);
   };
 
 export const leaveAfterWin = (): TOperation => (dispatch) => {
