@@ -15,9 +15,11 @@ export interface IDifficulties {
   hard: TDifficulty;
 }
 
-export type TCellCoordinates = {
+export interface ICellCoordinates {
   y: number;
   x: number;
-};
+}
 
-export type TCell = TCellCoordinates & { value: number };
+export interface ICell extends ICellCoordinates {
+  value: number;
+}

@@ -7,7 +7,7 @@ import {
   TModalState,
 } from './types';
 import { getBlankBoard } from '../utils/boardHelper';
-import { TCell } from '../types/types';
+import { ICell } from '../types/types';
 
 const initialBoardsState: TBoardsState = {
   currentBoard: getBlankBoard(),
@@ -25,7 +25,7 @@ const initialGameInfo: TGameInfoState = {
   chosenDifficulty: null,
 };
 
-export const initialClickedCell: TCell = {
+export const initialClickedCell: ICell = {
   x: -1,
   y: -1,
   value: 0,

@@ -30,7 +30,7 @@ const StyledDigitCell = styled(BasicCell)<IStyledProps>`
 const DigitCell: React.FC<IDigitCellProps> = ({ digit }) => {
   const [isLocked, setIsLocked] = useState<boolean>(false);
   const { boards, clickedCell, dispatch } = useAppContext();
-  const { y, x, value: clickedValue } = clickedCell;
+  const { y, x } = clickedCell;
 
   useEffect(() => {
     setIsLocked(
@@ -41,7 +41,7 @@ const DigitCell: React.FC<IDigitCellProps> = ({ digit }) => {
   }, [boards.currentBoard, digit]);
 
   const setNumToCellOrHighlight: MouseEventHandler<HTMLDivElement> = () => {
-    if (y !== -1 && x !== -1 && !clickedValue) {
+    if (y !== -1 && x !== -1 && !boards.initialBoard[y][x]) {
       dispatch(setValueToBoard(digit));
     } else {
       dispatch(setClickedCell({ y: -1, x: -1, value: digit }));

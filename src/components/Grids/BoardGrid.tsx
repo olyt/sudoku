@@ -84,6 +84,8 @@ const BoardGrid: React.FC = () => {
   const onKeyUp = useCallback<(event: KeyboardEvent) => void>(
     (event) => {
       const { code } = event;
+      const { y, x } = clickedCell;
+      const cellDoesntClicked: boolean = x === -1 && y === -1;
 
       if (code === escape) {
         dispatch(resetClickedCell);
@@ -91,12 +93,13 @@ const BoardGrid: React.FC = () => {
 
       if (
         [...Object.keys(digits), ...Object.keys(numpadDigits)].includes(code) &&
-        !clickedCell.value
+        !cellDoesntClicked &&
+        !boards.initialBoard[clickedCell.y][clickedCell.x]
       ) {
         handleDigits(code);
       }
     },
-    [clickedCell, dispatch, handleDigits]
+    [clickedCell, dispatch, handleDigits, boards.initialBoard]
   );
 
   const onKeyDown = useCallback<(event: KeyboardEvent) => void>(

@@ -1,5 +1,5 @@
 import { TActionCreator, TActionMap } from '../types';
-import { TCell, TCellCoordinates } from '../../types/types';
+import { ICell, ICellCoordinates } from '../../types/types';
 
 export enum EClickedCellActionTypes {
   SetClickedCell = 'SET_CLICKED_CELL',
@@ -9,10 +9,10 @@ export enum EClickedCellActionTypes {
 }
 
 export type TClickedCellPayload = {
-  [EClickedCellActionTypes.SetClickedCell]: TCell;
+  [EClickedCellActionTypes.SetClickedCell]: ICell;
   [EClickedCellActionTypes.SetClickedCellValue]: number;
   [EClickedCellActionTypes.ResetClickedCell]: undefined;
-  [EClickedCellActionTypes.SetClickedCellCoordinates]: TCellCoordinates;
+  [EClickedCellActionTypes.SetClickedCellCoordinates]: ICellCoordinates;
 };
 
 export type TClickedCellAction =
@@ -31,13 +31,13 @@ export const resetClickedCell: TClickedCellAction = {
   type: EClickedCellActionTypes.ResetClickedCell,
 };
 
-export const setClickedCell: TClickedCellActionCreator<TCell> = (payload) => ({
+export const setClickedCell: TClickedCellActionCreator<ICell> = (payload) => ({
   type: EClickedCellActionTypes.SetClickedCell,
   payload,
 });
 
 export const setClickedCellCoordinates: TClickedCellActionCreator<
-  TCellCoordinates
+  ICellCoordinates
 > = (payload) => ({
   type: EClickedCellActionTypes.SetClickedCellCoordinates,
   payload,

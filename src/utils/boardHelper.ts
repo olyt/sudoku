@@ -1,8 +1,8 @@
-import { TBoard, TCell } from '../types/types';
+import { ICell, TBoard } from '../types/types';
 import Boxes from './Boxes';
 
 type TCopyBoard = (board: TBoard) => TBoard;
-type TBoardValueSetter = (board: TBoard, cell: TCell) => TBoard;
+type TBoardValueSetter = (board: TBoard, cell: ICell) => TBoard;
 type TBoardAxisChecker = (board: TBoard, axisCoordinate: number) => boolean;
 
 const BLANK_BOARD: TBoard = [
