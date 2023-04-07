@@ -2,7 +2,7 @@ import React, { MouseEventHandler, useEffect, useMemo, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import styled from 'styled-components';
 import BasicCell from './BasicCell';
-import { TCell } from '../../types/types';
+import { ICell, ICellCoordinates } from '../../types/types';
 import {
   resetClickedCell,
   setClickedCell,
@@ -18,9 +18,7 @@ export enum ECellStates {
   inactive = 'inactive',
 }
 
-export interface StyledProps {
-  x: number;
-  y: number;
+export interface IStyledProps extends ICellCoordinates {
   state: ECellStates;
 }
 
@@ -28,7 +26,7 @@ const checkBoldBorder = (coordinate: number): boolean => {
   return coordinate === 3 || coordinate === 6;
 };
 
-const StyledBoardCell = styled(BasicCell)<StyledProps>`
+const StyledBoardCell = styled(BasicCell)<IStyledProps>`
   border-left: ${({ x }) => (checkBoldBorder(x) ? 3 : 1)}px solid black;
   border-top: ${({ y }) => (checkBoldBorder(y) ? 3 : 1)}px solid black;
   color: ${({ state, theme }) => {
@@ -65,7 +63,7 @@ const StyledBoardCell = styled(BasicCell)<StyledProps>`
   }
 `;
 
-const BoardCell: React.FC<TCell> = ({ value, x, y }) => {
+const BoardCell: React.FC<ICell> = ({ value, x, y }) => {
   const [cellState, setCellState] = useState<ECellStates>(ECellStates.inactive);
   const { boards, clickedCell, gameInfo, dispatch } = useAppContext();
   const currentMoveInfo = useMemo<{ [Key: string]: boolean }>(

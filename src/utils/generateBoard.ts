@@ -1,6 +1,6 @@
 import { solve } from './solver';
 import { getBlankBoard } from './boardHelper';
-import { IDifficulties, TBoard, TCellCoordinates } from '../types/types';
+import { ICellCoordinates, IDifficulties, TBoard } from '../types/types';
 import Boxes from './Boxes';
 
 type TCheckFn = (_: number[], __: number) => boolean;
@@ -61,7 +61,7 @@ const isColumnFilledProperly = (board: TBoard, column: number): boolean => {
   return true;
 };
 
-const getMirroredCoordinates = (board: TBoard): TCellCoordinates[] => {
+const getMirroredCoordinates = (board: TBoard): ICellCoordinates[] => {
   const swap: { y: number; x: number }[] = [];
 
   for (let row = 0; row < 8; row++) {
