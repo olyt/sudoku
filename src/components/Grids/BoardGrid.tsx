@@ -2,7 +2,6 @@ import React, { useCallback, useEffect } from 'react';
 import BoardCell from '../Cells/BoardCell';
 import { useAppContext } from '../../context/AppContext';
 import { arrows, digits, escape, numpadDigits } from '../../constants/keyboard';
-import { setValueToBoard } from '../../context/operations';
 import {
   resetClickedCell,
   setClickedCell,
@@ -10,19 +9,23 @@ import {
 } from '../../context/clickedCell/actions';
 import { EGameStatus } from '../../context/types';
 import BasicGrid from './BasicGrid';
+import useCellValueHandler, {
+  THandlerCreator,
+} from '../../hooks/useCellValueHandler';
 
 const BoardGrid: React.FC = () => {
   const { boards, clickedCell, gameInfo, dispatch } = useAppContext();
+  const digitHandlerCreator = useCellValueHandler() as THandlerCreator;
 
   const handleDigits = useCallback<(code: string) => void>(
     (code) => {
       const newValue = digits[code] || numpadDigits[code] || 0;
 
       if (newValue) {
-        dispatch(setValueToBoard(newValue));
+        digitHandlerCreator<undefined>(newValue)();
       }
     },
-    [dispatch]
+    [digitHandlerCreator]
   );
 
   const calculateNewCoordinate: (
@@ -84,22 +87,18 @@ const BoardGrid: React.FC = () => {
   const onKeyUp = useCallback<(event: KeyboardEvent) => void>(
     (event) => {
       const { code } = event;
-      const { y, x } = clickedCell;
-      const cellDoesntClicked: boolean = x === -1 && y === -1;
 
       if (code === escape) {
         dispatch(resetClickedCell);
       }
 
       if (
-        [...Object.keys(digits), ...Object.keys(numpadDigits)].includes(code) &&
-        !cellDoesntClicked &&
-        !boards.initialBoard[clickedCell.y][clickedCell.x]
+        [...Object.keys(digits), ...Object.keys(numpadDigits)].includes(code)
       ) {
         handleDigits(code);
       }
     },
-    [clickedCell, dispatch, handleDigits, boards.initialBoard]
+    [dispatch, handleDigits]
   );
 
   const onKeyDown = useCallback<(event: KeyboardEvent) => void>(
