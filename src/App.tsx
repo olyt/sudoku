@@ -7,6 +7,7 @@ import { useAppContext } from './context/AppContext';
 import styled from 'styled-components';
 import useGameStatusTracking from './hooks/useGameStatusTracking';
 import { resetClickedCell } from './context/clickedCell/actions';
+import History from './components/History/History';
 
 const AppWrapper = styled.div`
   text-align: center;
@@ -45,6 +46,7 @@ const App: React.FC = () => {
   return (
     <AppWrapper onClick={undoClickedCell}>
       <Header />
+      <History />
       <BoardGrid />
       <DigitsGrid />
       {modal.isOpen && <Modal />}
