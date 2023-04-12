@@ -1,32 +1,37 @@
 import { ICell } from '../../types/types';
-import { TActionCreator, TActionMap } from '../types';
+import { TActionMap } from '../types';
 
 export enum EHistoryActionTypes {
   PushToHistory = 'PushToHistory',
   GoBack = 'GoBack',
   GoForward = 'GoForward',
+  SetError = 'SetError',
 }
 
 export type THistoryPayload = {
   [EHistoryActionTypes.PushToHistory]: ICell;
   [EHistoryActionTypes.GoBack]: undefined;
   [EHistoryActionTypes.GoForward]: undefined;
+  [EHistoryActionTypes.SetError]: boolean;
 };
 
 export type THistoryAction =
   TActionMap<THistoryPayload>[keyof TActionMap<THistoryPayload>];
 
-type THistoryActionCreator<T> = TActionCreator<T, THistoryAction>;
-
-export const pushToHistory: THistoryActionCreator<ICell> = (payload) => ({
+export const pushToHistory = (payload: ICell): THistoryAction => ({
   type: EHistoryActionTypes.PushToHistory,
   payload,
 });
 
-export const goBack: THistoryActionCreator<undefined> = () => ({
+export const goBack = (): THistoryAction => ({
   type: EHistoryActionTypes.GoBack,
 });
 
-export const goForward: THistoryActionCreator<undefined> = () => ({
+export const goForward = (): THistoryAction => ({
   type: EHistoryActionTypes.GoForward,
+});
+
+export const setError = (payload: boolean): THistoryAction => ({
+  type: EHistoryActionTypes.SetError,
+  payload,
 });

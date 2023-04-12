@@ -12,15 +12,17 @@ const reducer: React.Reducer<THistory, THistoryAction> = (state, action) => {
     case EHistoryActionTypes.GoBack:
       return {
         ...state,
-        currentIndex: state.currentIndex === 0 ? 0 : state.currentIndex - 1,
+        currentIndex: state.currentIndex - 1,
       };
     case EHistoryActionTypes.GoForward:
       return {
         ...state,
-        currentIndex:
-          state.currentIndex === state.cells.length - 1
-            ? state.cells.length - 1
-            : state.currentIndex + 1,
+        currentIndex: state.currentIndex + 1,
+      };
+    case EHistoryActionTypes.SetError:
+      return {
+        ...state,
+        error: action.payload,
       };
     default:
       return state;
