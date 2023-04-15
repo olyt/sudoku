@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { MouseEventHandler, useState } from 'react';
 import HistoryButton from '../Buttons/HistoryButton';
 import styled from 'styled-components';
+import { useAppContext } from '../../context/AppContext';
+import { tryGoBack, tryGoForward } from '../../context/history/operations';
 
 const HistoryWrapper = styled.div`
   height: 100px;
@@ -14,10 +16,30 @@ const HistoryWrapper = styled.div`
 `;
 
 const History: React.FC = () => {
+  const [disabled, setDisabled] = useState<boolean>(false);
+  const { dispatch, history } = useAppContext();
+
+  const handleGoBack: MouseEventHandler<HTMLButtonElement> = () => {
+    setDisabled(true);
+    dispatch(tryGoBack());
+    setDisabled(false);
+  };
+
   return (
     <HistoryWrapper>
-      <HistoryButton>back</HistoryButton>
-      <HistoryButton>forward</HistoryButton>
+      <HistoryButton
+        error={history.error}
+        disabled={disabled}
+        onClick={handleGoBack}
+      >
+        back
+      </HistoryButton>
+      <HistoryButton
+        error={history.error}
+        onClick={() => dispatch(tryGoForward())}
+      >
+        forward
+      </HistoryButton>
     </HistoryWrapper>
   );
 };

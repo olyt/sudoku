@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 import BasicButton from './BasicButton';
 
-const HistoryButton = styled(BasicButton)`
+type TStyledProps = {
+  error: boolean;
+};
+
+const HistoryButton = styled(BasicButton)<TStyledProps>`
   padding: 10px 15px;
   box-sizing: border-box;
   border: 1px solid ${({ theme }) => theme.primary};
@@ -9,7 +13,6 @@ const HistoryButton = styled(BasicButton)`
   border-radius: 5px;
 
   &:hover {
-    border: none;
     background: ${({ theme }) => theme.primary};
     color: ${({ theme }) => theme.secondary};
   }

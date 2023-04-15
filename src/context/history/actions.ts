@@ -6,6 +6,7 @@ export enum EHistoryActionTypes {
   GoBack = 'GoBack',
   GoForward = 'GoForward',
   SetError = 'SetError',
+  SetCurrentIndex = 'SetCurrentIndex',
 }
 
 export type THistoryPayload = {
@@ -13,6 +14,7 @@ export type THistoryPayload = {
   [EHistoryActionTypes.GoBack]: undefined;
   [EHistoryActionTypes.GoForward]: undefined;
   [EHistoryActionTypes.SetError]: boolean;
+  [EHistoryActionTypes.SetCurrentIndex]: number;
 };
 
 export type THistoryAction =
@@ -33,5 +35,10 @@ export const goForward = (): THistoryAction => ({
 
 export const setError = (payload: boolean): THistoryAction => ({
   type: EHistoryActionTypes.SetError,
+  payload,
+});
+
+export const setCurrentIndex = (payload: number): THistoryAction => ({
+  type: EHistoryActionTypes.SetCurrentIndex,
   payload,
 });

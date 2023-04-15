@@ -7,7 +7,10 @@ const reducer: React.Reducer<THistory, THistoryAction> = (state, action) => {
     case EHistoryActionTypes.PushToHistory:
       return {
         ...state,
-        cells: [...state.cells, action.payload],
+        cells:
+          state.cells.length <= 9
+            ? [...state.cells, action.payload]
+            : [...state.cells.slice(1), action.payload],
       };
     case EHistoryActionTypes.GoBack:
       return {
@@ -23,6 +26,11 @@ const reducer: React.Reducer<THistory, THistoryAction> = (state, action) => {
       return {
         ...state,
         error: action.payload,
+      };
+    case EHistoryActionTypes.SetCurrentIndex:
+      return {
+        ...state,
+        currentIndex: action.payload,
       };
     default:
       return state;

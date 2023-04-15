@@ -12,6 +12,7 @@ import BasicGrid from './BasicGrid';
 import useCellValueHandler, {
   THandlerCreator,
 } from '../../hooks/useCellValueHandler';
+import { setCurrentIndex } from '../../context/history/actions';
 
 const BoardGrid: React.FC = () => {
   const { boards, clickedCell, gameInfo, dispatch } = useAppContext();
@@ -90,6 +91,7 @@ const BoardGrid: React.FC = () => {
 
       if (code === escape) {
         dispatch(resetClickedCell);
+        dispatch(setCurrentIndex(-1));
       }
 
       if (
