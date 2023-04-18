@@ -15,8 +15,8 @@ const HeaderButton = styled(BasicButton)`
     background: ${({ theme }) => theme.primaryLight};
   }
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}}) {
-    max-width: initial;
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    max-width: none;
     width: 50%;
 
     &:hover,
