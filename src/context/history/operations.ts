@@ -1,14 +1,14 @@
-import { TOperation } from '../types';
-import { goForward, setCurrentIndex, setError } from './actions';
+import { EGameStatus, TOperation } from '../types';
+import { goBack, goForward, setCurrentIndex } from './actions';
 import { setClickedCell } from '../clickedCell/actions';
 
 export const tryGoBack = (): TOperation => (dispatch, state) => {
   const {
     history: { currentIndex, cells },
+    gameInfo: { gameStatus },
   } = state;
 
-  if (!currentIndex) {
-    dispatch(setError(true));
+  if (!currentIndex || gameStatus === EGameStatus.NotStarted) {
     return;
   }
 
@@ -18,17 +18,20 @@ export const tryGoBack = (): TOperation => (dispatch, state) => {
     return;
   }
 
-  dispatch(goForward());
+  dispatch(goBack());
   dispatch(setClickedCell(cells[currentIndex - 1]));
 };
 
 export const tryGoForward = (): TOperation => (dispatch, state) => {
   const {
     history: { currentIndex, cells },
+    gameInfo: { gameStatus },
   } = state;
 
-  if (currentIndex === cells.length - 1) {
-    dispatch(setError(true));
+  if (
+    currentIndex === cells.length - 1 ||
+    gameStatus === EGameStatus.NotStarted
+  ) {
     return;
   }
 
