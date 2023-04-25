@@ -8,7 +8,7 @@ import {
 } from '../../context/history/operations';
 
 const HistoryWrapper = styled.div`
-  height: 100px;
+  max-height: 50px;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -31,10 +31,10 @@ const History: React.FC = () => {
 
   return (
     <HistoryWrapper>
-      <HistoryButton error={history.error} onClick={handleGoBack}>
+      <HistoryButton error={history.goBackError} onClick={handleGoBack}>
         back
       </HistoryButton>
-      <HistoryButton error={history.error} onClick={handleGoForward}>
+      <HistoryButton error={history.goForwardError} onClick={handleGoForward}>
         forward
       </HistoryButton>
     </HistoryWrapper>

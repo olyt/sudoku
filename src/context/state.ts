@@ -35,7 +35,8 @@ export const initialClickedCell: ICell = {
 export const initialHistory: THistory = {
   cells: [],
   currentIndex: -1,
-  error: false,
+  goBackError: false,
+  goForwardError: false,
 };
 
 export const context: IAppContext = {

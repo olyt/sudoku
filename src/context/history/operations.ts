@@ -1,5 +1,11 @@
 import { EGameStatus, TOperation } from '../types';
-import { goBack, goForward, setCurrentIndex } from './actions';
+import {
+  goBack,
+  goForward,
+  setCurrentIndex,
+  setGoBackError,
+  setGoForwardError,
+} from './actions';
 import { setClickedCell } from '../clickedCell/actions';
 
 export enum EDirection {
@@ -14,13 +20,24 @@ export const tryToGoThroughHistory =
       history: { currentIndex, cells },
       gameInfo: { gameStatus },
     } = state;
-    const isFroward = direction === EDirection.Forward;
+    const isForward = direction === EDirection.Forward;
+
+    if (gameStatus === EGameStatus.NotStarted) {
+      return;
+    }
 
     if (
-      (!currentIndex && !isFroward) ||
-      (currentIndex === cells.length - 1 && isFroward) ||
-      gameStatus === EGameStatus.NotStarted
+      (!currentIndex && !isForward) ||
+      (currentIndex === cells.length - 1 && isForward)
     ) {
+      dispatch(isForward ? setGoForwardError(true) : setGoBackError(true));
+      setTimeout(
+        () =>
+          dispatch(
+            isForward ? setGoForwardError(false) : setGoBackError(false)
+          ),
+        400
+      );
       return;
     }
 
@@ -30,8 +47,8 @@ export const tryToGoThroughHistory =
       return;
     }
 
-    const nextIndex = isFroward ? currentIndex + 1 : currentIndex - 1;
+    const nextIndex = isForward ? currentIndex + 1 : currentIndex - 1;
 
-    dispatch(isFroward ? goForward() : goBack());
+    dispatch(isForward ? goForward() : goBack());
     dispatch(setClickedCell(cells[nextIndex]));
   };

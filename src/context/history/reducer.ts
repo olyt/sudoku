@@ -22,10 +22,15 @@ const reducer: React.Reducer<THistory, THistoryAction> = (state, action) => {
         ...state,
         currentIndex: state.currentIndex + 1,
       };
-    case EHistoryActionTypes.SetError:
+    case EHistoryActionTypes.SetGoBackError:
       return {
         ...state,
-        error: action.payload,
+        goBackError: action.payload,
+      };
+    case EHistoryActionTypes.SetGoForwardError:
+      return {
+        ...state,
+        goForwardError: action.payload,
       };
     case EHistoryActionTypes.SetCurrentIndex:
       return {
