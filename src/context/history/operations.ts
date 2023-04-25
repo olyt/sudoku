@@ -2,45 +2,36 @@ import { EGameStatus, TOperation } from '../types';
 import { goBack, goForward, setCurrentIndex } from './actions';
 import { setClickedCell } from '../clickedCell/actions';
 
-export const tryGoBack = (): TOperation => (dispatch, state) => {
-  const {
-    history: { currentIndex, cells },
-    gameInfo: { gameStatus },
-  } = state;
+export enum EDirection {
+  Back = 'Back',
+  Forward = 'Forward',
+}
 
-  if (!currentIndex || gameStatus === EGameStatus.NotStarted) {
-    return;
-  }
+export const tryToGoThroughHistory =
+  (direction: EDirection): TOperation =>
+  (dispatch, state) => {
+    const {
+      history: { currentIndex, cells },
+      gameInfo: { gameStatus },
+    } = state;
+    const isFroward = direction === EDirection.Forward;
 
-  if (currentIndex === -1) {
-    dispatch(setCurrentIndex(cells.length - 1));
-    dispatch(setClickedCell(cells[cells.length - 1]));
-    return;
-  }
+    if (
+      (!currentIndex && !isFroward) ||
+      (currentIndex === cells.length - 1 && isFroward) ||
+      gameStatus === EGameStatus.NotStarted
+    ) {
+      return;
+    }
 
-  dispatch(goBack());
-  dispatch(setClickedCell(cells[currentIndex - 1]));
-};
+    if (currentIndex === -1) {
+      dispatch(setCurrentIndex(cells.length - 1));
+      dispatch(setClickedCell(cells[cells.length - 1]));
+      return;
+    }
 
-export const tryGoForward = (): TOperation => (dispatch, state) => {
-  const {
-    history: { currentIndex, cells },
-    gameInfo: { gameStatus },
-  } = state;
+    const nextIndex = isFroward ? currentIndex + 1 : currentIndex - 1;
 
-  if (
-    currentIndex === cells.length - 1 ||
-    gameStatus === EGameStatus.NotStarted
-  ) {
-    return;
-  }
-
-  if (currentIndex === -1) {
-    dispatch(setCurrentIndex(cells.length - 1));
-    dispatch(setClickedCell(cells[cells.length - 1]));
-    return;
-  }
-
-  dispatch(goForward());
-  dispatch(setClickedCell(cells[currentIndex + 1]));
-};
+    dispatch(isFroward ? goForward() : goBack());
+    dispatch(setClickedCell(cells[nextIndex]));
+  };
