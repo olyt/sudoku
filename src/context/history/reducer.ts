@@ -1,6 +1,7 @@
 import React from 'react';
 import { THistory } from '../types';
 import { EHistoryActionTypes, THistoryAction } from './actions';
+import { initialHistory } from '../state';
 
 const reducer: React.Reducer<THistory, THistoryAction> = (state, action) => {
   switch (action.type) {
@@ -37,6 +38,8 @@ const reducer: React.Reducer<THistory, THistoryAction> = (state, action) => {
         ...state,
         currentIndex: action.payload,
       };
+    case EHistoryActionTypes.ResetHistory:
+      return initialHistory;
     default:
       return state;
   }

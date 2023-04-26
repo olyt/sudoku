@@ -8,12 +8,14 @@ export enum EHistoryActionTypes {
   SetGoBackError = 'SetGoBackError',
   SetGoForwardError = 'SetGoForwardError',
   SetCurrentIndex = 'SetCurrentIndex',
+  ResetHistory = 'ResetHistory',
 }
 
 export type THistoryPayload = {
   [EHistoryActionTypes.PushToHistory]: ICell;
   [EHistoryActionTypes.GoBack]: undefined;
   [EHistoryActionTypes.GoForward]: undefined;
+  [EHistoryActionTypes.ResetHistory]: undefined;
   [EHistoryActionTypes.SetGoBackError]: boolean;
   [EHistoryActionTypes.SetGoForwardError]: boolean;
   [EHistoryActionTypes.SetCurrentIndex]: number;
@@ -33,6 +35,10 @@ export const goBack = (): THistoryAction => ({
 
 export const goForward = (): THistoryAction => ({
   type: EHistoryActionTypes.GoForward,
+});
+
+export const resetHistory = (): THistoryAction => ({
+  type: EHistoryActionTypes.ResetHistory,
 });
 
 export const setGoBackError = (payload: boolean): THistoryAction => ({
