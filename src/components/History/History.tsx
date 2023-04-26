@@ -8,13 +8,12 @@ import {
 } from '../../context/history/operations';
 
 const HistoryWrapper = styled.div`
-  max-height: 50px;
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: 50%;
   right: 15%;
   margin: auto;
   display: flex;
+  align-items: center;
   gap: 10px;
 `;
 

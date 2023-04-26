@@ -46,7 +46,7 @@ const animation = (
 `;
 
 const HistoryButton = styled(BasicButton)<TStyledProps>`
-  padding: 10px 15px;
+  padding: 5px 10px;
   box-sizing: border-box;
   border: 1px solid ${({ theme }) => theme.primary};
   color: ${({ theme }) => theme.primary};
