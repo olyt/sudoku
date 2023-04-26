@@ -6,6 +6,7 @@ import HeaderButton from '../Buttons/HeaderButton';
 import { setModalComponent, setModalIsOpen } from '../../context/modal/actions';
 import { setGameStatus } from '../../context/gameInfo/actions';
 import { setBoard } from '../../context/boards/actions';
+import { resetHistory } from '../../context/history/actions';
 
 const Header: React.FC = () => {
   const { boards, gameInfo, dispatch } = useAppContext();
@@ -17,6 +18,7 @@ const Header: React.FC = () => {
 
   const resetGame: MouseEventHandler<HTMLButtonElement> = () => {
     dispatch(setBoard(boards.initialBoard));
+    dispatch(resetHistory);
     if (gameInfo.gameStatus === EGameStatus.Failed) {
       dispatch(setGameStatus(EGameStatus.InProgress));
     }
