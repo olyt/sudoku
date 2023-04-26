@@ -29,17 +29,17 @@ export const pushToHistory = (payload: ICell): THistoryAction => ({
   payload,
 });
 
-export const goBack = (): THistoryAction => ({
+export const goBack: THistoryAction = {
   type: EHistoryActionTypes.GoBack,
-});
+};
 
-export const goForward = (): THistoryAction => ({
+export const goForward: THistoryAction = {
   type: EHistoryActionTypes.GoForward,
-});
+};
 
-export const resetHistory = (): THistoryAction => ({
+export const resetHistory: THistoryAction = {
   type: EHistoryActionTypes.ResetHistory,
-});
+};
 
 export const setGoBackError = (payload: boolean): THistoryAction => ({
   type: EHistoryActionTypes.SetGoBackError,

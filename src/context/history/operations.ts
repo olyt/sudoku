@@ -49,6 +49,6 @@ export const tryToGoThroughHistory =
 
     const nextIndex = isForward ? currentIndex + 1 : currentIndex - 1;
 
-    dispatch(isForward ? goForward() : goBack());
+    dispatch(isForward ? goForward : goBack);
     dispatch(setClickedCell(cells[nextIndex]));
   };
