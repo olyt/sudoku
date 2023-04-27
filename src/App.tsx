@@ -31,6 +31,7 @@ const AppWrapper = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     height: ${window.innerHeight}px;
+    padding-bottom: 10px;
   }
 `;
 

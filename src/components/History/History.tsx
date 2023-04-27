@@ -11,10 +11,19 @@ const HistoryWrapper = styled.div`
   position: absolute;
   top: 50%;
   right: 15%;
-  margin: auto;
   display: flex;
   align-items: center;
   gap: 10px;
+
+  @media (min-width: ${({ theme }) =>
+      theme.breakpoints.smPlus}) and (max-width: ${({ theme }) =>
+      theme.breakpoints.lg}) {
+    position: initial;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    position: initial;
+  }
 `;
 
 const History: React.FC = () => {
