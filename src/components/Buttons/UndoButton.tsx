@@ -1,3 +1,4 @@
+import React, { MouseEventHandler } from 'react';
 import styled, {
   css,
   DefaultTheme,
@@ -7,6 +8,8 @@ import styled, {
   ThemeProps,
 } from 'styled-components';
 import BasicButton from './BasicButton';
+import { useAppContext } from '../../context/AppContext';
+import { tryToUndo } from '../../context/history/operations';
 
 type TStyledProps = {
   error: boolean;
@@ -45,7 +48,7 @@ const animation = (
   animation: ${getShake(theme)} 0.4s 1 linear;
 `;
 
-const HistoryButton = styled(BasicButton)<TStyledProps>`
+const UndoStyledButton = styled(BasicButton)<TStyledProps>`
   padding: 5px 10px;
   box-sizing: border-box;
   border: 1px solid ${({ theme }) => theme.primary};
@@ -59,4 +62,18 @@ const HistoryButton = styled(BasicButton)<TStyledProps>`
   }
 `;
 
-export default HistoryButton;
+const UndoButton: React.FC = () => {
+  const { dispatch, history } = useAppContext();
+
+  const handleUndo: MouseEventHandler<HTMLButtonElement> = () => {
+    dispatch(tryToUndo());
+  };
+
+  return (
+    <UndoStyledButton onClick={handleUndo} error={history.error}>
+      Undo
+    </UndoStyledButton>
+  );
+};
+
+export default UndoButton;
