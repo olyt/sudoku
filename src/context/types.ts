@@ -32,9 +32,7 @@ export type TModalState = {
 
 export type THistory = {
   cells: ICell[];
-  currentIndex: number;
-  goBackError: boolean;
-  goForwardError: boolean;
+  error: boolean;
 };
 
 export type TGameInfoState = {

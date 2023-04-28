@@ -9,34 +9,19 @@ const reducer: React.Reducer<THistory, THistoryAction> = (state, action) => {
       return {
         ...state,
         cells:
-          state.cells.length <= 9
+          state.cells.length <= 4
             ? [...state.cells, action.payload]
             : [...state.cells.slice(1), action.payload],
       };
-    case EHistoryActionTypes.GoBack:
+    case EHistoryActionTypes.Undo:
       return {
         ...state,
-        currentIndex: state.currentIndex - 1,
+        cells: state.cells.slice(0, state.cells.length - 1),
       };
-    case EHistoryActionTypes.GoForward:
+    case EHistoryActionTypes.SetError:
       return {
         ...state,
-        currentIndex: state.currentIndex + 1,
-      };
-    case EHistoryActionTypes.SetGoBackError:
-      return {
-        ...state,
-        goBackError: action.payload,
-      };
-    case EHistoryActionTypes.SetGoForwardError:
-      return {
-        ...state,
-        goForwardError: action.payload,
-      };
-    case EHistoryActionTypes.SetCurrentIndex:
-      return {
-        ...state,
-        currentIndex: action.payload,
+        error: action.payload,
       };
     case EHistoryActionTypes.ResetHistory:
       return initialHistory;

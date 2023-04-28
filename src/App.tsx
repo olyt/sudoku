@@ -8,7 +8,6 @@ import styled from 'styled-components';
 import useGameStatusTracking from './hooks/useGameStatusTracking';
 import { resetClickedCell } from './context/clickedCell/actions';
 import History from './components/History/History';
-import { setCurrentIndex } from './context/history/actions';
 
 const AppWrapper = styled.div`
   text-align: center;
@@ -42,7 +41,6 @@ const App: React.FC = () => {
   const undoClickedCell: MouseEventHandler<HTMLDivElement> = (event) => {
     if (event.target === event.currentTarget) {
       dispatch(resetClickedCell);
-      dispatch(setCurrentIndex(-1));
     }
   };
 

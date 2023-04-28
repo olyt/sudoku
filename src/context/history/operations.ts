@@ -1,54 +1,35 @@
 import { EGameStatus, TOperation } from '../types';
-import {
-  goBack,
-  goForward,
-  setCurrentIndex,
-  setGoBackError,
-  setGoForwardError,
-} from './actions';
+import { setError, undo } from './actions';
 import { setClickedCell } from '../clickedCell/actions';
+import { setBoard } from '../boards/actions';
+import { updateValueOnBoard } from '../../utils/boardHelper';
 
-export enum EDirection {
-  Back = 'Back',
-  Forward = 'Forward',
-}
+export const tryToUndo = (): TOperation => (dispatch, state) => {
+  const {
+    history: { cells },
+    gameInfo: { gameStatus },
+    boards: { currentBoard },
+  } = state;
 
-export const tryToGoThroughHistory =
-  (direction: EDirection): TOperation =>
-  (dispatch, state) => {
-    const {
-      history: { currentIndex, cells },
-      gameInfo: { gameStatus },
-    } = state;
-    const isForward = direction === EDirection.Forward;
+  if (gameStatus === EGameStatus.NotStarted) {
+    return;
+  }
 
-    if (gameStatus === EGameStatus.NotStarted) {
-      return;
-    }
+  if (!cells.length) {
+    dispatch(setError(true));
+    setTimeout(() => dispatch(setError(false)), 400);
+    return;
+  }
 
-    if (
-      (!currentIndex && !isForward) ||
-      (currentIndex === cells.length - 1 && isForward)
-    ) {
-      dispatch(isForward ? setGoForwardError(true) : setGoBackError(true));
-      setTimeout(
-        () =>
-          dispatch(
-            isForward ? setGoForwardError(false) : setGoBackError(false)
-          ),
-        400
-      );
-      return;
-    }
-
-    if (currentIndex === -1) {
-      dispatch(setCurrentIndex(cells.length - 1));
-      dispatch(setClickedCell(cells[cells.length - 1]));
-      return;
-    }
-
-    const nextIndex = isForward ? currentIndex + 1 : currentIndex - 1;
-
-    dispatch(isForward ? goForward : goBack);
-    dispatch(setClickedCell(cells[nextIndex]));
-  };
+  const cellToUndo = cells[cells.length - 1];
+  dispatch(setClickedCell(cellToUndo));
+  dispatch(
+    setBoard(
+      updateValueOnBoard(currentBoard, {
+        ...cellToUndo,
+        value: 0,
+      })
+    )
+  );
+  dispatch(undo);
+};
