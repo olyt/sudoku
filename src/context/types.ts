@@ -4,6 +4,7 @@ import { TBoardsAction } from './boards/actions';
 import { TGameInfoAction } from './gameInfo/actions';
 import { TModalAction } from './modal/actions';
 import { TClickedCellAction } from './clickedCell/actions';
+import { THistoryAction } from './history/actions';
 
 export enum EGameStatus {
   NotStarted = 'NOT_STARTED',
@@ -29,6 +30,11 @@ export type TModalState = {
   component: EModalComponents;
 };
 
+export type THistory = {
+  cells: ICell[];
+  error: boolean;
+};
+
 export type TGameInfoState = {
   chosenDifficulty: keyof IDifficulties | null;
   gameStatus: EGameStatus;
@@ -39,6 +45,7 @@ export interface IAppContext {
   boards: TBoardsState;
   modal: TModalState;
   gameInfo: TGameInfoState;
+  history: THistory;
 }
 
 export type TAction =
@@ -46,6 +53,7 @@ export type TAction =
   | TGameInfoAction
   | TModalAction
   | TClickedCellAction
+  | THistoryAction
   | TOperation;
 
 export type TDispatch = React.Dispatch<TAction>;

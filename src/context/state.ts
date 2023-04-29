@@ -4,6 +4,7 @@ import {
   IAppContext,
   TBoardsState,
   TGameInfoState,
+  THistory,
   TModalState,
 } from './types';
 import { getBlankBoard } from '../utils/boardHelper';
@@ -31,9 +32,15 @@ export const initialClickedCell: ICell = {
   value: 0,
 };
 
+export const initialHistory: THistory = {
+  cells: [],
+  error: false,
+};
+
 export const context: IAppContext = {
   clickedCell: initialClickedCell,
   boards: initialBoardsState,
   modal: initialModalState,
   gameInfo: initialGameInfo,
+  history: initialHistory,
 };
