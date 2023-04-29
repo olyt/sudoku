@@ -1,17 +1,18 @@
 {
   "files": {
-    "main.js": "/sudoku/static/js/main.e295087f.chunk.js",
-    "main.js.map": "/sudoku/static/js/main.e295087f.chunk.js.map",
+    "main.js": "/sudoku/static/js/main.dace51ae.chunk.js",
+    "main.js.map": "/sudoku/static/js/main.dace51ae.chunk.js.map",
     "runtime-main.js": "/sudoku/static/js/runtime-main.13fe83b7.js",
     "runtime-main.js.map": "/sudoku/static/js/runtime-main.13fe83b7.js.map",
-    "static/js/2.390a3046.chunk.js": "/sudoku/static/js/2.390a3046.chunk.js",
-    "static/js/2.390a3046.chunk.js.map": "/sudoku/static/js/2.390a3046.chunk.js.map",
+    "static/js/2.973db239.chunk.js": "/sudoku/static/js/2.973db239.chunk.js",
+    "static/js/2.973db239.chunk.js.map": "/sudoku/static/js/2.973db239.chunk.js.map",
     "index.html": "/sudoku/index.html",
-    "static/js/2.390a3046.chunk.js.LICENSE.txt": "/sudoku/static/js/2.390a3046.chunk.js.LICENSE.txt"
+    "static/js/2.973db239.chunk.js.LICENSE.txt": "/sudoku/static/js/2.973db239.chunk.js.LICENSE.txt",
+    "static/media/undo.9fcc98ee.svg": "/sudoku/static/media/undo.9fcc98ee.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.13fe83b7.js",
-    "static/js/2.390a3046.chunk.js",
-    "static/js/main.e295087f.chunk.js"
+    "static/js/2.973db239.chunk.js",
+    "static/js/main.dace51ae.chunk.js"
   ]
 }
