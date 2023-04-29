@@ -1,7 +1,7 @@
 import styled, { DefaultTheme, StyledComponent } from 'styled-components';
 import React from 'react';
 
-interface IBasicIconProps {
+export interface IBasicIconProps {
   width?: number;
   height?: number;
 }

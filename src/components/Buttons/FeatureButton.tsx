@@ -5,17 +5,22 @@ import styled, {
   FlattenInterpolation,
   Keyframes,
   keyframes,
+  StyledComponent,
   ThemeProps,
 } from 'styled-components';
-import { useAppContext } from '../../context/AppContext';
-import { tryToUndo } from '../../context/history/operations';
-import { ReactComponent as Icon } from '../../assets/svg/undo.svg';
 import HeaderButton from './HeaderButton';
-import { getBasicIcon } from '../../utils/svgHelper';
+import { getBasicIcon, IBasicIconProps } from '../../utils/svgHelper';
 
 type TStyledProps = {
   error: boolean;
 };
+
+type TStyledIcon = StyledComponent<
+  React.FunctionComponent<React.SVGProps<SVGSVGElement>>,
+  DefaultTheme,
+  IBasicIconProps & TStyledProps,
+  never
+>;
 
 const getShake = (theme: DefaultTheme): Keyframes => keyframes`
   0% {
@@ -46,7 +51,7 @@ const animation = (
   animation: ${getShake(theme)} 0.4s 1 linear;
 `;
 
-const errorButtonCss = css`
+const buttonErrorCss = css`
   background: ${({ theme }) => theme.lightError};
 `;
 
@@ -54,11 +59,13 @@ const UndoStyledButton = styled(HeaderButton)<TStyledProps>`
   width: 75px;
 
   &:hover {
-    ${({ error }) => error && errorButtonCss};
+    ${({ error }) => error && buttonErrorCss};
   }
 `;
 
-const UndoStyledIcon = styled(getBasicIcon(Icon))<TStyledProps>`
+const getIcon = (icon: React.FC): TStyledIcon => styled(
+  getBasicIcon(icon)
+)<TStyledProps>`
   fill: ${({ theme }) => theme.primaryLight};
   transition: 0.3s ease;
   ${(props) => props.error && animation(props.theme)};
@@ -68,18 +75,24 @@ const UndoStyledIcon = styled(getBasicIcon(Icon))<TStyledProps>`
   }
 `;
 
-const UndoButton: React.FC = () => {
-  const { dispatch, history } = useAppContext();
+interface IFeatureButtonProps {
+  handler: MouseEventHandler<HTMLButtonElement>;
+  icon: React.FC;
+  error: boolean;
+}
 
-  const handleUndo: MouseEventHandler<HTMLButtonElement> = () => {
-    dispatch(tryToUndo());
-  };
+const FeatureButton: React.FC<IFeatureButtonProps> = ({
+  handler,
+  error,
+  icon,
+}) => {
+  const Icon = getIcon(icon);
 
   return (
-    <UndoStyledButton onClick={handleUndo} error={history.error}>
-      <UndoStyledIcon error={history.error} />
+    <UndoStyledButton onClick={handler} error={error}>
+      <Icon error={error} />
     </UndoStyledButton>
   );
 };
 
-export default UndoButton;
+export default FeatureButton;

@@ -1,37 +1,15 @@
-import React, { MouseEventHandler } from 'react';
-import { useAppContext } from '../../context/AppContext';
-import { EGameStatus, EModalComponents } from '../../context/types';
+import React from 'react';
 import { ButtonsWrapper, H1, StyledHeader } from './styles';
-import HeaderButton from '../Buttons/HeaderButton';
-import { setModalComponent, setModalIsOpen } from '../../context/modal/actions';
-import { setGameStatus } from '../../context/gameInfo/actions';
-import { setBoard } from '../../context/boards/actions';
-import { resetHistory } from '../../context/history/actions';
-import UndoButton from '../Buttons/UndoButton';
+import GameControlButtons from '../Buttons/Blocks/GameControlButtons';
+import FeatureButtons from '../Buttons/Blocks/FeatureButtons';
 
 const Header: React.FC = () => {
-  const { boards, gameInfo, dispatch } = useAppContext();
-
-  const startNewGame: MouseEventHandler<HTMLButtonElement> = () => {
-    dispatch(setModalComponent(EModalComponents.DifficultyBlock));
-    dispatch(setModalIsOpen(true));
-  };
-
-  const resetGame: MouseEventHandler<HTMLButtonElement> = () => {
-    dispatch(setBoard(boards.initialBoard));
-    dispatch(resetHistory);
-    if (gameInfo.gameStatus === EGameStatus.Failed) {
-      dispatch(setGameStatus(EGameStatus.InProgress));
-    }
-  };
-
   return (
     <StyledHeader>
       <H1>sudoku</H1>
       <ButtonsWrapper>
-        <UndoButton />
-        <HeaderButton onClick={startNewGame}>New Game</HeaderButton>
-        <HeaderButton onClick={resetGame}>Reset</HeaderButton>
+        <FeatureButtons />
+        <GameControlButtons />
       </ButtonsWrapper>
     </StyledHeader>
   );

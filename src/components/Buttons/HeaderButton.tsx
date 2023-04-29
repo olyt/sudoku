@@ -17,7 +17,7 @@ const HeaderButton = styled(BasicButton)`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}}) {
     max-width: initial;
-    width: 50%;
+    width: calc(100% / 3);
 
     &:hover,
     &:active {
