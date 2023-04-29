@@ -7,6 +7,7 @@ import { setModalComponent, setModalIsOpen } from '../../context/modal/actions';
 import { setGameStatus } from '../../context/gameInfo/actions';
 import { setBoard } from '../../context/boards/actions';
 import { resetHistory } from '../../context/history/actions';
+import UndoButton from '../Buttons/UndoButton';
 
 const Header: React.FC = () => {
   const { boards, gameInfo, dispatch } = useAppContext();
@@ -28,6 +29,7 @@ const Header: React.FC = () => {
     <StyledHeader>
       <H1>sudoku</H1>
       <ButtonsWrapper>
+        <UndoButton />
         <HeaderButton onClick={startNewGame}>New Game</HeaderButton>
         <HeaderButton onClick={resetGame}>Reset</HeaderButton>
       </ButtonsWrapper>

@@ -7,9 +7,11 @@ import styled, {
   keyframes,
   ThemeProps,
 } from 'styled-components';
-import BasicButton from './BasicButton';
 import { useAppContext } from '../../context/AppContext';
 import { tryToUndo } from '../../context/history/operations';
+import { ReactComponent as Icon } from '../../assets/svg/undo.svg';
+import HeaderButton from './HeaderButton';
+import { getBasicIcon } from '../../utils/svgHelper';
 
 type TStyledProps = {
   error: boolean;
@@ -17,10 +19,8 @@ type TStyledProps = {
 
 const getShake = (theme: DefaultTheme): Keyframes => keyframes`
   0% {
-    background: ${theme.lightError};
-    color: ${theme.error};
+    fill: ${theme.error};
     transform: translate(15px);
-    border-color: ${theme.error};
   }
   20% {
     transform: translate(-15px);
@@ -36,9 +36,7 @@ const getShake = (theme: DefaultTheme): Keyframes => keyframes`
   }
   100% {
     transform: translate(0px);
-    background: ${theme.lightError};
-    color: ${theme.error};
-    border-color: ${theme.error};
+    fill: ${theme.error};
   }
 `;
 
@@ -48,17 +46,25 @@ const animation = (
   animation: ${getShake(theme)} 0.4s 1 linear;
 `;
 
-const UndoStyledButton = styled(BasicButton)<TStyledProps>`
-  padding: 5px 10px;
-  box-sizing: border-box;
-  border: 1px solid ${({ theme }) => theme.primary};
-  color: ${({ theme }) => theme.primary};
-  border-radius: 5px;
-  ${(props) => props.error && animation(props.theme)};
+const errorButtonCss = css`
+  background: ${({ theme }) => theme.lightError};
+`;
+
+const UndoStyledButton = styled(HeaderButton)<TStyledProps>`
+  width: 75px;
 
   &:hover {
-    background: ${({ theme }) => theme.primary};
-    color: ${({ theme }) => theme.secondary};
+    ${({ error }) => error && errorButtonCss};
+  }
+`;
+
+const UndoStyledIcon = styled(getBasicIcon(Icon))<TStyledProps>`
+  fill: ${({ theme }) => theme.primaryLight};
+  transition: 0.3s ease;
+  ${(props) => props.error && animation(props.theme)};
+
+  ${UndoStyledButton}:hover & {
+    fill: ${({ theme }) => theme.primary};
   }
 `;
 
@@ -71,7 +77,7 @@ const UndoButton: React.FC = () => {
 
   return (
     <UndoStyledButton onClick={handleUndo} error={history.error}>
-      Undo
+      <UndoStyledIcon error={history.error} />
     </UndoStyledButton>
   );
 };

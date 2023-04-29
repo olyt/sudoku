@@ -7,7 +7,6 @@ import { useAppContext } from './context/AppContext';
 import styled from 'styled-components';
 import useGameStatusTracking from './hooks/useGameStatusTracking';
 import { resetClickedCell } from './context/clickedCell/actions';
-import UndoButton from './components/Buttons/UndoButton';
 
 const AppWrapper = styled.div`
   text-align: center;
@@ -47,7 +46,6 @@ const App: React.FC = () => {
   return (
     <AppWrapper onClick={undoClickedCell}>
       <Header />
-      <UndoButton />
       <BoardGrid />
       <DigitsGrid />
       {modal.isOpen && <Modal />}
