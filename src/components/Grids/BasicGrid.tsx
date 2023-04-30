@@ -22,7 +22,7 @@ const BasicGrid = styled.section<Props>`
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    width: 95vw;
+    width: 98vw;
   }
 `;
 

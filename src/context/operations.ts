@@ -10,6 +10,7 @@ import { setBoard, setInitialBoard, setSolution } from './boards/actions';
 import { setGameDifficulty, setGameStatus } from './gameInfo/actions';
 import { resetClickedCell, setClickedCellValue } from './clickedCell/actions';
 import { setModalComponent } from './modal/actions';
+import { pushToHistory, resetHistory } from './history/actions';
 
 export const startGame =
   (difficulty: keyof IDifficulties): TOperation =>
@@ -22,6 +23,7 @@ export const startGame =
     dispatch(setGameDifficulty(difficulty));
     dispatch(setGameStatus(EGameStatus.InProgress));
     dispatch(resetClickedCell);
+    dispatch(resetHistory);
   };
 
 export const leaveAfterWin = (): TOperation => (dispatch) => {
@@ -50,6 +52,7 @@ export const setValueToBoard =
 
     dispatch(setBoard(updatedBoard));
     dispatch(setClickedCellValue(newValue));
+    dispatch(pushToHistory({ ...clickedCell, value: newValue }));
 
     if (boards.solution[y][x] !== updatedBoard[y][x]) {
       dispatch(setGameStatus(EGameStatus.Failed));
