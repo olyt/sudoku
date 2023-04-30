@@ -63,6 +63,6 @@ export const ButtonsWrapper = styled.div`
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    justify-content: space-around;
+    justify-content: initial;
   }
 `;

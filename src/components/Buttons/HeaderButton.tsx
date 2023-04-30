@@ -18,10 +18,11 @@ const HeaderButton = styled(BasicButton)`
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     max-width: none;
     width: calc(100% / 3);
+    flex: 1;
 
     &:hover,
     &:active {
-      color: ${({ theme }) => theme.primary};
+      color: ${({ theme }) => theme.primaryLight};
       background: none;
     }
   }
