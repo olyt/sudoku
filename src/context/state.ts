@@ -37,10 +37,13 @@ export const initialHistory: THistory = {
   error: false,
 };
 
+export const initialHints = 5;
+
 export const context: IAppContext = {
   clickedCell: initialClickedCell,
   boards: initialBoardsState,
   modal: initialModalState,
   gameInfo: initialGameInfo,
   history: initialHistory,
+  hints: initialHints,
 };

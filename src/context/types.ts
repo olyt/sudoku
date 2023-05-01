@@ -46,6 +46,7 @@ export interface IAppContext {
   modal: TModalState;
   gameInfo: TGameInfoState;
   history: THistory;
+  hints: number;
 }
 
 export type TAction =
