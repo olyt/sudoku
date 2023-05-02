@@ -5,6 +5,7 @@ import { TGameInfoAction } from './gameInfo/actions';
 import { TModalAction } from './modal/actions';
 import { TClickedCellAction } from './clickedCell/actions';
 import { THistoryAction } from './history/actions';
+import { THintsAction } from './hints/actions';
 
 export enum EGameStatus {
   NotStarted = 'NOT_STARTED',
@@ -55,6 +56,7 @@ export type TAction =
   | TModalAction
   | TClickedCellAction
   | THistoryAction
+  | THintsAction
   | TOperation;
 
 export type TDispatch = React.Dispatch<TAction>;

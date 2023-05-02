@@ -11,13 +11,14 @@ import { TGameInfoAction } from './gameInfo/actions';
 import { TModalAction } from './modal/actions';
 import { TClickedCellAction } from './clickedCell/actions';
 import { THistoryAction } from './history/actions';
+import { THintsAction } from './hints/actions';
 
 const mainReducer: React.Reducer<IAppContext, TAction> = (state, action) => ({
   boards: boardsReducer(state.boards, action as TBoardsAction),
   gameInfo: gameInfoReducer(state.gameInfo, action as TGameInfoAction),
   modal: modalReducer(state.modal, action as TModalAction),
   history: historyReducer(state.history, action as THistoryAction),
-  hints: hintsReducer(state.hints, action),
+  hints: hintsReducer(state.hints, action as THintsAction),
   clickedCell: clickedCellReducer(
     state.clickedCell,
     action as TClickedCellAction
