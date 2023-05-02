@@ -53,3 +53,22 @@ export const checkIfBoardPartFinished = (
     Boxes.checkFinishedBoxes(board, y, x)
   );
 };
+
+export const suggestHint = (board: TBoard, solution: TBoard): ICell => {
+  const { y } = board.reduce(
+    (currentMax, row, idx) => {
+      const currentRowFilling = row.reduce((sum, num) => {
+        return num ? sum + 1 : sum;
+      }, 0);
+
+      return currentMax.filled > currentRowFilling || currentRowFilling === 9
+        ? currentMax
+        : { filled: currentRowFilling, y: idx };
+    },
+    { filled: 0, y: -1 }
+  );
+
+  const x = board[y].indexOf(0);
+
+  return { y, x, value: solution[y][x] };
+};
