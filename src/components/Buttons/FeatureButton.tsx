@@ -55,7 +55,7 @@ const buttonErrorCss = css`
   background: ${({ theme }) => theme.lightError};
 `;
 
-const UndoStyledButton = styled(HeaderButton)<TStyledProps>`
+const StyledFeatureButton = styled(HeaderButton)<TStyledProps>`
   width: 75px;
 
   &:hover {
@@ -70,7 +70,7 @@ const getIcon = (icon: React.FC): TStyledIcon => styled(
   transition: 0.3s ease;
   ${(props) => props.error && animation(props.theme)};
 
-  ${UndoStyledButton}:hover & {
+  ${StyledFeatureButton}:hover & {
     fill: ${({ theme }) => theme.primary};
   }
 `;
@@ -89,9 +89,9 @@ const FeatureButton: React.FC<IFeatureButtonProps> = ({
   const Icon = getIcon(icon);
 
   return (
-    <UndoStyledButton onClick={handler} error={error}>
+    <StyledFeatureButton onClick={handler} error={error}>
       <Icon error={error} />
-    </UndoStyledButton>
+    </StyledFeatureButton>
   );
 };
 
