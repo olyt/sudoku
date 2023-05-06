@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import React from 'react';
 import styled, {
   css,
   DefaultTheme,
@@ -55,7 +55,7 @@ const buttonErrorCss = css`
   background: ${({ theme }) => theme.lightError};
 `;
 
-const StyledFeatureButton = styled(HeaderButton)<TStyledProps>`
+const FeatureButton = styled(HeaderButton)<TStyledProps>`
   width: 75px;
 
   &:hover {
@@ -70,26 +70,9 @@ export const getIcon = (icon: React.FC): TStyledIcon => styled(
   transition: 0.3s ease;
   ${(props) => props.error && animation(props.theme)};
 
-  ${StyledFeatureButton}:hover & {
+  ${FeatureButton}:hover & {
     fill: ${({ theme }) => theme.primary};
   }
 `;
-
-interface IFeatureButtonProps {
-  handler: MouseEventHandler<HTMLButtonElement>;
-  error: boolean;
-}
-
-const FeatureButton: React.FC<IFeatureButtonProps> = ({
-  handler,
-  error,
-  children,
-}) => {
-  return (
-    <StyledFeatureButton onClick={handler} error={error}>
-      {children}
-    </StyledFeatureButton>
-  );
-};
 
 export default FeatureButton;
