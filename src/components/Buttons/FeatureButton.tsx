@@ -63,7 +63,7 @@ const StyledFeatureButton = styled(HeaderButton)<TStyledProps>`
   }
 `;
 
-const getIcon = (icon: React.FC): TStyledIcon => styled(
+export const getIcon = (icon: React.FC): TStyledIcon => styled(
   getBasicIcon(icon)
 )<TStyledProps>`
   fill: ${({ theme }) => theme.primaryLight};
@@ -77,20 +77,17 @@ const getIcon = (icon: React.FC): TStyledIcon => styled(
 
 interface IFeatureButtonProps {
   handler: MouseEventHandler<HTMLButtonElement>;
-  icon: React.FC;
   error: boolean;
 }
 
 const FeatureButton: React.FC<IFeatureButtonProps> = ({
   handler,
   error,
-  icon,
+  children,
 }) => {
-  const Icon = getIcon(icon);
-
   return (
     <StyledFeatureButton onClick={handler} error={error}>
-      <Icon error={error} />
+      {children}
     </StyledFeatureButton>
   );
 };

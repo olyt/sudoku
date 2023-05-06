@@ -1,9 +1,12 @@
 import React, { MouseEventHandler } from 'react';
 import { useAppContext } from '../../../context/AppContext';
 import { tryToUndo } from '../../../context/history/operations';
-import { ReactComponent as UndoIcon } from '../../../assets/svg/undo.svg';
-import { ReactComponent as HintIcon } from '../../../assets/svg/hint.svg';
-import FeatureButton from '../FeatureButton';
+import { ReactComponent as UndoSVG } from '../../../assets/svg/undo.svg';
+import { ReactComponent as HintSVG } from '../../../assets/svg/hint.svg';
+import FeatureButton, { getIcon } from '../FeatureButton';
+
+const UndoIcon = getIcon(UndoSVG);
+const HintIcon = getIcon(HintSVG);
 
 const FeatureButtons: React.FC = () => {
   const { dispatch, history, hints } = useAppContext();
@@ -18,12 +21,12 @@ const FeatureButtons: React.FC = () => {
 
   return (
     <>
-      <FeatureButton handler={handleHint} icon={HintIcon} error={!hints} />
-      <FeatureButton
-        handler={handleUndo}
-        icon={UndoIcon}
-        error={history.error}
-      />
+      <FeatureButton handler={handleHint} error={!hints}>
+        <HintIcon error={!hints} />
+      </FeatureButton>
+      <FeatureButton handler={handleUndo} error={history.error}>
+        <UndoIcon error={history.error} />
+      </FeatureButton>
     </>
   );
 };
