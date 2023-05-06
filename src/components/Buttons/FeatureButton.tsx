@@ -12,7 +12,7 @@ import HeaderButton from './HeaderButton';
 import { getBasicIcon, IBasicIconProps } from '../../utils/svgHelper';
 
 type TStyledProps = {
-  error: boolean;
+  $error: boolean;
 };
 
 type TStyledIcon = StyledComponent<
@@ -59,7 +59,7 @@ const FeatureButton = styled(HeaderButton)<TStyledProps>`
   width: 75px;
 
   &:hover {
-    ${({ error }) => error && buttonErrorCss};
+    ${({ $error }) => $error && buttonErrorCss};
   }
 `;
 
@@ -68,7 +68,7 @@ export const getIcon = (icon: React.FC): TStyledIcon => styled(
 )<TStyledProps>`
   fill: ${({ theme }) => theme.primaryLight};
   transition: 0.3s ease;
-  ${(props) => props.error && animation(props.theme)};
+  ${(props) => props.$error && animation(props.theme)};
 
   ${FeatureButton}:hover & {
     fill: ${({ theme }) => theme.primary};
