@@ -56,6 +56,10 @@ const buttonErrorCss = css`
 `;
 
 const FeatureButton = styled(HeaderButton)<TStyledProps>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
   width: 75px;
 
   &:hover {
