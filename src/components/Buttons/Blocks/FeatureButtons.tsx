@@ -4,6 +4,7 @@ import { tryToUndo } from '../../../context/history/operations';
 import { ReactComponent as UndoSVG } from '../../../assets/svg/undo.svg';
 import { ReactComponent as HintSVG } from '../../../assets/svg/hint.svg';
 import FeatureButton, { getIcon } from '../FeatureButton';
+import { hint } from '../../../context/hints/operations';
 
 const UndoIcon = getIcon(UndoSVG);
 const HintIcon = getIcon(HintSVG);
@@ -16,7 +17,7 @@ const FeatureButtons: React.FC = () => {
   };
 
   const handleHint: MouseEventHandler<HTMLButtonElement> = () => {
-    console.log('hint');
+    dispatch(hint());
   };
 
   return (
