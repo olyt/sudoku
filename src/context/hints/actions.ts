@@ -2,10 +2,12 @@ import { TActionMap } from '../types';
 
 export enum EHintsActionTypes {
   UseHint = 'UseHint',
+  SetError = 'SetError',
 }
 
 export type THintsPayload = {
   [EHintsActionTypes.UseHint]: undefined;
+  [EHintsActionTypes.SetError]: boolean;
 };
 
 export type THintsAction =
@@ -14,3 +16,8 @@ export type THintsAction =
 export const useHint: THintsAction = {
   type: EHintsActionTypes.UseHint,
 };
+
+export const setError = (payload: boolean): THintsAction => ({
+  type: EHintsActionTypes.SetError,
+  payload,
+});

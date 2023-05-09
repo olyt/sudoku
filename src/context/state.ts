@@ -37,7 +37,10 @@ export const initialHistory: THistory = {
   error: false,
 };
 
-export const initialHints = 5;
+export const initialHints = {
+  count: 5,
+  error: false,
+};
 
 export const context: IAppContext = {
   clickedCell: initialClickedCell,

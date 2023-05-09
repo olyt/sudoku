@@ -1,10 +1,11 @@
 import React from 'react';
 import { EHintsActionTypes, THintsAction } from './actions';
+import { THints } from '../types';
 
-const reducer: React.Reducer<number, THintsAction> = (state, action) => {
+const reducer: React.Reducer<THints, THintsAction> = (state, action) => {
   switch (action.type) {
     case EHintsActionTypes.UseHint:
-      return state - 1;
+      return { ...state, count: state.count - 1 };
     default:
       return state;
   }

@@ -41,13 +41,18 @@ export type TGameInfoState = {
   gameStatus: EGameStatus;
 };
 
+export type THints = {
+  count: number;
+  error: boolean;
+};
+
 export interface IAppContext {
   clickedCell: ICell;
   boards: TBoardsState;
   modal: TModalState;
   gameInfo: TGameInfoState;
   history: THistory;
-  hints: number;
+  hints: THints;
 }
 
 export type TAction =

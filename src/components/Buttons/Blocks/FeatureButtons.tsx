@@ -22,9 +22,9 @@ const FeatureButtons: React.FC = () => {
 
   return (
     <>
-      <FeatureButton onClick={handleHint} $error={!hints}>
-        <span>{hints}</span>
-        <HintIcon $error={!hints} />
+      <FeatureButton onClick={handleHint} $error={hints.error}>
+        <span>{hints.count}</span>
+        <HintIcon $error={hints.error} />
       </FeatureButton>
       <FeatureButton onClick={handleUndo} $error={history.error}>
         <UndoIcon $error={history.error} />
