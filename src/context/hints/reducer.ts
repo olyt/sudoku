@@ -6,7 +6,7 @@ const reducer: React.Reducer<THints, THintsAction> = (state, action) => {
   switch (action.type) {
     case EHintsActionTypes.UseHint:
       return { ...state, count: state.count - 1 };
-    case EHintsActionTypes.SetError:
+    case EHintsActionTypes.SetHintError:
       return { ...state, error: action.payload };
     default:
       return state;

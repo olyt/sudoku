@@ -18,7 +18,7 @@ const reducer: React.Reducer<THistory, THistoryAction> = (state, action) => {
         ...state,
         cells: state.cells.slice(0, state.cells.length - 1),
       };
-    case EHistoryActionTypes.SetError:
+    case EHistoryActionTypes.SetHistoryError:
       return {
         ...state,
         error: action.payload,

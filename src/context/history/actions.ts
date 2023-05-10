@@ -4,7 +4,7 @@ import { TActionMap } from '../types';
 export enum EHistoryActionTypes {
   PushToHistory = 'PushToHistory',
   Undo = 'Undo',
-  SetError = 'SetError',
+  SetHistoryError = 'SetHistoryError',
   ResetHistory = 'ResetHistory',
 }
 
@@ -12,7 +12,7 @@ export type THistoryPayload = {
   [EHistoryActionTypes.PushToHistory]: ICell;
   [EHistoryActionTypes.Undo]: undefined;
   [EHistoryActionTypes.ResetHistory]: undefined;
-  [EHistoryActionTypes.SetError]: boolean;
+  [EHistoryActionTypes.SetHistoryError]: boolean;
 };
 
 export type THistoryAction =
@@ -32,6 +32,6 @@ export const resetHistory: THistoryAction = {
 };
 
 export const setError = (payload: boolean): THistoryAction => ({
-  type: EHistoryActionTypes.SetError,
+  type: EHistoryActionTypes.SetHistoryError,
   payload,
 });
