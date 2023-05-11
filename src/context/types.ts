@@ -44,6 +44,7 @@ export type TGameInfoState = {
 export type THints = {
   count: number;
   error: boolean;
+  currentHint: ICell;
 };
 
 export interface IAppContext {

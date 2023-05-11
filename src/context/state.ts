@@ -4,6 +4,7 @@ import {
   IAppContext,
   TBoardsState,
   TGameInfoState,
+  THints,
   THistory,
   TModalState,
 } from './types';
@@ -26,7 +27,7 @@ const initialGameInfo: TGameInfoState = {
   chosenDifficulty: null,
 };
 
-export const initialClickedCell: ICell = {
+export const defaultCell: ICell = {
   x: -1,
   y: -1,
   value: 0,
@@ -37,13 +38,14 @@ export const initialHistory: THistory = {
   error: false,
 };
 
-export const initialHints = {
+export const initialHints: THints = {
   count: 5,
+  currentHint: defaultCell,
   error: false,
 };
 
 export const context: IAppContext = {
-  clickedCell: initialClickedCell,
+  clickedCell: defaultCell,
   boards: initialBoardsState,
   modal: initialModalState,
   gameInfo: initialGameInfo,

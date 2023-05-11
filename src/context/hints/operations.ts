@@ -1,7 +1,6 @@
 import { TOperation } from '../types';
 import { suggestHint } from '../../utils/boardHelper';
-import { setClickedCell } from '../clickedCell/actions';
-import { setError, useHint } from './actions';
+import { decrementHint, setCurrentHint, setError } from './actions';
 
 export const hint = (): TOperation => (dispatch, state) => {
   if (!state.hints.count) {
@@ -14,6 +13,6 @@ export const hint = (): TOperation => (dispatch, state) => {
     state.boards.currentBoard,
     state.boards.solution
   );
-  dispatch(useHint);
-  dispatch(setClickedCell(nextHint));
+  dispatch(decrementHint);
+  dispatch(setCurrentHint(nextHint));
 };
