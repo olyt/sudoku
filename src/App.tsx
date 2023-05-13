@@ -7,6 +7,7 @@ import { useAppContext } from './context/AppContext';
 import styled from 'styled-components';
 import useGameStatusTracking from './hooks/useGameStatusTracking';
 import { resetClickedCell } from './context/clickedCell/actions';
+import { resetCurrentHint } from './context/hints/actions';
 
 const AppWrapper = styled.div`
   text-align: center;
@@ -40,6 +41,7 @@ const App: React.FC = () => {
   const undoClickedCell: MouseEventHandler<HTMLDivElement> = (event) => {
     if (event.target === event.currentTarget) {
       dispatch(resetClickedCell);
+      dispatch(resetCurrentHint);
     }
   };
 
