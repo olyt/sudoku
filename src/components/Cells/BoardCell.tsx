@@ -28,6 +28,7 @@ const checkBoldBorder = (coordinate: number): boolean => {
   return coordinate === 3 || coordinate === 6;
 };
 
+// TODO: Unify switch to 1 statement with mixins
 const StyledBoardCell = styled(BasicCell)<IStyledProps>`
   border-left: ${({ x }) => (checkBoldBorder(x) ? 3 : 1)}px solid black;
   border-top: ${({ y }) => (checkBoldBorder(y) ? 3 : 1)}px solid black;
@@ -133,6 +134,7 @@ const BoardCell: React.FC<ICell> = ({ value, x, y }) => {
 
   const toggleChecked: MouseEventHandler<HTMLDivElement> = () => {
     if (gameInfo.gameStatus !== EGameStatus.NotStarted) {
+      // TODO: Probably this variable can be deleted
       const clickUnmatched = clickedCell.y === y && clickedCell.x === x;
 
       if (cellState === ECellStates.clicked || clickUnmatched) {
