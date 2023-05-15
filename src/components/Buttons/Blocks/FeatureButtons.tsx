@@ -5,22 +5,19 @@ import { ReactComponent as UndoSVG } from '../../../assets/svg/undo.svg';
 import { ReactComponent as HintSVG } from '../../../assets/svg/hint.svg';
 import FeatureButton, { getIcon } from '../FeatureButton';
 import { hint } from '../../../context/hints/operations';
-import { EGameStatus } from '../../../context/types';
 
 const UndoIcon = getIcon(UndoSVG);
 const HintIcon = getIcon(HintSVG);
 
 const FeatureButtons: React.FC = () => {
-  const { dispatch, history, hints, gameInfo } = useAppContext();
+  const { dispatch, history, hints } = useAppContext();
 
   const handleUndo: MouseEventHandler<HTMLButtonElement> = () => {
     dispatch(tryToUndo());
   };
 
   const handleHint: MouseEventHandler<HTMLButtonElement> = () => {
-    if (gameInfo.gameStatus === EGameStatus.InProgress) {
-      dispatch(hint());
-    }
+    dispatch(hint());
   };
 
   return (
