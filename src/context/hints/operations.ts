@@ -3,7 +3,7 @@ import { suggestHint } from '../../utils/boardHelper';
 import { decrementHint, setCurrentHint, setError } from './actions';
 
 export const hint = (): TOperation => (dispatch, state) => {
-  if (state.gameInfo.gameStatus === EGameStatus.InProgress) {
+  if (state.gameInfo.gameStatus !== EGameStatus.InProgress) {
     return;
   }
 
