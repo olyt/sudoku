@@ -6,11 +6,13 @@ export enum EHintsActionTypes {
   SetHintError = 'SetHintError',
   SetCurrentHint = 'SetCurrentHint',
   ResetCurrentHint = 'ResetCurrentHint',
+  ResetHints = 'ResetHints',
 }
 
 export type THintsPayload = {
   [EHintsActionTypes.DecrementHint]: undefined;
   [EHintsActionTypes.ResetCurrentHint]: undefined;
+  [EHintsActionTypes.ResetHints]: undefined;
   [EHintsActionTypes.SetHintError]: boolean;
   [EHintsActionTypes.SetCurrentHint]: ICell;
 };
@@ -33,5 +35,9 @@ export const setCurrentHint = (payload: ICell): THintsAction => ({
 });
 
 export const resetCurrentHint: THintsAction = {
+  type: EHintsActionTypes.ResetCurrentHint,
+};
+
+export const resetHints: THintsAction = {
   type: EHintsActionTypes.ResetCurrentHint,
 };

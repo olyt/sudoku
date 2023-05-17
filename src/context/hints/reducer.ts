@@ -1,7 +1,7 @@
 import React from 'react';
 import { EHintsActionTypes, THintsAction } from './actions';
 import { THints } from '../types';
-import { defaultCell } from '../state';
+import { defaultCell, initialHints } from '../state';
 
 const reducer: React.Reducer<THints, THintsAction> = (state, action) => {
   switch (action.type) {
@@ -13,6 +13,8 @@ const reducer: React.Reducer<THints, THintsAction> = (state, action) => {
       return { ...state, currentHint: action.payload };
     case EHintsActionTypes.ResetCurrentHint:
       return { ...state, currentHint: defaultCell };
+    case EHintsActionTypes.ResetHints:
+      return initialHints;
     default:
       return state;
   }
