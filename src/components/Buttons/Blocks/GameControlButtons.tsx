@@ -9,6 +9,7 @@ import { EGameStatus, EModalComponents } from '../../../context/types';
 import { setBoard } from '../../../context/boards/actions';
 import { resetHistory } from '../../../context/history/actions';
 import { setGameStatus } from '../../../context/gameInfo/actions';
+import { resetHints } from '../../../context/hints/actions';
 
 const GameControlButtons: React.FC = () => {
   const { boards, gameInfo, dispatch } = useAppContext();
@@ -21,6 +22,8 @@ const GameControlButtons: React.FC = () => {
   const resetGame: MouseEventHandler<HTMLButtonElement> = () => {
     dispatch(setBoard(boards.initialBoard));
     dispatch(resetHistory);
+    dispatch(resetHints);
+
     if (gameInfo.gameStatus === EGameStatus.Failed) {
       dispatch(setGameStatus(EGameStatus.InProgress));
     }
