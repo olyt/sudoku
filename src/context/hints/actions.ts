@@ -39,5 +39,5 @@ export const resetCurrentHint: THintsAction = {
 };
 
 export const resetHints: THintsAction = {
-  type: EHintsActionTypes.ResetCurrentHint,
+  type: EHintsActionTypes.ResetHints,
 };
