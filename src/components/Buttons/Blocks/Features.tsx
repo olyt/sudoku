@@ -9,7 +9,7 @@ import { hint } from '../../../context/hints/operations';
 const UndoIcon = getIcon(UndoSVG);
 const HintIcon = getIcon(HintSVG);
 
-const FeatureButtons: React.FC = () => {
+const Features: React.FC = () => {
   const { dispatch, history, hints } = useAppContext();
 
   const handleUndo: MouseEventHandler<HTMLButtonElement> = () => {
@@ -33,4 +33,4 @@ const FeatureButtons: React.FC = () => {
   );
 };
 
-export default FeatureButtons;
+export default Features;

@@ -11,7 +11,7 @@ import { resetHistory } from '../../../context/history/actions';
 import { setGameStatus } from '../../../context/gameInfo/actions';
 import { resetHints } from '../../../context/hints/actions';
 
-const GameControlButtons: React.FC = () => {
+const GameControl: React.FC = () => {
   const { boards, gameInfo, dispatch } = useAppContext();
 
   const startNewGame: MouseEventHandler<HTMLButtonElement> = () => {
@@ -37,4 +37,4 @@ const GameControlButtons: React.FC = () => {
   );
 };
 
-export default GameControlButtons;
+export default GameControl;
