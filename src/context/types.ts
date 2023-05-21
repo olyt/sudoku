@@ -5,6 +5,7 @@ import { TGameInfoAction } from './gameInfo/actions';
 import { TModalAction } from './modal/actions';
 import { TClickedCellAction } from './clickedCell/actions';
 import { THistoryAction } from './history/actions';
+import { THintsAction } from './hints/actions';
 
 export enum EGameStatus {
   NotStarted = 'NOT_STARTED',
@@ -40,12 +41,19 @@ export type TGameInfoState = {
   gameStatus: EGameStatus;
 };
 
+export type THints = {
+  count: number;
+  error: boolean;
+  currentHint: ICell;
+};
+
 export interface IAppContext {
   clickedCell: ICell;
   boards: TBoardsState;
   modal: TModalState;
   gameInfo: TGameInfoState;
   history: THistory;
+  hints: THints;
 }
 
 export type TAction =
@@ -54,6 +62,7 @@ export type TAction =
   | TModalAction
   | TClickedCellAction
   | THistoryAction
+  | THintsAction
   | TOperation;
 
 export type TDispatch = React.Dispatch<TAction>;

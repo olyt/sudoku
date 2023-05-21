@@ -1,12 +1,12 @@
 import React from 'react';
 import { EClickedCellActionTypes, TClickedCellAction } from './actions';
-import { initialClickedCell } from '../state';
+import { defaultCell } from '../state';
 import { ICell } from '../../types/types';
 
 const reducer: React.Reducer<ICell, TClickedCellAction> = (state, action) => {
   switch (action.type) {
     case EClickedCellActionTypes.ResetClickedCell:
-      return initialClickedCell;
+      return defaultCell;
     case EClickedCellActionTypes.SetClickedCell:
       return action.payload;
     case EClickedCellActionTypes.SetClickedCellValue:

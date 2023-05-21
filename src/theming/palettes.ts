@@ -7,8 +7,8 @@ const aliceBlue: THexColor = '#EDF6F9';
 const middleBlueGreen: THexColor = '#83C5BE';
 const ming: THexColor = '#006D77';
 const lightBlue: THexColor = '#B8D8D8';
-// const cadetGray = '#7A9E9F';
-// const paynesGray = '#4F6367';
+const cadetGray = '#7A9E9F';
+const paynesGray = '#4F6367';
 // const beige = '#EEF5DB';
 const bittersweet: THexColor = '#FE5F55';
 
@@ -19,6 +19,8 @@ export interface IPalette {
   primaryLight: THexColor;
   error: THexColor;
   lightError: THexColor;
+  primaryHint: THexColor;
+  secondaryHint: THexColor;
 }
 
 const defaultPalette: IPalette = {
@@ -28,6 +30,8 @@ const defaultPalette: IPalette = {
   primaryLight: aliceBlue,
   error: bittersweet,
   lightError: unbleachedSilk,
+  primaryHint: cadetGray,
+  secondaryHint: paynesGray,
 };
 
 export default defaultPalette;

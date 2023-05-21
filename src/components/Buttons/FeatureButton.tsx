@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import React from 'react';
 import styled, {
   css,
   DefaultTheme,
@@ -12,7 +12,7 @@ import HeaderButton from './HeaderButton';
 import { getBasicIcon, IBasicIconProps } from '../../utils/svgHelper';
 
 type TStyledProps = {
-  error: boolean;
+  $error: boolean;
 };
 
 type TStyledIcon = StyledComponent<
@@ -55,44 +55,28 @@ const buttonErrorCss = css`
   background: ${({ theme }) => theme.lightError};
 `;
 
-const UndoStyledButton = styled(HeaderButton)<TStyledProps>`
+const FeatureButton = styled(HeaderButton)<TStyledProps>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
   width: 75px;
 
   &:hover {
-    ${({ error }) => error && buttonErrorCss};
+    ${({ $error }) => $error && buttonErrorCss};
   }
 `;
 
-const getIcon = (icon: React.FC): TStyledIcon => styled(
+export const getIcon = (icon: React.FC): TStyledIcon => styled(
   getBasicIcon(icon)
 )<TStyledProps>`
   fill: ${({ theme }) => theme.primaryLight};
   transition: 0.3s ease;
-  ${(props) => props.error && animation(props.theme)};
+  ${(props) => props.$error && animation(props.theme)};
 
-  ${UndoStyledButton}:hover & {
+  ${FeatureButton}:hover & {
     fill: ${({ theme }) => theme.primary};
   }
 `;
-
-interface IFeatureButtonProps {
-  handler: MouseEventHandler<HTMLButtonElement>;
-  icon: React.FC;
-  error: boolean;
-}
-
-const FeatureButton: React.FC<IFeatureButtonProps> = ({
-  handler,
-  error,
-  icon,
-}) => {
-  const Icon = getIcon(icon);
-
-  return (
-    <UndoStyledButton onClick={handler} error={error}>
-      <Icon error={error} />
-    </UndoStyledButton>
-  );
-};
 
 export default FeatureButton;

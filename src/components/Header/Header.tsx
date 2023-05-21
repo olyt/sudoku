@@ -1,15 +1,15 @@
 import React from 'react';
 import { ButtonsWrapper, H1, StyledHeader } from './styles';
-import GameControlButtons from '../Buttons/Blocks/GameControlButtons';
-import FeatureButtons from '../Buttons/Blocks/FeatureButtons';
+import GameControl from '../Buttons/Blocks/GameControl';
+import Features from '../Buttons/Blocks/Features';
 
 const Header: React.FC = () => {
   return (
     <StyledHeader>
       <H1>sudoku</H1>
       <ButtonsWrapper>
-        <FeatureButtons />
-        <GameControlButtons />
+        <Features />
+        <GameControl />
       </ButtonsWrapper>
     </StyledHeader>
   );
