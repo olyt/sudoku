@@ -20,6 +20,7 @@ const GameControl: React.FC = () => {
   };
 
   const resetGame: MouseEventHandler<HTMLButtonElement> = () => {
+    // TODO: move its own operation
     dispatch(setBoard(boards.initialBoard));
     dispatch(resetHistory);
     dispatch(resetHints);
