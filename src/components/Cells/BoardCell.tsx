@@ -134,10 +134,7 @@ const BoardCell: React.FC<ICell> = ({ value, x, y }) => {
 
   const toggleChecked: MouseEventHandler<HTMLDivElement> = () => {
     if (gameInfo.gameStatus !== EGameStatus.NotStarted) {
-      // TODO: Probably this variable can be deleted
-      const clickUnmatched = clickedCell.y === y && clickedCell.x === x;
-
-      if (cellState === ECellStates.clicked || clickUnmatched) {
+      if (cellState === ECellStates.clicked || currentMoveInfo.sameCell) {
         dispatch(resetClickedCell);
         return;
       }
