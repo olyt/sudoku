@@ -57,9 +57,4 @@ export const setValueToBoard =
     dispatch(setBoard(updatedBoard));
     dispatch(setClickedCellValue(newValue));
     dispatch(pushToHistory({ ...clickedCell, value: newValue }));
-
-    //TODO: check necessity of this if with game tracking hook
-    if (boards.solution[y][x] !== updatedBoard[y][x]) {
-      dispatch(setGameStatus(EGameStatus.Failed));
-    }
   };
