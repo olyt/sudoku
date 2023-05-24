@@ -28,6 +28,18 @@ export const startGame =
     dispatch(resetHints);
   };
 
+export const resetGame = (): TOperation => (dispatch, state) => {
+  const { boards, gameInfo } = state;
+
+  dispatch(setBoard(boards.initialBoard));
+  dispatch(resetHistory);
+  dispatch(resetHints);
+
+  if (gameInfo.gameStatus === EGameStatus.Failed) {
+    dispatch(setGameStatus(EGameStatus.InProgress));
+  }
+};
+
 export const leaveAfterWin = (): TOperation => (dispatch) => {
   dispatch(setBoard(getBlankBoard()));
   dispatch(setInitialBoard(getBlankBoard()));
