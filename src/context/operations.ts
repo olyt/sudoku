@@ -7,7 +7,7 @@ import {
   updateValueOnBoard,
 } from '../utils/boardHelper';
 import { setBoard, setInitialBoard, setSolution } from './boards/actions';
-import { setGameDifficulty, setGameStatus } from './gameInfo/actions';
+import { setGameStatus } from './gameInfo/actions';
 import { resetClickedCell, setClickedCellValue } from './clickedCell/actions';
 import { setModalComponent } from './modal/actions';
 import { pushToHistory, resetHistory } from './history/actions';
@@ -21,7 +21,6 @@ export const startGame =
     dispatch(setInitialBoard(copyBoard(board)));
     dispatch(setBoard(board));
     dispatch(setSolution(solution));
-    dispatch(setGameDifficulty(difficulty));
     dispatch(setGameStatus(EGameStatus.InProgress));
     dispatch(resetClickedCell);
     dispatch(resetHistory);
@@ -48,7 +47,6 @@ export const leaveAfterWin = (): TOperation => (dispatch) => {
   dispatch(resetHistory);
   dispatch(resetHints);
   dispatch(setGameStatus(EGameStatus.NotStarted));
-  dispatch(setGameDifficulty(null));
 };
 
 export const startNewAfterWin = (): TOperation => (dispatch) => {

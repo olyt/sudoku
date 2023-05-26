@@ -1,5 +1,5 @@
 import React from 'react';
-import { ICell, IDifficulties, TBoard } from '../types/types';
+import { ICell, TBoard } from '../types/types';
 import { TBoardsAction } from './boards/actions';
 import { TGameInfoAction } from './gameInfo/actions';
 import { TModalAction } from './modal/actions';
@@ -37,7 +37,6 @@ export type THistory = {
 };
 
 export type TGameInfoState = {
-  chosenDifficulty: keyof IDifficulties | null;
   gameStatus: EGameStatus;
 };
 

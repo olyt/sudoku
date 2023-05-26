@@ -24,7 +24,6 @@ const initialModalState: TModalState = {
 
 const initialGameInfo: TGameInfoState = {
   gameStatus: EGameStatus.NotStarted,
-  chosenDifficulty: null,
 };
 
 export const defaultCell: ICell = {

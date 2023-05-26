@@ -12,8 +12,6 @@ const reducer: React.Reducer<TGameInfoState, TGameInfoAction> = (
         ...state,
         gameStatus: action.payload,
       };
-    case EGameInfoActionTypes.SetDifficulty:
-      return { ...state, chosenDifficulty: action.payload };
     default:
       return state;
   }
