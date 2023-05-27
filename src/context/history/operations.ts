@@ -7,7 +7,7 @@ import { updateValueOnBoard } from '../../utils/boardHelper';
 export const tryToUndo = (): TOperation => (dispatch, state) => {
   const {
     history: { cells },
-    gameInfo: { gameStatus },
+    gameStatus,
     boards: { currentBoard },
   } = state;
 

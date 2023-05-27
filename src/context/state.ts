@@ -3,7 +3,6 @@ import {
   EModalComponents,
   IAppContext,
   TBoardsState,
-  TGameInfoState,
   THints,
   THistory,
   TModalState,
@@ -22,9 +21,7 @@ const initialModalState: TModalState = {
   component: EModalComponents.Empty,
 };
 
-const initialGameInfo: TGameInfoState = {
-  gameStatus: EGameStatus.NotStarted,
-};
+const initialGameStatus = EGameStatus.NotStarted;
 
 export const defaultCell: ICell = {
   x: -1,
@@ -47,7 +44,7 @@ export const context: IAppContext = {
   clickedCell: defaultCell,
   boards: initialBoardsState,
   modal: initialModalState,
-  gameInfo: initialGameInfo,
+  gameStatus: initialGameStatus,
   history: initialHistory,
   hints: initialHints,
 };

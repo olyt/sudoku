@@ -1,17 +1,14 @@
 import React from 'react';
-import { TGameInfoState } from '../types';
+import { EGameStatus } from '../types';
 import { EGameInfoActionTypes, TGameInfoAction } from './actions';
 
-const reducer: React.Reducer<TGameInfoState, TGameInfoAction> = (
+const reducer: React.Reducer<EGameStatus, TGameInfoAction> = (
   state,
   action
 ) => {
   switch (action.type) {
     case EGameInfoActionTypes.SetGameStatus:
-      return {
-        ...state,
-        gameStatus: action.payload,
-      };
+      return action.payload;
     default:
       return state;
   }

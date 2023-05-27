@@ -7,7 +7,7 @@ import {
   updateValueOnBoard,
 } from '../utils/boardHelper';
 import { setBoard, setInitialBoard, setSolution } from './boards/actions';
-import { setGameStatus } from './gameInfo/actions';
+import { setGameStatus } from './gameStatus/actions';
 import { resetClickedCell, setClickedCellValue } from './clickedCell/actions';
 import { setModalComponent } from './modal/actions';
 import { pushToHistory, resetHistory } from './history/actions';
@@ -28,13 +28,13 @@ export const startGame =
   };
 
 export const resetGame = (): TOperation => (dispatch, state) => {
-  const { boards, gameInfo } = state;
+  const { boards, gameStatus } = state;
 
   dispatch(setBoard(boards.initialBoard));
   dispatch(resetHistory);
   dispatch(resetHints);
 
-  if (gameInfo.gameStatus === EGameStatus.Failed) {
+  if (gameStatus === EGameStatus.Failed) {
     dispatch(setGameStatus(EGameStatus.InProgress));
   }
 };

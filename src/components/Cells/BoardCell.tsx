@@ -72,7 +72,7 @@ const StyledBoardCell = styled(BasicCell)<IStyledProps>`
 
 const BoardCell: React.FC<ICell> = ({ value, x, y }) => {
   const [cellState, setCellState] = useState<ECellStates>(ECellStates.inactive);
-  const { boards, clickedCell, gameInfo, hints, dispatch } = useAppContext();
+  const { boards, clickedCell, gameStatus, hints, dispatch } = useAppContext();
   const currentMoveInfo = useMemo<{ [Key: string]: boolean }>(
     () => ({
       sameY: clickedCell.y === y,
@@ -133,7 +133,7 @@ const BoardCell: React.FC<ICell> = ({ value, x, y }) => {
   }, [currentMoveInfo]);
 
   const toggleChecked: MouseEventHandler<HTMLDivElement> = () => {
-    if (gameInfo.gameStatus !== EGameStatus.NotStarted) {
+    if (gameStatus !== EGameStatus.NotStarted) {
       if (cellState === ECellStates.clicked || currentMoveInfo.sameCell) {
         dispatch(resetClickedCell);
         return;

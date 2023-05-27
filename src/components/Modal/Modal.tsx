@@ -13,11 +13,7 @@ const components: { [Key: string]: FC } = {
 };
 
 const Modal: FC = () => {
-  const {
-    modal,
-    gameInfo: { gameStatus },
-    dispatch,
-  } = useAppContext();
+  const { modal, gameStatus, dispatch } = useAppContext();
   const Component = components[modal.component];
 
   const closeModal: () => void = useCallback(() => {
