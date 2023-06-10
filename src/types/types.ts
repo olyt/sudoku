@@ -9,11 +9,15 @@ type TDifficulty = {
   numMin: number;
 };
 
-export interface IDifficulties {
-  easy: TDifficulty;
-  medium: TDifficulty;
-  hard: TDifficulty;
+export enum EDifficulties {
+  easy = 'easy',
+  medium = 'medium',
+  hard = 'hard',
 }
+
+export type IDifficulties = {
+  [key in EDifficulties]: TDifficulty;
+};
 
 export interface ICellCoordinates {
   y: number;
