@@ -11,6 +11,7 @@ const cadetGray = '#7A9E9F';
 const paynesGray = '#4F6367';
 // const beige = '#EEF5DB';
 const bittersweet: THexColor = '#FE5F55';
+const black = '#000000';
 
 export interface IPalette {
   primary: THexColor;
@@ -21,6 +22,7 @@ export interface IPalette {
   lightError: THexColor;
   primaryHint: THexColor;
   secondaryHint: THexColor;
+  defaultBlack: THexColor;
 }
 
 const defaultPalette: IPalette = {
@@ -32,6 +34,7 @@ const defaultPalette: IPalette = {
   lightError: unbleachedSilk,
   primaryHint: cadetGray,
   secondaryHint: paynesGray,
+  defaultBlack: black,
 };
 
 export default defaultPalette;
