@@ -10,6 +10,13 @@ import {
 import { checkIfBoardPartFinished } from '../../utils/boardHelper';
 import { EGameStatus } from '../../context/types';
 import { resetCurrentHint } from '../../context/hints/actions';
+import {
+  clickedMixin,
+  defaultMixin,
+  finishedMixin,
+  highlightedOrSimilarNumMixin,
+  hintMixin,
+} from './mixins';
 
 export enum ECellStates {
   clicked = 'clicked',
@@ -32,32 +39,21 @@ const checkBoldBorder = (coordinate: number): boolean => {
 const StyledBoardCell = styled(BasicCell)<IStyledProps>`
   border-left: ${({ x }) => (checkBoldBorder(x) ? 3 : 1)}px solid black;
   border-top: ${({ y }) => (checkBoldBorder(y) ? 3 : 1)}px solid black;
-  color: ${({ state, theme }) => {
+
+  ${({ state }) => {
     switch (state) {
       case ECellStates.clicked:
-        return theme.primaryLight;
-      case ECellStates.finished:
-        return theme.primary;
-      case ECellStates.hint:
-        return theme.secondaryHint;
-      default:
-        return 'black';
-    }
-  }};
-  background: ${({ state, theme }) => {
-    switch (state) {
-      case ECellStates.clicked:
-        return theme.primary;
+        return clickedMixin;
       case ECellStates.highlighted:
-        return theme.secondary;
+        return highlightedOrSimilarNumMixin;
       case ECellStates.similarNum:
-        return theme.secondary;
+        return highlightedOrSimilarNumMixin;
       case ECellStates.finished:
-        return theme.secondaryLight;
+        return finishedMixin;
       case ECellStates.hint:
-        return theme.primaryHint;
+        return hintMixin;
       default:
-        return theme.primaryLight;
+        return defaultMixin;
     }
   }};
 
