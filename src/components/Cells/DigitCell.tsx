@@ -9,7 +9,7 @@ interface IDigitCellProps {
 }
 
 interface IStyledProps {
-  isLocked: boolean;
+  isFinished: boolean;
 }
 
 const lockedStyles = css`
@@ -20,21 +20,21 @@ const lockedStyles = css`
 const StyledDigitCell = styled(BasicCell)<IStyledProps>`
   border-right: 1px solid black;
 
-  ${({ isLocked }) => isLocked && lockedStyles}
+  ${({ isFinished }) => isFinished && lockedStyles}
   &:last-child {
     border-right: none;
   }
 `;
 
 const DigitCell: React.FC<IDigitCellProps> = ({ digit }) => {
-  const [isLocked, setIsLocked] = useState<boolean>(false);
+  const [isFinished, setIsFinished] = useState<boolean>(false);
   const { boards } = useAppContext();
   const clickHandler = useCellValueHandler(
     digit
   ) as MouseEventHandler<HTMLDivElement>;
 
   useEffect(() => {
-    setIsLocked(
+    setIsFinished(
       boards.currentBoard.every(
         (row) => !!row.find((cellValue) => cellValue === digit)
       )
@@ -42,7 +42,7 @@ const DigitCell: React.FC<IDigitCellProps> = ({ digit }) => {
   }, [boards.currentBoard, digit]);
 
   return (
-    <StyledDigitCell onClick={clickHandler} isLocked={isLocked}>
+    <StyledDigitCell onClick={clickHandler} isFinished={isFinished}>
       {digit}
     </StyledDigitCell>
   );
