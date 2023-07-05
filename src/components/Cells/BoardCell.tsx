@@ -10,6 +10,13 @@ import {
 import { checkIfBoardPartFinished } from '../../utils/boardHelper';
 import { EGameStatus } from '../../context/types';
 import { resetCurrentHint } from '../../context/hints/actions';
+import {
+  clickedMixin,
+  defaultMixin,
+  finishedMixin,
+  highlightedOrSimilarNumMixin,
+  hintMixin,
+} from './mixins';
 
 export enum ECellStates {
   clicked = 'clicked',
@@ -32,32 +39,21 @@ const checkBoldBorder = (coordinate: number): boolean => {
 const StyledBoardCell = styled(BasicCell)<IStyledProps>`
   border-left: ${({ x }) => (checkBoldBorder(x) ? 3 : 1)}px solid black;
   border-top: ${({ y }) => (checkBoldBorder(y) ? 3 : 1)}px solid black;
-  color: ${({ state, theme }) => {
+
+  ${({ state }) => {
     switch (state) {
       case ECellStates.clicked:
-        return theme.primaryLight;
-      case ECellStates.finished:
-        return theme.primary;
-      case ECellStates.hint:
-        return theme.secondaryHint;
-      default:
-        return 'black';
-    }
-  }};
-  background: ${({ state, theme }) => {
-    switch (state) {
-      case ECellStates.clicked:
-        return theme.primary;
+        return clickedMixin;
       case ECellStates.highlighted:
-        return theme.secondary;
+        return highlightedOrSimilarNumMixin;
       case ECellStates.similarNum:
-        return theme.secondary;
+        return highlightedOrSimilarNumMixin;
       case ECellStates.finished:
-        return theme.secondaryLight;
+        return finishedMixin;
       case ECellStates.hint:
-        return theme.primaryHint;
+        return hintMixin;
       default:
-        return theme.primaryLight;
+        return defaultMixin;
     }
   }};
 
@@ -72,7 +68,7 @@ const StyledBoardCell = styled(BasicCell)<IStyledProps>`
 
 const BoardCell: React.FC<ICell> = ({ value, x, y }) => {
   const [cellState, setCellState] = useState<ECellStates>(ECellStates.inactive);
-  const { boards, clickedCell, gameInfo, hints, dispatch } = useAppContext();
+  const { boards, clickedCell, gameStatus, hints, dispatch } = useAppContext();
   const currentMoveInfo = useMemo<{ [Key: string]: boolean }>(
     () => ({
       sameY: clickedCell.y === y,
@@ -133,11 +129,8 @@ const BoardCell: React.FC<ICell> = ({ value, x, y }) => {
   }, [currentMoveInfo]);
 
   const toggleChecked: MouseEventHandler<HTMLDivElement> = () => {
-    if (gameInfo.gameStatus !== EGameStatus.NotStarted) {
-      // TODO: Probably this variable can be deleted
-      const clickUnmatched = clickedCell.y === y && clickedCell.x === x;
-
-      if (cellState === ECellStates.clicked || clickUnmatched) {
+    if (gameStatus !== EGameStatus.NotStarted) {
+      if (cellState === ECellStates.clicked || currentMoveInfo.sameCell) {
         dispatch(resetClickedCell);
         return;
       }

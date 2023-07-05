@@ -1,7 +1,7 @@
 import React from 'react';
-import { ICell, IDifficulties, TBoard } from '../types/types';
+import { ICell, TBoard } from '../types/types';
 import { TBoardsAction } from './boards/actions';
-import { TGameInfoAction } from './gameInfo/actions';
+import { TGameInfoAction } from './gameStatus/actions';
 import { TModalAction } from './modal/actions';
 import { TClickedCellAction } from './clickedCell/actions';
 import { THistoryAction } from './history/actions';
@@ -37,7 +37,6 @@ export type THistory = {
 };
 
 export type TGameInfoState = {
-  chosenDifficulty: keyof IDifficulties | null;
   gameStatus: EGameStatus;
 };
 
@@ -51,7 +50,7 @@ export interface IAppContext {
   clickedCell: ICell;
   boards: TBoardsState;
   modal: TModalState;
-  gameInfo: TGameInfoState;
+  gameStatus: EGameStatus;
   history: THistory;
   hints: THints;
 }

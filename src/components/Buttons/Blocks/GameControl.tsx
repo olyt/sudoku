@@ -5,35 +5,25 @@ import {
   setModalComponent,
   setModalIsOpen,
 } from '../../../context/modal/actions';
-import { EGameStatus, EModalComponents } from '../../../context/types';
-import { setBoard } from '../../../context/boards/actions';
-import { resetHistory } from '../../../context/history/actions';
-import { setGameStatus } from '../../../context/gameInfo/actions';
-import { resetHints } from '../../../context/hints/actions';
+import { EModalComponents } from '../../../context/types';
+import { resetGame } from '../../../context/operations';
 
 const GameControl: React.FC = () => {
-  const { boards, gameInfo, dispatch } = useAppContext();
+  const { dispatch } = useAppContext();
 
-  const startNewGame: MouseEventHandler<HTMLButtonElement> = () => {
+  const onNewGameClick: MouseEventHandler<HTMLButtonElement> = () => {
     dispatch(setModalComponent(EModalComponents.DifficultyBlock));
     dispatch(setModalIsOpen(true));
   };
 
-  const resetGame: MouseEventHandler<HTMLButtonElement> = () => {
-    // TODO: move its own operation
-    dispatch(setBoard(boards.initialBoard));
-    dispatch(resetHistory);
-    dispatch(resetHints);
-
-    if (gameInfo.gameStatus === EGameStatus.Failed) {
-      dispatch(setGameStatus(EGameStatus.InProgress));
-    }
+  const onResetClick: MouseEventHandler<HTMLButtonElement> = () => {
+    dispatch(resetGame());
   };
 
   return (
     <>
-      <HeaderButton onClick={startNewGame}>New Game</HeaderButton>
-      <HeaderButton onClick={resetGame}>Reset</HeaderButton>
+      <HeaderButton onClick={onNewGameClick}>New Game</HeaderButton>
+      <HeaderButton onClick={onResetClick}>Reset</HeaderButton>
     </>
   );
 };

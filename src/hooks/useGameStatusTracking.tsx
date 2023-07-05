@@ -2,12 +2,12 @@ import { useAppContext } from '../context/AppContext';
 import { EGameStatus, EModalComponents } from '../context/types';
 import { useEffect } from 'react';
 import { setModalComponent, setModalIsOpen } from '../context/modal/actions';
-import { setGameStatus } from '../context/gameInfo/actions';
+import { setGameStatus } from '../context/gameStatus/actions';
 
 const useGameStatusTracking = (): void => {
   const {
     boards: { currentBoard, solution },
-    gameInfo: { gameStatus },
+    gameStatus,
     dispatch,
   } = useAppContext();
 

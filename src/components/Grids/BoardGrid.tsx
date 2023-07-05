@@ -14,7 +14,7 @@ import useCellValueHandler, {
 } from '../../hooks/useCellValueHandler';
 
 const BoardGrid: React.FC = () => {
-  const { boards, clickedCell, gameInfo, dispatch } = useAppContext();
+  const { boards, clickedCell, gameStatus, dispatch } = useAppContext();
   const digitHandlerCreator = useCellValueHandler() as THandlerCreator;
 
   const handleDigits = useCallback<(code: string) => void>(
@@ -110,7 +110,7 @@ const BoardGrid: React.FC = () => {
     [handleArrows]
   );
   useEffect(() => {
-    if (gameInfo.gameStatus !== EGameStatus.NotStarted) {
+    if (gameStatus !== EGameStatus.NotStarted) {
       document.addEventListener('keyup', onKeyUp);
       document.addEventListener('keydown', onKeyDown);
     }
@@ -119,7 +119,7 @@ const BoardGrid: React.FC = () => {
       document.removeEventListener('keyup', onKeyUp);
       document.removeEventListener('keydown', onKeyDown);
     };
-  }, [gameInfo.gameStatus, onKeyUp, onKeyDown]);
+  }, [gameStatus, onKeyUp, onKeyDown]);
 
   const cells = boards.currentBoard.map((row, y) =>
     row.map((num, x) => (

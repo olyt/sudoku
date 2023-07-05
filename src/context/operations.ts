@@ -7,7 +7,7 @@ import {
   updateValueOnBoard,
 } from '../utils/boardHelper';
 import { setBoard, setInitialBoard, setSolution } from './boards/actions';
-import { setGameDifficulty, setGameStatus } from './gameInfo/actions';
+import { setGameStatus } from './gameStatus/actions';
 import { resetClickedCell, setClickedCellValue } from './clickedCell/actions';
 import { setModalComponent } from './modal/actions';
 import { pushToHistory, resetHistory } from './history/actions';
@@ -21,12 +21,23 @@ export const startGame =
     dispatch(setInitialBoard(copyBoard(board)));
     dispatch(setBoard(board));
     dispatch(setSolution(solution));
-    dispatch(setGameDifficulty(difficulty));
     dispatch(setGameStatus(EGameStatus.InProgress));
     dispatch(resetClickedCell);
     dispatch(resetHistory);
     dispatch(resetHints);
   };
+
+export const resetGame = (): TOperation => (dispatch, state) => {
+  const { boards, gameStatus } = state;
+
+  dispatch(setBoard(boards.initialBoard));
+  dispatch(resetHistory);
+  dispatch(resetHints);
+
+  if (gameStatus === EGameStatus.Failed) {
+    dispatch(setGameStatus(EGameStatus.InProgress));
+  }
+};
 
 export const leaveAfterWin = (): TOperation => (dispatch) => {
   dispatch(setBoard(getBlankBoard()));
@@ -36,7 +47,6 @@ export const leaveAfterWin = (): TOperation => (dispatch) => {
   dispatch(resetHistory);
   dispatch(resetHints);
   dispatch(setGameStatus(EGameStatus.NotStarted));
-  dispatch(setGameDifficulty(null));
 };
 
 export const startNewAfterWin = (): TOperation => (dispatch) => {
@@ -57,9 +67,4 @@ export const setValueToBoard =
     dispatch(setBoard(updatedBoard));
     dispatch(setClickedCellValue(newValue));
     dispatch(pushToHistory({ ...clickedCell, value: newValue }));
-
-    //TODO: check necessity of this if with game tracking hook
-    if (boards.solution[y][x] !== updatedBoard[y][x]) {
-      dispatch(setGameStatus(EGameStatus.Failed));
-    }
   };
