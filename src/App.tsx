@@ -35,7 +35,7 @@ const AppWrapper = styled.div`
 `;
 
 const App: React.FC = () => {
-  const { modal, dispatch } = useAppContext();
+  const { dispatch } = useAppContext();
   useGameStatusTracking();
 
   const undoClickedCell: MouseEventHandler<HTMLDivElement> = (event) => {
@@ -50,7 +50,7 @@ const App: React.FC = () => {
       <Header />
       <BoardGrid />
       <DigitsGrid />
-      {modal.isOpen && <Modal />}
+      <Modal />
     </AppWrapper>
   );
 };

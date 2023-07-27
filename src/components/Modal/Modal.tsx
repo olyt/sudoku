@@ -44,6 +44,10 @@ const Modal: FC = () => {
     }
   };
 
+  if (!modal.isOpen) {
+    return null;
+  }
+
   return (
     <OuterModal onClick={closeModalOnClick}>
       <InnerModal>
