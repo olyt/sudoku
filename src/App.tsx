@@ -38,6 +38,8 @@ const App: React.FC = () => {
   const { dispatch } = useAppContext();
   useGameStatusTracking();
 
+  console.log('rerender');
+
   const undoClickedCell: MouseEventHandler<HTMLDivElement> = (event) => {
     if (event.target === event.currentTarget) {
       dispatch(resetClickedCell);

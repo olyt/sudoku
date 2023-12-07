@@ -14,7 +14,7 @@ const BLANK_BOARD: TBoard = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
 export const copyBoard: TCopyBoard = (board) =>
@@ -40,6 +40,17 @@ const checkFinishedRow: TBoardAxisChecker = (board, row) => {
 
 const checkFinishedColumn: TBoardAxisChecker = (board, column) => {
   return board.every((row) => !!row[column]);
+};
+
+export const isCurrentBoardMatchingSolution = (
+  currentBoard: TBoard,
+  solution: TBoard
+): boolean => {
+  return currentBoard.every((currentRow, y) => {
+    return currentRow.every((currentDigit, x) => {
+      return currentDigit === solution[y][x];
+    });
+  });
 };
 
 export const checkIfBoardPartFinished = (
