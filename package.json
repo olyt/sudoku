@@ -16,7 +16,6 @@
     "games"
   ],
   "dependencies": {
-    // TODO: add eslint-plugin-sonarjs
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -57,9 +56,11 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-import-resolver-typescript": "^2.5.0",
     "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jsdoc": "^48.2.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-sonarjs": "^0.25.1",
     "eslint-plugin-styled-components-a11y": "^0.0.34",
     "prettier": "^2.5.0",
     "stylelint": "^14.1.0",
