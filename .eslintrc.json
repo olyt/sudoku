@@ -161,7 +161,7 @@
         "jsdoc/check-types": 1,
         "jsdoc/check-values": 1,
         "jsdoc/newline-after-description": 2,
-        "jsdoc/require-description": 0,
+        "jsdoc/require-description": 2,
         "jsdoc/require-param": 2,
         "jsdoc/require-param-description": 2,
         "jsdoc/require-param-name": 2,
