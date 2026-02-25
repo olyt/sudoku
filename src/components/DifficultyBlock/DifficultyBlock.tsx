@@ -4,6 +4,7 @@ import { startGame } from '../../context/operations';
 import { EModalComponents } from '../../context/types';
 import ModalButton from '../Buttons/ModalButton';
 import { setModalComponent, setModalIsOpen } from '../../context/modal/actions';
+import { DIFFICULTIES } from '../../utils/generateBoard';
 
 const DifficultyBlock: React.FC = () => {
     const { dispatch } = useAppContext();
@@ -15,7 +16,7 @@ const DifficultyBlock: React.FC = () => {
     };
 
     const generateButtons = (): JSX.Element[] => {
-        return Object.values(EDifficulties).map((difficulty) => {
+        return (Object.keys(DIFFICULTIES) as EDifficulties[]).map((difficulty) => {
             const text = difficulty
                 .charAt(0)
                 .toUpperCase()
