@@ -34,8 +34,8 @@ const BoardGrid: React.FC = () => {
     const { boards, clickedCell, gameStatus, dispatch } = useAppContext();
     const digitHandlerCreator = useCellValueHandler() as THandlerCreator;
 
-    const handleDigits = useCallback<(code: string) => void>(
-        (code) => {
+    const handleDigits = useCallback(
+        (code: string) => {
             const newValue = digits[code] || numpadDigits[code] || 0;
 
             if (newValue) {
@@ -45,8 +45,8 @@ const BoardGrid: React.FC = () => {
         [digitHandlerCreator]
     );
 
-    const handleArrows = useCallback<(code: string) => void>(
-        (code) => {
+    const handleArrows = useCallback(
+        (code: string) => {
             if (clickedCell.y === -1 || clickedCell.x === -1) {
                 dispatch(setClickedCellCoordinates({ y: 0, x: 0 }));
 
@@ -102,8 +102,8 @@ const BoardGrid: React.FC = () => {
         [clickedCell, dispatch, boards.currentBoard]
     );
 
-    const onKeyUp = useCallback<(event: KeyboardEvent) => void>(
-        (event) => {
+    const onKeyUp = useCallback(
+        (event: KeyboardEvent) => {
             const { code } = event;
 
             if (code === escape) {
@@ -121,8 +121,8 @@ const BoardGrid: React.FC = () => {
         [dispatch, handleDigits]
     );
 
-    const onKeyDown = useCallback<(event: KeyboardEvent) => void>(
-        (event) => {
+    const onKeyDown = useCallback(
+        (event: KeyboardEvent) => {
             if (arrows.includes(event.code)) {
                 handleArrows(event.code);
             }
@@ -142,7 +142,7 @@ const BoardGrid: React.FC = () => {
         };
     }, [gameStatus, onKeyUp, onKeyDown]);
 
-    const cells = boards.currentBoard.map((row, y) =>
+    const cells = boards.currentBoard.map((row: number[], y: number) =>
         row.map((num, x) => (
             <BoardCell value={num} x={x} y={y} key={`x:${x},y:${y}`} />
         ))

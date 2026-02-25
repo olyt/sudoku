@@ -1,4 +1,3 @@
-import { TBoard } from '../../@types/global';
 import { TActionCreator, TActionMap } from '../types';
 import { copyBoard } from '../../utils/boardHelper';
 

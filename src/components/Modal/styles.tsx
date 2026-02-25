@@ -12,9 +12,7 @@ export const OuterModal = styled.div`
     justify-content: center;
     align-items: center;
 
-    @media (min-width: ${({ theme }) =>
-            theme.breakpoints.smPlus}) and (max-width: ${({ theme }) =>
-            theme.breakpoints.lg}) {
+    @media (min-width: ${({ theme }) => theme.breakpoints.smPlus}) and (max-width: ${({ theme }) => theme.breakpoints.lg}) {
         height: ${window.innerHeight}px;
     }
 
@@ -36,9 +34,7 @@ export const InnerModal = styled.div`
     border-radius: 25px;
     overflow: hidden;
 
-    @media (min-width: ${({ theme }) =>
-            theme.breakpoints.smPlus}) and (max-width: ${({ theme }) =>
-            theme.breakpoints.lg}) {
+    @media (min-width: ${({ theme }) => theme.breakpoints.smPlus}) and (max-width: ${({ theme }) => theme.breakpoints.lg}) {
         width: 50%;
         height: 50%;
     }

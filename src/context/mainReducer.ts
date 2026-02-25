@@ -29,4 +29,5 @@ const mainReducer: React.Reducer<IAppContext, TAction> = (state, action) => ({
         action as TClickedCellAction
     ),
 });
+
 export default mainReducer;

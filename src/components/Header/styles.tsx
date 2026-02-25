@@ -37,9 +37,7 @@ export const H1 = styled.h1`
     transform: translateX(5px);
     color: ${({ theme }) => theme.primaryLight};
 
-    @media (min-width: ${({ theme }) =>
-            theme.breakpoints.smPlus}) and (max-width: ${({ theme }) =>
-            theme.breakpoints.lg}) {
+    @media (min-width: ${({ theme }) => theme.breakpoints.smPlus}) and (max-width: ${({ theme }) => theme.breakpoints.lg}) {
         justify-self: center;
         grid-column-start: 1;
     }
@@ -56,9 +54,7 @@ export const ButtonsWrapper = styled.div`
     align-items: center;
     height: 100%;
 
-    @media (min-width: ${({ theme }) =>
-            theme.breakpoints.smPlus}) and (max-width: ${({ theme }) =>
-            theme.breakpoints.lg}) {
+    @media (min-width: ${({ theme }) => theme.breakpoints.smPlus}) and (max-width: ${({ theme }) => theme.breakpoints.lg}) {
         justify-content: right;
     }
 

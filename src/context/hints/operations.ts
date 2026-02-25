@@ -7,6 +7,7 @@ import { decrementHint, setCurrentHint, setError } from './actions';
  * @description Requests a hint for the player. Only works during an active game.
  * If no hints remain, triggers a temporary error animation.
  * Otherwise, suggests a cell from the least-filled row and decrements the counter.
+ * @returns {TOperation} - thunk that provides a hint if available
  */
 export const hint = (): TOperation => (dispatch, state) => {
     if (state.gameStatus !== EGameStatus.InProgress) {
@@ -15,6 +16,7 @@ export const hint = (): TOperation => (dispatch, state) => {
 
     if (!state.hints.count) {
         dispatch(setError(true));
+
         return;
     }
 
@@ -22,6 +24,7 @@ export const hint = (): TOperation => (dispatch, state) => {
         state.boards.currentBoard,
         state.boards.solution
     );
+
     dispatch(decrementHint);
     dispatch(setCurrentHint(nextHint));
 };

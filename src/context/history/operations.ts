@@ -9,6 +9,7 @@ import { getBoardWithUpdatedValue } from '../../utils/boardHelper';
  * @description Attempts to undo the last move. Does nothing if the game hasn't started.
  * If there's no history, triggers a temporary error animation.
  * Otherwise, reverts the last cell to empty and pops it from history.
+ * @returns {TOperation} - thunk that undoes the last move if possible
  */
 export const tryToUndo = (): TOperation => (dispatch, state) => {
     const {
@@ -23,6 +24,7 @@ export const tryToUndo = (): TOperation => (dispatch, state) => {
 
     if (!cells.length) {
         dispatch(setError(true));
+
         return;
     }
 
