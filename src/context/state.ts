@@ -1,50 +1,54 @@
+/**
+ * @description Initial/default state values for all application state slices.
+ */
+
 import {
-  EGameStatus,
-  EModalComponents,
-  IAppContext,
-  TBoardsState,
-  THints,
-  THistory,
-  TModalState,
+    EGameStatus,
+    EModalComponents,
+    IAppContext,
+    TBoardsState,
+    THints,
+    THistory,
+    TModalState,
 } from './types';
 import { getBlankBoard } from '../utils/boardHelper';
-import { ICell } from '../types/types';
+import { ICell } from '../@types/global';
 
 const initialBoardsState: TBoardsState = {
-  currentBoard: getBlankBoard(),
-  initialBoard: getBlankBoard(),
-  solution: getBlankBoard(),
+    currentBoard: getBlankBoard(),
+    initialBoard: getBlankBoard(),
+    solution: getBlankBoard(),
 };
 
 const initialModalState: TModalState = {
-  isOpen: false,
-  component: EModalComponents.Empty,
+    isOpen: false,
+    component: EModalComponents.Empty,
 };
 
 const initialGameStatus = EGameStatus.NotStarted;
 
 export const defaultCell: ICell = {
-  x: -1,
-  y: -1,
-  value: 0,
+    x: -1,
+    y: -1,
+    value: 0,
 };
 
 export const initialHistory: THistory = {
-  cells: [],
-  error: false,
+    cells: [],
+    error: false,
 };
 
 export const initialHints: THints = {
-  count: 5,
-  currentHint: defaultCell,
-  error: false,
+    count: 5,
+    currentHint: defaultCell,
+    error: false,
 };
 
 export const context: IAppContext = {
-  clickedCell: defaultCell,
-  boards: initialBoardsState,
-  modal: initialModalState,
-  gameStatus: initialGameStatus,
-  history: initialHistory,
-  hints: initialHints,
+    clickedCell: defaultCell,
+    boards: initialBoardsState,
+    modal: initialModalState,
+    gameStatus: initialGameStatus,
+    history: initialHistory,
+    hints: initialHints,
 };

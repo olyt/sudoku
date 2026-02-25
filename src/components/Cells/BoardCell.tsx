@@ -1,150 +1,151 @@
-import React, { MouseEventHandler, useEffect, useMemo, useState } from 'react';
+import React, { MouseEventHandler, useCallback, useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import styled from 'styled-components';
 import BasicCell from './BasicCell';
-import { ICell, ICellCoordinates } from '../../types/types';
 import {
-  resetClickedCell,
-  setClickedCell,
+    resetClickedCell,
+    setClickedCell,
 } from '../../context/clickedCell/actions';
 import { checkIfBoardPartFinished } from '../../utils/boardHelper';
 import { EGameStatus } from '../../context/types';
 import { resetCurrentHint } from '../../context/hints/actions';
 import {
-  clickedMixin,
-  defaultMixin,
-  finishedMixin,
-  highlightedOrSimilarNumMixin,
-  hintMixin,
+    clickedMixin,
+    defaultMixin,
+    finishedMixin,
+    highlightedOrSimilarNumMixin,
+    hintMixin,
 } from './mixins';
 
 export enum ECellStates {
-  clicked = 'clicked',
-  highlighted = 'highlighted',
-  similarNum = 'similarNum',
-  finished = 'finished',
-  hint = 'hint',
-  inactive = 'inactive',
+    clicked = 'clicked',
+    highlighted = 'highlighted',
+    similarNum = 'similarNum',
+    finished = 'finished',
+    hint = 'hint',
+    inactive = 'inactive',
 }
 
 export interface IStyledProps extends ICellCoordinates {
-  state: ECellStates;
+    state: ECellStates;
 }
 
 const checkBoldBorder = (coordinate: number): boolean => {
-  return coordinate === 3 || coordinate === 6;
+    return coordinate === 3 || coordinate === 6;
 };
 
 // TODO: Unify switch to 1 statement with mixins
 const StyledBoardCell = styled(BasicCell)<IStyledProps>`
-  border-left: ${({ x }) => (checkBoldBorder(x) ? 3 : 1)}px solid black;
-  border-top: ${({ y }) => (checkBoldBorder(y) ? 3 : 1)}px solid black;
+    border-left: ${({ x }) => (checkBoldBorder(x) ? 3 : 1)}px solid black;
+    border-top: ${({ y }) => (checkBoldBorder(y) ? 3 : 1)}px solid black;
 
-  ${({ state }) => {
-    switch (state) {
-      case ECellStates.clicked:
-        return clickedMixin;
-      case ECellStates.highlighted:
-        return highlightedOrSimilarNumMixin;
-      case ECellStates.similarNum:
-        return highlightedOrSimilarNumMixin;
-      case ECellStates.finished:
-        return finishedMixin;
-      case ECellStates.hint:
-        return hintMixin;
-      default:
-        return defaultMixin;
+    ${({ state }) => {
+        switch (state) {
+            case ECellStates.clicked:
+                return clickedMixin;
+            case ECellStates.highlighted:
+                return highlightedOrSimilarNumMixin;
+            case ECellStates.similarNum:
+                return highlightedOrSimilarNumMixin;
+            case ECellStates.finished:
+                return finishedMixin;
+            case ECellStates.hint:
+                return hintMixin;
+            default:
+                return defaultMixin;
+        }
+    }};
+
+    &:nth-child(9n + 1) {
+        border-left: none;
     }
-  }};
 
-  &:nth-child(9n + 1) {
-    border-left: none;
-  }
-
-  &:nth-child(-n + 9) {
-    border-top: none;
-  }
+    &:nth-child(-n + 9) {
+        border-top: none;
+    }
 `;
 
-const BoardCell: React.FC<ICell> = ({ value, x, y }) => {
-  const [cellState, setCellState] = useState<ECellStates>(ECellStates.inactive);
-  const { boards, clickedCell, gameStatus, hints, dispatch } = useAppContext();
-  const currentMoveInfo = useMemo<{ [Key: string]: boolean }>(
-    () => ({
-      sameY: clickedCell.y === y,
-      sameX: clickedCell.x === x,
-      sameCell: clickedCell.y === y && clickedCell.x === x,
-      sameValue: clickedCell.value === value,
-      digitClicked:
-        clickedCell.y === -1 && clickedCell.x === -1 && !!clickedCell.value,
-      areaFinished:
-        !!value && checkIfBoardPartFinished(boards.currentBoard, y, x),
-      isHint:
-        y === hints.currentHint.y &&
-        x === hints.currentHint.x &&
-        !!hints.currentHint.value,
-    }),
-    [clickedCell, boards.currentBoard, hints.currentHint, x, y, value]
-  );
-
-  useEffect(() => {
-    const {
-      sameCell,
-      sameValue,
-      areaFinished,
-      digitClicked,
-      sameY,
-      sameX,
-      isHint,
-    } = currentMoveInfo;
-
-    if (!sameCell) {
-      if (areaFinished) {
-        setCellState(ECellStates.finished);
-      } else {
-        setCellState(ECellStates.inactive);
-      }
-    }
-
-    if ((sameY && !sameX) || (!sameY && sameX)) {
-      setCellState(ECellStates.highlighted);
-    }
-
-    if (digitClicked && sameValue) {
-      setCellState((prev) => {
-        if (prev === ECellStates.inactive || prev === ECellStates.finished) {
-          return ECellStates.similarNum;
-        }
-        return prev;
-      });
+const deriveCellState = (
+    sameCell: boolean,
+    sameY: boolean,
+    sameX: boolean,
+    sameValue: boolean,
+    digitClicked: boolean,
+    areaFinished: boolean,
+    isHint: boolean
+): ECellStates => {
+    if (isHint) {
+        return ECellStates.hint;
     }
 
     if (sameCell) {
-      setCellState(ECellStates.clicked);
+        return ECellStates.clicked;
     }
 
-    if (isHint) {
-      setCellState(ECellStates.hint);
+    if ((sameY && !sameX) || (!sameY && sameX)) {
+        return ECellStates.highlighted;
     }
-  }, [currentMoveInfo]);
 
-  const toggleChecked: MouseEventHandler<HTMLDivElement> = () => {
-    if (gameStatus !== EGameStatus.NotStarted) {
-      if (cellState === ECellStates.clicked || currentMoveInfo.sameCell) {
-        dispatch(resetClickedCell);
-        return;
-      }
-
-      dispatch(setClickedCell({ y, x, value }));
-      dispatch(resetCurrentHint);
+    if (digitClicked && sameValue) {
+        return ECellStates.similarNum;
     }
-  };
 
-  return (
-    <StyledBoardCell onClick={toggleChecked} x={x} y={y} state={cellState}>
-      {value || (currentMoveInfo.isHint && hints.currentHint.value) || null}
-    </StyledBoardCell>
-  );
+    if (areaFinished) {
+        return ECellStates.finished;
+    }
+
+    return ECellStates.inactive;
 };
+
+const BoardCell: React.FC<ICell> = React.memo(({ value, x, y }) => {
+    const { boards, clickedCell, gameStatus, hints, dispatch } =
+        useAppContext();
+
+    const isHint =
+        y === hints.currentHint.y &&
+        x === hints.currentHint.x &&
+        !!hints.currentHint.value;
+
+    const sameCell = clickedCell.y === y && clickedCell.x === x;
+
+    const cellState = useMemo<ECellStates>(() => {
+        const sameY = clickedCell.y === y;
+        const sameX = clickedCell.x === x;
+        const sameValue = clickedCell.value === value;
+        const digitClicked =
+            clickedCell.y === -1 && clickedCell.x === -1 && !!clickedCell.value;
+        const areaFinished =
+            !!value && checkIfBoardPartFinished(boards.currentBoard, y, x);
+
+        return deriveCellState(
+            sameCell,
+            sameY,
+            sameX,
+            sameValue,
+            digitClicked,
+            areaFinished,
+            isHint
+        );
+    }, [clickedCell, boards.currentBoard, x, y, value, sameCell, isHint]);
+
+    const toggleChecked: MouseEventHandler<HTMLDivElement> = useCallback(() => {
+        if (gameStatus !== EGameStatus.NotStarted) {
+            if (sameCell) {
+                dispatch(resetClickedCell);
+
+                return;
+            }
+
+            dispatch(setClickedCell({ y, x, value }));
+            dispatch(resetCurrentHint);
+        }
+    }, [gameStatus, sameCell, dispatch, y, x, value]);
+
+    return (
+        <StyledBoardCell onClick={toggleChecked} x={x} y={y} state={cellState}>
+            {value || (isHint && hints.currentHint.value) || null}
+        </StyledBoardCell>
+    );
+});
 
 export default BoardCell;

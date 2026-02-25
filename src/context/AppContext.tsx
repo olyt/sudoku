@@ -1,31 +1,54 @@
-import React, { createContext, useContext, useReducer } from 'react';
+/**
+ * @description Application-wide state management using React Context with thunk support.
+ * Provides a Redux-like pattern: a combined reducer handles synchronous actions,
+ * while thunk operations (functions) receive dispatch and state for async/complex flows.
+ */
+
+import React, { createContext, useContext, useReducer, useRef } from 'react';
 import reducer from './mainReducer';
 import { IAppContext, IState, TAction, TOperation } from './types';
 import { context } from './state';
 
 const AppContext = createContext<IState>({
-  ...context,
-  dispatch: () => null,
+    ...context,
+    dispatch: () => null,
 });
 
+/**
+ * @function useAppContext
+ * @description Hook to access the global application state and dispatch function
+ * @returns {IState} - the full app state plus a dispatch function supporting both actions and thunks
+ */
 export const useAppContext = (): IState => useContext(AppContext);
 
+/**
+ * @function AppContextProvider
+ * @description Context provider that wraps the app with global state management.
+ * Enhances the standard useReducer dispatch to support thunk operations
+ * (functions that receive dispatch and current state).
+ * Uses a ref to always provide the latest state to thunks, avoiding stale closures.
+ */
 export const AppContextProvider: React.FC = ({ children }) => {
-  const [state, dispatch] = useReducer<React.Reducer<IAppContext, TAction>>(
-    reducer,
-    context
-  );
-  const dispatchWithThunk = (action: TAction | TOperation): TAction | void => {
-    if (typeof action === 'function') {
-      return action(dispatch, state);
-    }
+    const [state, dispatch] = useReducer<React.Reducer<IAppContext, TAction>>(
+        reducer,
+        context
+    );
+    const stateRef = useRef(state);
+    stateRef.current = state;
 
-    return dispatch(action);
-  };
+    const dispatchWithThunk = (
+        action: TAction | TOperation
+    ): TAction | void => {
+        if (typeof action === 'function') {
+            return action(dispatch, stateRef.current);
+        }
 
-  return (
-    <AppContext.Provider value={{ ...state, dispatch: dispatchWithThunk }}>
-      {children}
-    </AppContext.Provider>
-  );
+        return dispatch(action);
+    };
+
+    return (
+        <AppContext.Provider value={{ ...state, dispatch: dispatchWithThunk }}>
+            {children}
+        </AppContext.Provider>
+    );
 };

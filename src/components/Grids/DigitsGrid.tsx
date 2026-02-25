@@ -3,20 +3,21 @@ import DigitCell from '../Cells/DigitCell';
 import BasicGrid from './BasicGrid';
 
 const DigitsGrid: React.FC = () => {
-  const generateNums = (): JSX.Element[] => {
-    const nums = [];
-    for (let i = 1; i <= 9; i++) {
-      nums.push(<DigitCell digit={i} key={i} />);
-    }
+    const generateNums = (): JSX.Element[] => {
+        const nums = [];
 
-    return nums;
-  };
+        for (let i = 1; i <= 9; i++) {
+            nums.push(<DigitCell digit={i} key={i} />);
+        }
 
-  return (
-    <BasicGrid columns={9} rows={1}>
-      {generateNums()}
-    </BasicGrid>
-  );
+        return nums;
+    };
+
+    return (
+        <BasicGrid columns={9} rows={1}>
+            {generateNums()}
+        </BasicGrid>
+    );
 };
 
 export default DigitsGrid;

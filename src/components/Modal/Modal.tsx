@@ -8,49 +8,53 @@ import { InnerModal, OuterModal } from './styles';
 import { setModalIsOpen } from '../../context/modal/actions';
 
 const components: { [Key: string]: FC } = {
-  DifficultyBlock,
-  WinBanner,
+    DifficultyBlock,
+    WinBanner,
 };
 
 const Modal: FC = () => {
-  const { modal, gameStatus, dispatch } = useAppContext();
-  const Component = components[modal.component];
+    const { modal, gameStatus, dispatch } = useAppContext();
+    const Component = components[modal.component];
 
-  const closeModal: () => void = useCallback(() => {
-    if (gameStatus === EGameStatus.Win) {
-      dispatch(leaveAfterWin());
-    }
+    const closeModal: () => void = useCallback(() => {
+        if (gameStatus === EGameStatus.Win) {
+            dispatch(leaveAfterWin());
+        }
 
-    dispatch(setModalIsOpen(false));
-  }, [gameStatus, dispatch]);
+        dispatch(setModalIsOpen(false));
+    }, [gameStatus, dispatch]);
 
-  useEffect(() => {
-    const closeModalOnEsc = (event: KeyboardEvent): void => {
-      if (event.code === 'Escape') {
-        closeModal();
-      }
+    useEffect(() => {
+        const closeModalOnEsc = (event: KeyboardEvent): void => {
+            if (event.code === 'Escape') {
+                closeModal();
+            }
+        };
+
+        document.addEventListener('keyup', closeModalOnEsc);
+
+        return () => {
+            document.removeEventListener('keyup', closeModalOnEsc);
+        };
+    }, [closeModal]);
+
+    const closeModalOnClick: MouseEventHandler<HTMLDivElement> = (event) => {
+        if (event.target === event.currentTarget) {
+            closeModal();
+        }
     };
 
-    document.addEventListener('keyup', closeModalOnEsc);
-
-    return () => {
-      document.removeEventListener('keyup', closeModalOnEsc);
-    };
-  }, [closeModal]);
-
-  const closeModalOnClick: MouseEventHandler<HTMLDivElement> = (event) => {
-    if (event.target === event.currentTarget) {
-      closeModal();
+    if (!modal.isOpen) {
+        return null;
     }
-  };
 
-  return (
-    <OuterModal onClick={closeModalOnClick}>
-      <InnerModal>
-        <Component />
-      </InnerModal>
-    </OuterModal>
-  );
+    return (
+        <OuterModal onClick={closeModalOnClick}>
+            <InnerModal>
+                <Component />
+            </InnerModal>
+        </OuterModal>
+    );
 };
 
 export default Modal;
