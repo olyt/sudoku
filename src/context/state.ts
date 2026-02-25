@@ -12,7 +12,7 @@ import {
     TModalState,
 } from './types';
 import { getBlankBoard } from '../utils/boardHelper';
-import { ICell } from '../@types/global';
+
 
 const initialBoardsState: TBoardsState = {
     currentBoard: getBlankBoard(),

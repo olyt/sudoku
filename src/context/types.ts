@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { ICell, TBoard } from '../@types/global';
+
 import { TBoardsAction } from './boards/actions';
 import { TGameInfoAction } from './gameStatus/actions';
 import { TModalAction } from './modal/actions';
