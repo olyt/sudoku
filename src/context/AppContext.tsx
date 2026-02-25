@@ -27,6 +27,9 @@ export const useAppContext = (): IState => useContext(AppContext);
  * Enhances the standard useReducer dispatch to support thunk operations
  * (functions that receive dispatch and current state).
  * Uses a ref to always provide the latest state to thunks, avoiding stale closures.
+ * @param {object} root0 - component props
+ * @param {React.ReactNode} root0.children - child elements to render
+ * @returns {JSX.Element} - the context provider wrapping children
  */
 export const AppContextProvider: React.FC = ({ children }) => {
     const [state, dispatch] = useReducer<React.Reducer<IAppContext, TAction>>(
@@ -34,6 +37,7 @@ export const AppContextProvider: React.FC = ({ children }) => {
         context
     );
     const stateRef = useRef(state);
+
     stateRef.current = state;
 
     const dispatchWithThunk = (

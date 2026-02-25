@@ -30,7 +30,7 @@ const DigitCell: React.FC<IDigitCellProps> = ({ digit }) => {
     ) as MouseEventHandler<HTMLDivElement>;
 
     useEffect(() => {
-        setIsFinished(boards.currentBoard.every((row) => row.includes(digit)));
+        setIsFinished(boards.currentBoard.every((row: number[]) => row.includes(digit)));
     }, [boards.currentBoard, digit]);
 
     return (

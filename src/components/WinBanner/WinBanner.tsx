@@ -21,9 +21,7 @@ const Text = styled.p`
     padding: 0 100px;
     box-sizing: border-box;
 
-    @media (min-width: ${({ theme }) =>
-            theme.breakpoints.smPlus}) and (max-width: ${({ theme }) =>
-            theme.breakpoints.lg}) {
+    @media (min-width: ${({ theme }) => theme.breakpoints.smPlus}) and (max-width: ${({ theme }) => theme.breakpoints.lg}) {
         font-size: 30px;
         line-height: 60px;
     }

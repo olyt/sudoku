@@ -1,7 +1,7 @@
 import React from 'react';
 import { EClickedCellActionTypes, TClickedCellAction } from './actions';
 import { defaultCell } from '../state';
-import { ICell } from '../../@types/global';
+
 
 const reducer: React.Reducer<ICell, TClickedCellAction> = (state, action) => {
     switch (action.type) {

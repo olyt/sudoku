@@ -145,6 +145,33 @@ const getMirroredColumns = (row: number[], nextRow: number[]): Set<number> => {
     return mirroredIndices;
 };
 
+const selectCoordinates = (
+    atLeastOneMirroredFilled: boolean,
+    mirroredCoordinates: ICellCoordinates[]
+): ICellCoordinates => {
+    if (!atLeastOneMirroredFilled) {
+        return mirroredCoordinates[Math.floor(Math.random() * mirroredCoordinates.length)];
+    }
+
+    return { y: Math.floor(Math.random() * 9), x: Math.floor(Math.random() * 9) };
+};
+
+const getNumToFill = (mustFill: number, numbersCounter: number[], fallback: number): number => {
+    if (mustFill !== 1) {
+        return fallback;
+    }
+
+    let result = fallback;
+
+    for (let i = 1; i < numbersCounter.length; i++) {
+        if (!numbersCounter[i]) {
+            result = i;
+        }
+    }
+
+    return result;
+};
+
 /**
  * @function generateBoard
  * @description Generates a Sudoku puzzle with the specified difficulty.
@@ -165,33 +192,12 @@ export const generateBoard: TGenerateFn = (difficulty) => {
     let atLeastOneMirroredFilled = !mirroredCoordinates.length;
 
     while (mustFill) {
-        let y: number;
-        let x: number;
+        const { y, x } = selectCoordinates(atLeastOneMirroredFilled, mirroredCoordinates);
 
-        if (!atLeastOneMirroredFilled) {
-            const { y: swapY, x: swapX } =
-                mirroredCoordinates[
-                    Math.floor(Math.random() * mirroredCoordinates.length)
-                ];
-
-            y = swapY;
-            x = swapX;
-            atLeastOneMirroredFilled = true;
-        } else {
-            y = Math.floor(Math.random() * 9);
-            x = Math.floor(Math.random() * 9);
-        }
+        atLeastOneMirroredFilled = true;
 
         if (!board[y][x] || board[y][x] !== solution[y][x]) {
-            let num: number = solution[y][x];
-
-            if (mustFill === 1) {
-                for (let i = 1; i < numbersCounter.length; i++) {
-                    if (!numbersCounter[i]) {
-                        num = i;
-                    }
-                }
-            }
+            const num = getNumToFill(mustFill, numbersCounter, solution[y][x]);
 
             board[y][x] = num;
             boxes.setValue(num, y, x);

@@ -1,5 +1,5 @@
 import { TActionMap } from '../types';
-import { ICell } from '../../@types/global';
+
 
 export enum EHintsActionTypes {
     DecrementHint = 'DecrementHint',

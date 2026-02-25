@@ -1,5 +1,5 @@
 import { TActionCreator, TActionMap } from '../types';
-import { ICell, ICellCoordinates } from '../../@types/global';
+
 
 export enum EClickedCellActionTypes {
     SetClickedCell = 'SET_CLICKED_CELL',

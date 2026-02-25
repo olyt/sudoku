@@ -15,9 +15,7 @@ const BasicGrid = styled.section<Props>`
     border: 3px solid black;
     box-shadow: 0 0 30px 5px ${({ theme }) => theme.primary};
 
-    @media (min-width: ${({ theme }) =>
-            theme.breakpoints.smPlus}) and (max-width: ${({ theme }) =>
-            theme.breakpoints.lg}) {
+    @media (min-width: ${({ theme }) => theme.breakpoints.smPlus}) and (max-width: ${({ theme }) => theme.breakpoints.lg}) {
         width: 75vw;
     }
 
