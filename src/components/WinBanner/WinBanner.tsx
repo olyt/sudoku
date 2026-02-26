@@ -6,7 +6,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { startNewAfterWin } from '../../context/operations';
-import { useAppContext } from '../../context/AppContext';
+import { useAppDispatch } from '../../context/AppContext';
 import ModalButton from '../Buttons/ModalButton';
 
 const Text = styled.p`
@@ -33,7 +33,7 @@ const Text = styled.p`
 `;
 
 const WinBanner: React.FC = () => {
-    const { dispatch } = useAppContext();
+    const dispatch = useAppDispatch();
 
     return (
         <>

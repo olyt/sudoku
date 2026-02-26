@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAppContext } from '../../context/AppContext';
+import { useAppDispatch } from '../../context/AppContext';
 import { startGame } from '../../context/operations';
 import { EModalComponents } from '../../context/types';
 import ModalButton from '../Buttons/ModalButton';
@@ -7,7 +7,7 @@ import { setModalComponent, setModalIsOpen } from '../../context/modal/actions';
 import { DIFFICULTIES } from '../../utils/generateBoard';
 
 const DifficultyBlock: React.FC = () => {
-    const { dispatch } = useAppContext();
+    const dispatch = useAppDispatch();
 
     const startNewGame: (difficulty: EDifficulties) => void = (difficulty) => {
         dispatch(startGame(difficulty));

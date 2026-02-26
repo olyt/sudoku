@@ -1,6 +1,6 @@
 import React, { MouseEventHandler } from 'react';
 import HeaderButton from '../HeaderButton';
-import { useAppContext } from '../../../context/AppContext';
+import { useAppDispatch } from '../../../context/AppContext';
 import {
     setModalComponent,
     setModalIsOpen,
@@ -9,7 +9,7 @@ import { EModalComponents } from '../../../context/types';
 import { resetGame } from '../../../context/operations';
 
 const GameControl: React.FC = () => {
-    const { dispatch } = useAppContext();
+    const dispatch = useAppDispatch();
 
     const onNewGameClick: MouseEventHandler<HTMLButtonElement> = () => {
         dispatch(setModalComponent(EModalComponents.DifficultyBlock));

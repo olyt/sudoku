@@ -3,7 +3,7 @@ import BoardGrid from './components/Grids/BoardGrid';
 import Header from './components/Header/Header';
 import DigitsGrid from './components/Grids/DigitsGrid';
 import Modal from './components/Modal/Modal';
-import { useAppContext } from './context/AppContext';
+import { useAppDispatch } from './context/AppContext';
 import styled from 'styled-components';
 import useGameStatusTracking from './hooks/useGameStatusTracking';
 import { resetClickedCell } from './context/clickedCell/actions';
@@ -33,7 +33,7 @@ const AppWrapper = styled.div`
 `;
 
 const App: React.FC = () => {
-    const { dispatch } = useAppContext();
+    const dispatch = useAppDispatch();
 
     useGameStatusTracking();
 

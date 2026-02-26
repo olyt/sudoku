@@ -14,12 +14,22 @@ const AppContext = createContext<IState>({
     dispatch: () => null,
 });
 
+const DispatchContext = createContext<IState['dispatch']>(() => null);
+
 /**
  * @function useAppContext
  * @description Hook to access the global application state and dispatch function
  * @returns {IState} - the full app state plus a dispatch function supporting both actions and thunks
  */
 export const useAppContext = (): IState => useContext(AppContext);
+
+/**
+ * @function useAppDispatch
+ * @description Hook to access the stable dispatch function without subscribing to state changes.
+ * Use in components that only dispatch actions and never read state.
+ * @returns {IState['dispatch']} - the dispatch function supporting both actions and thunks
+ */
+export const useAppDispatch = (): IState['dispatch'] => useContext(DispatchContext);
 
 /**
  * @function AppContextProvider
@@ -49,8 +59,10 @@ export const AppContextProvider: React.FC = ({ children }) => {
     }, []);
 
     return (
-        <AppContext.Provider value={{ ...state, dispatch: dispatchWithThunk }}>
-            {children}
-        </AppContext.Provider>
+        <DispatchContext.Provider value={dispatchWithThunk}>
+            <AppContext.Provider value={{ ...state, dispatch: dispatchWithThunk }}>
+                {children}
+            </AppContext.Provider>
+        </DispatchContext.Provider>
     );
 };
