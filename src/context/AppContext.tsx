@@ -4,7 +4,7 @@
  * while thunk operations (functions) receive dispatch and state for async/complex flows.
  */
 
-import React, { createContext, useContext, useReducer, useRef } from 'react';
+import React, { createContext, useCallback, useContext, useReducer, useRef } from 'react';
 import reducer from './mainReducer';
 import { IAppContext, IState, TAction, TOperation } from './types';
 import { context } from './state';
@@ -32,7 +32,7 @@ export const useAppContext = (): IState => useContext(AppContext);
  * @returns {JSX.Element} - the context provider wrapping children
  */
 export const AppContextProvider: React.FC = ({ children }) => {
-    const [state, dispatch] = useReducer<React.Reducer<IAppContext, TAction>>(
+    const [state, baseDispatch] = useReducer<React.Reducer<IAppContext, TAction>>(
         reducer,
         context
     );
@@ -40,15 +40,13 @@ export const AppContextProvider: React.FC = ({ children }) => {
 
     stateRef.current = state;
 
-    const dispatchWithThunk = (
-        action: TAction | TOperation
-    ): TAction | void => {
+    const dispatchWithThunk = useCallback((action: TAction | TOperation): TAction | void => {
         if (typeof action === 'function') {
-            return action(dispatch, stateRef.current);
+            return action(baseDispatch, stateRef.current);
         }
 
-        return dispatch(action);
-    };
+        return baseDispatch(action);
+    }, []);
 
     return (
         <AppContext.Provider value={{ ...state, dispatch: dispatchWithThunk }}>
