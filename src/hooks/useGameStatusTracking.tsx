@@ -4,7 +4,7 @@
  * and updates game status on incorrect cell placement.
  */
 
-import { useAppContext } from '../context/AppContext';
+import { useAppDispatch, useBoards, useGameStatus } from '../context/AppContext';
 import { EGameStatus, EModalComponents } from '../context/types';
 import { useEffect } from 'react';
 import { setModalComponent, setModalIsOpen } from '../context/modal/actions';
@@ -17,11 +17,9 @@ import { setGameStatus } from '../context/gameStatus/actions';
  * - When Win: opens the win banner modal.
  */
 const useGameStatusTracking = (): void => {
-    const {
-        boards: { currentBoard, solution },
-        gameStatus,
-        dispatch,
-    } = useAppContext();
+    const { currentBoard, solution } = useBoards();
+    const gameStatus = useGameStatus();
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         const handleWin = (): void => {

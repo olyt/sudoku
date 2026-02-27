@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import BoardCell from '../Cells/BoardCell';
-import { useAppContext } from '../../context/AppContext';
+import { useAppDispatch, useBoards, useClickedCell, useGameStatus } from '../../context/AppContext';
 import { arrows, digits, escape, numpadDigits } from '../../constants/keyboard';
 import {
     resetClickedCell,
@@ -31,7 +31,10 @@ const calculateNewCoordinate = (
 };
 
 const BoardGrid: React.FC = () => {
-    const { boards, clickedCell, gameStatus, dispatch } = useAppContext();
+    const boards = useBoards();
+    const clickedCell = useClickedCell();
+    const gameStatus = useGameStatus();
+    const dispatch = useAppDispatch();
     const digitHandlerCreator = useCellValueHandler() as THandlerCreator;
 
     const handleDigits = useCallback(

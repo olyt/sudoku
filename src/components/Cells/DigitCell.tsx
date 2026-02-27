@@ -1,6 +1,6 @@
 import React, { MouseEventHandler, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useAppContext } from '../../context/AppContext';
+import { useBoards } from '../../context/AppContext';
 import BasicCell from './BasicCell';
 import useCellValueHandler from '../../hooks/useCellValueHandler';
 import { finishedMixin } from './mixins';
@@ -24,7 +24,7 @@ const StyledDigitCell = styled(BasicCell)<IStyledProps>`
 
 const DigitCell: React.FC<IDigitCellProps> = ({ digit }) => {
     const [isFinished, setIsFinished] = useState<boolean>(false);
-    const { boards } = useAppContext();
+    const boards = useBoards();
     const clickHandler = useCellValueHandler(
         digit
     ) as MouseEventHandler<HTMLDivElement>;

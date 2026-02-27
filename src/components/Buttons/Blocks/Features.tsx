@@ -1,5 +1,5 @@
 import React, { MouseEventHandler, useEffect } from 'react';
-import { useAppContext } from '../../../context/AppContext';
+import { useAppDispatch, useHistory, useHints } from '../../../context/AppContext';
 import { tryToUndo } from '../../../context/history/operations';
 import { ReactComponent as UndoSVG } from '../../../assets/svg/undo.svg';
 import { ReactComponent as HintSVG } from '../../../assets/svg/hint.svg';
@@ -14,7 +14,9 @@ const HintIcon = getIcon(HintSVG);
 const ERROR_ANIMATION_MS = 400;
 
 const Features: React.FC = () => {
-    const { dispatch, history, hints } = useAppContext();
+    const dispatch = useAppDispatch();
+    const history = useHistory();
+    const hints = useHints();
 
     useEffect(() => {
         if (!hints.error) {

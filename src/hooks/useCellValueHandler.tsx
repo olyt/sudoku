@@ -5,7 +5,7 @@
  */
 
 import { MouseEventHandler, useCallback } from 'react';
-import { useAppContext } from '../context/AppContext';
+import { useAppDispatch, useBoards, useClickedCell } from '../context/AppContext';
 import { setValueToBoard } from '../context/operations';
 import { setClickedCell } from '../context/clickedCell/actions';
 
@@ -31,11 +31,9 @@ type TCellValueHandlerHook = (
  * @returns {TReturnType} - either a bound click handler or a factory function to create handlers
  */
 const useCellValueHandler: TCellValueHandlerHook = (newValue) => {
-    const {
-        boards,
-        clickedCell: { y, x },
-        dispatch,
-    } = useAppContext();
+    const boards = useBoards();
+    const { y, x } = useClickedCell();
+    const dispatch = useAppDispatch();
     const createHandler = useCallback<THandlerCreator>(
         (valueToSet) => () => {
             if (y !== -1 && x !== -1 && !boards.initialBoard[y][x]) {
