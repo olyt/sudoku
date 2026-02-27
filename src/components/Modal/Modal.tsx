@@ -1,6 +1,6 @@
 import React, { FC, MouseEventHandler, useCallback, useEffect } from 'react';
 import { leaveAfterWin } from '../../context/operations';
-import { useAppContext } from '../../context/AppContext';
+import { useAppDispatch, useGameStatus, useModal } from '../../context/AppContext';
 import WinBanner from '../WinBanner/WinBanner';
 import { EGameStatus } from '../../context/types';
 import DifficultyBlock from '../DifficultyBlock/DifficultyBlock';
@@ -13,7 +13,9 @@ const components: { [Key: string]: FC } = {
 };
 
 const Modal: FC = () => {
-    const { modal, gameStatus, dispatch } = useAppContext();
+    const modal = useModal();
+    const gameStatus = useGameStatus();
+    const dispatch = useAppDispatch();
     const Component = components[modal.component];
 
     const closeModal: () => void = useCallback(() => {

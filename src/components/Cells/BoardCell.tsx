@@ -1,5 +1,5 @@
 import React, { MouseEventHandler, useCallback, useMemo } from 'react';
-import { useAppContext } from '../../context/AppContext';
+import { useAppDispatch, useBoards, useClickedCell, useGameStatus, useHints } from '../../context/AppContext';
 import styled from 'styled-components';
 import BasicCell from './BasicCell';
 import {
@@ -98,8 +98,11 @@ const deriveCellState = (
 };
 
 const BoardCell: React.FC<ICell> = React.memo(({ value, x, y }) => {
-    const { boards, clickedCell, gameStatus, hints, dispatch } =
-        useAppContext();
+    const boards = useBoards();
+    const clickedCell = useClickedCell();
+    const gameStatus = useGameStatus();
+    const hints = useHints();
+    const dispatch = useAppDispatch();
 
     const isHint =
         y === hints.currentHint.y &&
