@@ -1,5 +1,5 @@
 import React, { MouseEventHandler, useCallback, useMemo } from 'react';
-import { useAppDispatch, useBoards, useClickedCell, useGameStatus, useHints } from '../../context/AppContext';
+import { useAppDispatch, useClickedCell, useCurrentBoard, useHints, useIsGameActive } from '../../context/AppContext';
 import styled from 'styled-components';
 import BasicCell from './BasicCell';
 import {
@@ -7,7 +7,6 @@ import {
     setClickedCell,
 } from '../../context/clickedCell/actions';
 import { checkIfBoardPartFinished } from '../../utils/boardHelper';
-import { EGameStatus } from '../../context/types';
 import { resetCurrentHint } from '../../context/hints/actions';
 import {
     clickedMixin,
@@ -98,9 +97,9 @@ const deriveCellState = (
 };
 
 const BoardCell: React.FC<ICell> = React.memo(({ value, x, y }) => {
-    const boards = useBoards();
+    const currentBoard = useCurrentBoard();
     const clickedCell = useClickedCell();
-    const gameStatus = useGameStatus();
+    const isGameActive = useIsGameActive();
     const hints = useHints();
     const dispatch = useAppDispatch();
 
@@ -118,7 +117,7 @@ const BoardCell: React.FC<ICell> = React.memo(({ value, x, y }) => {
         const digitClicked =
             clickedCell.y === -1 && clickedCell.x === -1 && !!clickedCell.value;
         const areaFinished =
-            !!value && checkIfBoardPartFinished(boards.currentBoard, y, x);
+            !!value && checkIfBoardPartFinished(currentBoard, y, x);
 
         return deriveCellState(
             sameCell,
@@ -129,10 +128,10 @@ const BoardCell: React.FC<ICell> = React.memo(({ value, x, y }) => {
             areaFinished,
             isHint
         );
-    }, [clickedCell, boards.currentBoard, x, y, value, sameCell, isHint]);
+    }, [clickedCell, currentBoard, x, y, value, sameCell, isHint]);
 
     const toggleChecked: MouseEventHandler<HTMLDivElement> = useCallback(() => {
-        if (gameStatus !== EGameStatus.NotStarted) {
+        if (isGameActive) {
             if (sameCell) {
                 dispatch(resetClickedCell);
 
@@ -142,7 +141,7 @@ const BoardCell: React.FC<ICell> = React.memo(({ value, x, y }) => {
             dispatch(setClickedCell({ y, x, value }));
             dispatch(resetCurrentHint);
         }
-    }, [gameStatus, sameCell, dispatch, y, x, value]);
+    }, [isGameActive, sameCell, dispatch, y, x, value]);
 
     return (
         <StyledBoardCell onClick={toggleChecked} x={x} y={y} state={cellState}>

@@ -4,9 +4,26 @@
  * each component subscribes only to the slices it needs via focused hooks.
  */
 
-import React, { createContext, useCallback, useContext, useMemo, useReducer, useRef } from 'react';
+import React, {
+    createContext,
+    useCallback,
+    useContext,
+    useMemo,
+    useReducer,
+    useRef,
+} from 'react';
 import reducer from './mainReducer';
-import { EGameStatus, IAppContext, IState, TAction, TBoardsState, THints, THistory, TModalState, TOperation } from './types';
+import {
+    EGameStatus,
+    IAppContext,
+    IState,
+    TAction,
+    TBoardsState,
+    THints,
+    THistory,
+    TModalState,
+    TOperation,
+} from './types';
 import { context } from './state';
 
 const DispatchContext = createContext<IState['dispatch']>(() => null);
@@ -17,13 +34,14 @@ const DispatchContext = createContext<IState['dispatch']>(() => null);
  * Use in components that only dispatch actions and never read state.
  * @returns {IState['dispatch']} - the dispatch function supporting both actions and thunks
  */
-export const useAppDispatch = (): IState['dispatch'] => useContext(DispatchContext);
+export const useAppDispatch = (): IState['dispatch'] =>
+    useContext(DispatchContext);
 
-const BoardsContext      = createContext<TBoardsState>(context.boards);
-const GameStatusContext  = createContext<EGameStatus>(context.gameStatus);
-const ModalContext       = createContext<TModalState>(context.modal);
-const HistoryContext     = createContext<THistory>(context.history);
-const HintsContext       = createContext<THints>(context.hints);
+const BoardsContext = createContext<TBoardsState>(context.boards);
+const GameStatusContext = createContext<EGameStatus>(context.gameStatus);
+const ModalContext = createContext<TModalState>(context.modal);
+const HistoryContext = createContext<THistory>(context.history);
+const HintsContext = createContext<THints>(context.hints);
 const ClickedCellContext = createContext<ICell>(context.clickedCell);
 
 /**
@@ -69,6 +87,38 @@ export const useHints = (): THints => useContext(HintsContext);
 export const useClickedCell = (): ICell => useContext(ClickedCellContext);
 
 /**
+ * @function useIsGameActive
+ * @description Returns true when a game is running (any status except NotStarted).
+ * Derived boolean is stable across transitions that do not cross the active boundary,
+ * preventing spurious useEffect and useCallback re-fires.
+ * @returns {boolean} - whether a game is currently active
+ */
+export const useIsGameActive = (): boolean =>
+    useGameStatus() !== EGameStatus.NotStarted;
+
+/**
+ * @function useIsGameWon
+ * @description Returns true when the game status is Win.
+ * @returns {boolean} - whether the game has been won
+ */
+export const useIsGameWon = (): boolean =>
+    useGameStatus() === EGameStatus.Win;
+
+/**
+ * @function useCurrentBoard
+ * @description Subscribes to the current (in-play) board only, not initial or solution.
+ * @returns {TBoard} - the current board
+ */
+export const useCurrentBoard = (): TBoard => useBoards().currentBoard;
+
+/**
+ * @function useInitialBoard
+ * @description Subscribes to the initial (pre-filled) board. Stable during play; changes only on new game.
+ * @returns {TBoard} - the initial board
+ */
+export const useInitialBoard = (): TBoard => useBoards().initialBoard;
+
+/**
  * @function AppContextProvider
  * @description Wraps the app with all context providers.
  * A single reducer drives all state updates; useMemo on each slice ensures
@@ -78,26 +128,28 @@ export const useClickedCell = (): ICell => useContext(ClickedCellContext);
  * @returns {JSX.Element} - the nested context providers wrapping children
  */
 export const AppContextProvider: React.FC = ({ children }) => {
-    const [state, baseDispatch] = useReducer<React.Reducer<IAppContext, TAction>>(
-        reducer,
-        context
-    );
+    const [state, baseDispatch] = useReducer<
+        React.Reducer<IAppContext, TAction>
+    >(reducer, context);
     const stateRef = useRef(state);
 
     stateRef.current = state;
 
-    const dispatchWithThunk = useCallback((action: TAction | TOperation): TAction | void => {
-        if (typeof action === 'function') {
-            return action(baseDispatch, stateRef.current);
-        }
+    const dispatchWithThunk = useCallback(
+        (action: TAction | TOperation): TAction | void => {
+            if (typeof action === 'function') {
+                return action(baseDispatch, stateRef.current);
+            }
 
-        return baseDispatch(action);
-    }, []);
+            return baseDispatch(action);
+        },
+        []
+    );
 
-    const boards      = useMemo(() => state.boards, [state.boards]);
-    const modal       = useMemo(() => state.modal, [state.modal]);
-    const history     = useMemo(() => state.history, [state.history]);
-    const hints       = useMemo(() => state.hints, [state.hints]);
+    const boards = useMemo(() => state.boards, [state.boards]);
+    const modal = useMemo(() => state.modal, [state.modal]);
+    const history = useMemo(() => state.history, [state.history]);
+    const hints = useMemo(() => state.hints, [state.hints]);
     const clickedCell = useMemo(() => state.clickedCell, [state.clickedCell]);
 
     return (
@@ -107,7 +159,9 @@ export const AppContextProvider: React.FC = ({ children }) => {
                     <ModalContext.Provider value={modal}>
                         <HistoryContext.Provider value={history}>
                             <HintsContext.Provider value={hints}>
-                                <ClickedCellContext.Provider value={clickedCell}>
+                                <ClickedCellContext.Provider
+                                    value={clickedCell}
+                                >
                                     {children}
                                 </ClickedCellContext.Provider>
                             </HintsContext.Provider>

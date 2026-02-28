@@ -1,8 +1,7 @@
 import React, { FC, MouseEventHandler, useCallback, useEffect } from 'react';
 import { leaveAfterWin } from '../../context/operations';
-import { useAppDispatch, useGameStatus, useModal } from '../../context/AppContext';
+import { useAppDispatch, useIsGameWon, useModal } from '../../context/AppContext';
 import WinBanner from '../WinBanner/WinBanner';
-import { EGameStatus } from '../../context/types';
 import DifficultyBlock from '../DifficultyBlock/DifficultyBlock';
 import { InnerModal, OuterModal } from './styles';
 import { setModalIsOpen } from '../../context/modal/actions';
@@ -14,17 +13,17 @@ const components: { [Key: string]: FC } = {
 
 const Modal: FC = () => {
     const modal = useModal();
-    const gameStatus = useGameStatus();
+    const isGameWon = useIsGameWon();
     const dispatch = useAppDispatch();
     const Component = components[modal.component];
 
     const closeModal: () => void = useCallback(() => {
-        if (gameStatus === EGameStatus.Win) {
+        if (isGameWon) {
             dispatch(leaveAfterWin());
         }
 
         dispatch(setModalIsOpen(false));
-    }, [gameStatus, dispatch]);
+    }, [isGameWon, dispatch]);
 
     useEffect(() => {
         const closeModalOnEsc = (event: KeyboardEvent): void => {

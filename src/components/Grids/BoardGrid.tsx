@@ -1,13 +1,12 @@
 import React, { useCallback, useEffect } from 'react';
 import BoardCell from '../Cells/BoardCell';
-import { useAppDispatch, useBoards, useClickedCell, useGameStatus } from '../../context/AppContext';
+import { useAppDispatch, useClickedCell, useCurrentBoard, useIsGameActive } from '../../context/AppContext';
 import { arrows, digits, escape, numpadDigits } from '../../constants/keyboard';
 import {
     resetClickedCell,
     setClickedCell,
     setClickedCellCoordinates,
 } from '../../context/clickedCell/actions';
-import { EGameStatus } from '../../context/types';
 import BasicGrid from './BasicGrid';
 import useCellValueHandler, {
     THandlerCreator,
@@ -31,9 +30,9 @@ const calculateNewCoordinate = (
 };
 
 const BoardGrid: React.FC = () => {
-    const boards = useBoards();
+    const currentBoard = useCurrentBoard();
     const clickedCell = useClickedCell();
-    const gameStatus = useGameStatus();
+    const isGameActive = useIsGameActive();
     const dispatch = useAppDispatch();
     const digitHandlerCreator = useCellValueHandler() as THandlerCreator;
 
@@ -67,7 +66,7 @@ const BoardGrid: React.FC = () => {
                         setClickedCell({
                             y: newY,
                             x,
-                            value: boards.currentBoard[newY][x],
+                            value: currentBoard[newY][x],
                         })
                     );
                     break;
@@ -76,7 +75,7 @@ const BoardGrid: React.FC = () => {
                         setClickedCell({
                             y,
                             x: newX,
-                            value: boards.currentBoard[y][newX],
+                            value: currentBoard[y][newX],
                         })
                     );
                     break;
@@ -85,7 +84,7 @@ const BoardGrid: React.FC = () => {
                         setClickedCell({
                             y: newY,
                             x,
-                            value: boards.currentBoard[newY][x],
+                            value: currentBoard[newY][x],
                         })
                     );
                     break;
@@ -94,7 +93,7 @@ const BoardGrid: React.FC = () => {
                         setClickedCell({
                             y,
                             x: newX,
-                            value: boards.currentBoard[y][newX],
+                            value: currentBoard[y][newX],
                         })
                     );
                     break;
@@ -102,7 +101,7 @@ const BoardGrid: React.FC = () => {
                     break;
             }
         },
-        [clickedCell, dispatch, boards.currentBoard]
+        [clickedCell, dispatch, currentBoard]
     );
 
     const onKeyUp = useCallback(
@@ -134,7 +133,7 @@ const BoardGrid: React.FC = () => {
     );
 
     useEffect(() => {
-        if (gameStatus !== EGameStatus.NotStarted) {
+        if (isGameActive) {
             document.addEventListener('keyup', onKeyUp);
             document.addEventListener('keydown', onKeyDown);
         }
@@ -143,9 +142,9 @@ const BoardGrid: React.FC = () => {
             document.removeEventListener('keyup', onKeyUp);
             document.removeEventListener('keydown', onKeyDown);
         };
-    }, [gameStatus, onKeyUp, onKeyDown]);
+    }, [isGameActive, onKeyUp, onKeyDown]);
 
-    const cells = boards.currentBoard.map((row: number[], y: number) =>
+    const cells = currentBoard.map((row: number[], y: number) =>
         row.map((num, x) => (
             <BoardCell value={num} x={x} y={y} key={`x:${x},y:${y}`} />
         ))
