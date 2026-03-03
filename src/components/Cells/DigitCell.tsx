@@ -40,4 +40,4 @@ const DigitCell: React.FC<IDigitCellProps> = ({ digit }) => {
     );
 };
 
-export default DigitCell;
+export default React.memo(DigitCell);

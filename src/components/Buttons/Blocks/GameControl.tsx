@@ -28,4 +28,4 @@ const GameControl: React.FC = () => {
     );
 };
 
-export default GameControl;
+export default React.memo(GameControl);

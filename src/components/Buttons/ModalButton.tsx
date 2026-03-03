@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import BasicButton from './BasicButton';
 
@@ -13,4 +14,4 @@ const ModalButton = styled(BasicButton)`
     }
 `;
 
-export default ModalButton;
+export default React.memo(ModalButton);
