@@ -3,7 +3,7 @@ import DigitCell from '../Cells/DigitCell';
 import BasicGrid from './BasicGrid';
 
 const DigitsGrid: React.FC = () => {
-    const generateNums = (): JSX.Element[] => {
+    const generateNums = (): React.ReactElement[] => {
         const nums = [];
 
         for (let i = 1; i <= 9; i++) {
@@ -14,7 +14,7 @@ const DigitsGrid: React.FC = () => {
     };
 
     return (
-        <BasicGrid columns={9} rows={1}>
+        <BasicGrid $columns={9} $rows={1}>
             {generateNums()}
         </BasicGrid>
     );

@@ -151,7 +151,7 @@ const BoardGrid: React.FC = () => {
     );
 
     return (
-        <BasicGrid columns={9} rows={9}>
+        <BasicGrid $columns={9} $rows={9}>
             {cells}
         </BasicGrid>
     );

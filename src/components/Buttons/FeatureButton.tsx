@@ -1,28 +1,13 @@
 import React from 'react';
-import styled, {
-    css,
-    DefaultTheme,
-    FlattenInterpolation,
-    Keyframes,
-    keyframes,
-    StyledComponent,
-    ThemeProps,
-} from 'styled-components';
+import styled, { css, DefaultTheme, keyframes } from 'styled-components';
 import HeaderButton from './HeaderButton';
-import { getBasicIcon, IBasicIconProps } from '../../utils/svgHelper';
+import { getBasicIcon } from '../../utils/svgHelper';
 
 type TStyledProps = {
     $error: boolean;
 };
 
-type TStyledIcon = StyledComponent<
-    React.FunctionComponent<React.SVGProps<SVGSVGElement>>,
-    DefaultTheme,
-    IBasicIconProps & TStyledProps,
-    never
->;
-
-const getShake = (theme: DefaultTheme): Keyframes => keyframes`
+const getShake = (theme: DefaultTheme) => keyframes`
     0% {
         fill: ${theme.error};
         transform: translate(15px);
@@ -45,9 +30,7 @@ const getShake = (theme: DefaultTheme): Keyframes => keyframes`
     }
 `;
 
-const animation = (
-    theme: DefaultTheme
-): FlattenInterpolation<ThemeProps<DefaultTheme>> => css`
+const animation = (theme: DefaultTheme) => css`
     animation: ${getShake(theme)} 0.4s 1 linear;
 `;
 
@@ -67,7 +50,7 @@ const FeatureButton = styled(HeaderButton)<TStyledProps>`
     }
 `;
 
-export const getIcon = (icon: React.FC): TStyledIcon => styled(
+export const getIcon = (icon: React.FC) => styled(
     getBasicIcon(icon)
 )<TStyledProps>`
     fill: ${({ theme }) => theme.primaryLight};
