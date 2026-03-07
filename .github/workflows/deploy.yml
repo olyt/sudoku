@@ -17,13 +17,17 @@ jobs:
           node-version: 'lts/*'
           cache: 'npm'
 
-      - name: Install, build 🔧
-        run: |
-          npm ci
-          npm run build
+      - name: Install 🔧
+        run: npm ci
+
+      - name: Test 🧪
+        run: npm test
+
+      - name: Build 🔧
+        run: npm run build
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: build
+          folder: dist
