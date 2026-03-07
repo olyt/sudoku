@@ -23,11 +23,11 @@ const AppWrapper = styled.div`
     background: rgba(237, 246, 249, 0.4);
 
     @media (min-width: ${({ theme }) => theme.breakpoints.smPlus}) and (max-width: ${({ theme }) => theme.breakpoints.lg}) {
-        height: ${window.innerHeight}px;
+        height: 100dvh;
     }
 
     @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-        height: ${window.innerHeight}px;
+        height: 100dvh;
         padding-bottom: 10px;
     }
 `;

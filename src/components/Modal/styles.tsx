@@ -13,11 +13,11 @@ export const OuterModal = styled.div`
     align-items: center;
 
     @media (min-width: ${({ theme }) => theme.breakpoints.smPlus}) and (max-width: ${({ theme }) => theme.breakpoints.lg}) {
-        height: ${window.innerHeight}px;
+        height: 100dvh;
     }
 
     @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-        height: ${window.innerHeight}px;
+        height: 100dvh;
     }
 `;
 
