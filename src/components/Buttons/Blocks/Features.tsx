@@ -1,8 +1,8 @@
 import React, { MouseEventHandler, useEffect } from 'react';
 import { useAppDispatch, useHistory, useHints } from '../../../context/AppContext';
 import { tryToUndo } from '../../../context/history/operations';
-import { ReactComponent as UndoSVG } from '../../../assets/svg/undo.svg';
-import { ReactComponent as HintSVG } from '../../../assets/svg/hint.svg';
+import UndoSVG from '../../../assets/svg/undo.svg?react';
+import HintSVG from '../../../assets/svg/hint.svg?react';
 import FeatureButton, { getIcon } from '../FeatureButton';
 import { hint } from '../../../context/hints/operations';
 import { setError as setHintError } from '../../../context/hints/actions';
