@@ -15,7 +15,7 @@ const DifficultyBlock: React.FC = () => {
         dispatch(setModalComponent(EModalComponents.Empty));
     };
 
-    const generateButtons = (): JSX.Element[] => {
+    const generateButtons = (): React.ReactElement[] => {
         return (Object.keys(DIFFICULTIES) as EDifficulties[]).map((difficulty) => {
             const text = difficulty
                 .charAt(0)

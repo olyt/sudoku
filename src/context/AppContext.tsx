@@ -15,6 +15,7 @@ import React, {
 import reducer from './mainReducer';
 import {
     EGameStatus,
+    EGeneratorType,
     IAppContext,
     IState,
     TAction,
@@ -43,6 +44,7 @@ const ModalContext = createContext<TModalState>(context.modal);
 const HistoryContext = createContext<THistory>(context.history);
 const HintsContext = createContext<THints>(context.hints);
 const ClickedCellContext = createContext<ICell>(context.clickedCell);
+const GeneratorContext = createContext<EGeneratorType>(context.generatorType);
 
 /**
  * @function useBoards
@@ -119,18 +121,24 @@ export const useCurrentBoard = (): TBoard => useBoards().currentBoard;
 export const useInitialBoard = (): TBoard => useBoards().initialBoard;
 
 /**
+ * @function useGeneratorType
+ * @description Subscribes to the currently selected board generator type.
+ * React bails out on unchanged values since EGeneratorType is a primitive string.
+ * @returns {EGeneratorType} - the current generator type
+ */
+export const useGeneratorType = (): EGeneratorType => useContext(GeneratorContext);
+
+/**
  * @function AppContextProvider
  * @description Wraps the app with all context providers.
  * A single reducer drives all state updates; useMemo on each slice ensures
  * a provider only propagates when its own reference changes.
  * @param {object} root0 - component props
  * @param {React.ReactNode} root0.children - child elements to render
- * @returns {JSX.Element} - the nested context providers wrapping children
+ * @returns {React.ReactElement} - the nested context providers wrapping children
  */
-export const AppContextProvider: React.FC = ({ children }) => {
-    const [state, baseDispatch] = useReducer<
-        React.Reducer<IAppContext, TAction>
-    >(reducer, context);
+export const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
+    const [state, baseDispatch] = useReducer(reducer, context);
     const stateRef = useRef(state);
 
     stateRef.current = state;
@@ -153,22 +161,22 @@ export const AppContextProvider: React.FC = ({ children }) => {
     const clickedCell = useMemo(() => state.clickedCell, [state.clickedCell]);
 
     return (
-        <DispatchContext.Provider value={dispatchWithThunk}>
-            <BoardsContext.Provider value={boards}>
-                <GameStatusContext.Provider value={state.gameStatus}>
-                    <ModalContext.Provider value={modal}>
-                        <HistoryContext.Provider value={history}>
-                            <HintsContext.Provider value={hints}>
-                                <ClickedCellContext.Provider
-                                    value={clickedCell}
-                                >
-                                    {children}
-                                </ClickedCellContext.Provider>
-                            </HintsContext.Provider>
-                        </HistoryContext.Provider>
-                    </ModalContext.Provider>
-                </GameStatusContext.Provider>
-            </BoardsContext.Provider>
-        </DispatchContext.Provider>
+        <DispatchContext value={dispatchWithThunk}>
+            <BoardsContext value={boards}>
+                <GameStatusContext value={state.gameStatus}>
+                    <ModalContext value={modal}>
+                        <HistoryContext value={history}>
+                            <HintsContext value={hints}>
+                                <ClickedCellContext value={clickedCell}>
+                                    <GeneratorContext value={state.generatorType}>
+                                        {children}
+                                    </GeneratorContext>
+                                </ClickedCellContext>
+                            </HintsContext>
+                        </HistoryContext>
+                    </ModalContext>
+                </GameStatusContext>
+            </BoardsContext>
+        </DispatchContext>
     );
 };

@@ -12,6 +12,15 @@ import { TModalAction } from './modal/actions';
 import { TClickedCellAction } from './clickedCell/actions';
 import { THistoryAction } from './history/actions';
 import { THintsAction } from './hints/actions';
+import { TGeneratorAction } from './generator/actions';
+
+/** Available board generation algorithms */
+export enum EGeneratorType {
+    Standard = 'STANDARD',
+    Symmetric = 'SYMMETRIC',
+    Isomorphic = 'ISOMORPHIC',
+    Technique = 'TECHNIQUE',
+}
 
 /** Possible states of the game lifecycle */
 export enum EGameStatus {
@@ -65,6 +74,7 @@ export interface IAppContext {
     gameStatus: EGameStatus;
     history: THistory;
     hints: THints;
+    generatorType: EGeneratorType;
 }
 
 /** Union of all possible action types across all reducers */
@@ -75,7 +85,7 @@ export type TAction =
     | TClickedCellAction
     | THistoryAction
     | THintsAction
-    | TOperation;
+    | TGeneratorAction;
 
 export type TDispatch = React.Dispatch<TAction>;
 
@@ -86,7 +96,7 @@ export type TOperation = (
 ) => TAction | void;
 
 export interface IState extends IAppContext {
-    dispatch: TDispatch | ((action: TAction | TOperation) => void);
+    dispatch: (action: TAction | TOperation) => void;
 }
 
 /** Generic action creator type: takes a payload and returns a typed action */
