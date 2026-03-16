@@ -14,7 +14,7 @@ type TGenerateFn = (
  * - `inABoxMax`: max filled cells allowed in a single 3x3 box
  * - `numMax` / `numMin`: max/min occurrences of any single digit
  */
-export const DIFFICULTIES: IDifficulties = {
+export const DIFFICULTIES = {
     easy: {
         mustFill: 50,
         inARowMax: 8,
@@ -36,6 +36,7 @@ export const DIFFICULTIES: IDifficulties = {
         numMax: 4,
         numMin: 1,
     },
+} satisfies IDifficulties;
 };
 
 /**

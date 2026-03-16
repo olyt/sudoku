@@ -33,27 +33,20 @@ const checkBoldBorder = (coordinate: number): boolean => {
     return coordinate === 3 || coordinate === 6;
 };
 
-// TODO: Unify switch to 1 statement with mixins
+const CELL_STATE_MIXIN = {
+    [ECellStates.clicked]: clickedMixin,
+    [ECellStates.highlighted]: highlightedOrSimilarNumMixin,
+    [ECellStates.similarNum]: highlightedOrSimilarNumMixin,
+    [ECellStates.finished]: finishedMixin,
+    [ECellStates.hint]: hintMixin,
+    [ECellStates.inactive]: defaultMixin,
+} satisfies Record<ECellStates, unknown>;
+
 const StyledBoardCell = styled(BasicCell)<IStyledProps>`
     border-left: ${({ x }) => (checkBoldBorder(x) ? 3 : 1)}px solid black;
     border-top: ${({ y }) => (checkBoldBorder(y) ? 3 : 1)}px solid black;
 
-    ${({ state }) => {
-        switch (state) {
-            case ECellStates.clicked:
-                return clickedMixin;
-            case ECellStates.highlighted:
-                return highlightedOrSimilarNumMixin;
-            case ECellStates.similarNum:
-                return highlightedOrSimilarNumMixin;
-            case ECellStates.finished:
-                return finishedMixin;
-            case ECellStates.hint:
-                return hintMixin;
-            default:
-                return defaultMixin;
-        }
-    }};
+    ${({ state }) => CELL_STATE_MIXIN[state]};
 
     &:nth-child(9n + 1) {
         border-left: none;
