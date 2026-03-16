@@ -37,6 +37,7 @@ export const DIFFICULTIES = {
         numMin: 1,
     },
 } satisfies IDifficulties;
+
 };
 
 /**
