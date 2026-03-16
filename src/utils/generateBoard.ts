@@ -38,6 +38,18 @@ export const DIFFICULTIES = {
     },
 } satisfies IDifficulties;
 
+/**
+ * @function shufflePositions
+ * @description Shuffles an array of cell coordinates in-place using Fisher-Yates.
+ * @param {ICellCoordinates[]} positions - the array to shuffle
+ * @returns {void}
+ */
+const shufflePositions = (positions: ICellCoordinates[]): void => {
+    for (let i = positions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+
+        [positions[i], positions[j]] = [positions[j], positions[i]];
+    }
 };
 
 /**
