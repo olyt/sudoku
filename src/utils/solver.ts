@@ -1,41 +1,6 @@
-/** Relative coordinates of all 9 cells within a 3x3 box */
-const BOX_COORDINATES = [
-    [0, 0],
-    [0, 1],
-    [0, 2],
-    [1, 0],
-    [1, 1],
-    [1, 2],
-    [2, 0],
-    [2, 1],
-    [2, 2],
-];
-
-type TSolution = (boards: TBoards) => TBoard | false;
-type TBoardValidator = (board: TBoard) => boolean;
 type TSolveFn = (board: TBoard) => TBoard | false;
-type TBoardsGenerator = (board: TBoard) => TBoards;
-type TFindSquareFn = (board: TBoard) => number[] | void;
-type TIsValidBoardsFn = (boards: TBoards) => TBoards;
-
-/**
- * @function searchForSolution
- * @description Recursively searches through a list of candidate boards for a valid solution.
- * Picks the first board, attempts to solve it; if it fails, tries the next.
- * @param {TBoards} validBoards - array of partially filled boards to try solving
- * @returns {TBoard | false} - the solved board, or false if no solution exists among candidates
- */
-const searchForSolution: TSolution = (validBoards) => {
-    for (let i = 0; i < validBoards.length; i++) {
-        const tryPath = solve(validBoards[i]);
-
-        if (tryPath) {
-            return tryPath;
-        }
-    }
-
-    return false;
-};
+type TCountFn = (board: TBoard, limit?: number) => number;
+type TBoardValidator = (board: TBoard) => boolean;
 
 /**
  * @function solved
@@ -56,161 +21,81 @@ const solved: TBoardValidator = (board: TBoard): boolean => {
 };
 
 /**
- * @function nextBoards
- * @description Generates 9 candidate boards by filling the first empty cell with each digit 1-9 in random order.
- * Uses a Fisher-Yates shuffle to guarantee all 9 digits are tried exactly once while producing varied solutions.
- * @param {TBoard} board - the current board state
- * @returns {TBoards} - array of 9 new boards, each with a unique digit placed in the first empty cell
+ * @function getCandidates
+ * @description Returns the valid digit candidates (1–9) for an empty cell.
+ * A digit is excluded if it already appears in the same row, column, or 3×3 box.
+ * @param {TBoard} board - the Sudoku board
+ * @param {number} y - row index of the target cell
+ * @param {number} x - column index of the target cell
+ * @returns {number[]} - digits 1–9 that are valid placements for the cell
  */
-const nextBoards: TBoardsGenerator = (board: TBoard): TBoards => {
-    const res = [];
-    const firstEmpty = findEmptySquare(board);
+export const getCandidates = (board: TBoard, y: number, x: number): number[] => {
+    const used = new Set<number>();
 
-    if (firstEmpty) {
-        const [y, x] = firstEmpty;
-        const digits = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-        for (let i = digits.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-
-            [digits[i], digits[j]] = [digits[j], digits[i]];
+    for (let i = 0; i < 9; i++) {
+        if (board[y][i]) {
+            used.add(board[y][i]);
         }
 
-        for (let i = 0; i < 9; i++) {
-            const newBoard = [...board];
-            const row = [...newBoard[y]];
-
-            row[x] = digits[i];
-            newBoard[y] = row;
-            res.push(newBoard);
+        if (board[i][x]) {
+            used.add(board[i][x]);
         }
     }
 
-    return res;
+    const boxY = Math.floor(y / 3) * 3;
+    const boxX = Math.floor(x / 3) * 3;
+
+    for (let dy = 0; dy < 3; dy++) {
+        for (let dx = 0; dx < 3; dx++) {
+            if (board[boxY + dy][boxX + dx]) {
+                used.add(board[boxY + dy][boxX + dx]);
+            }
+        }
+    }
+
+    return [1, 2, 3, 4, 5, 6, 7, 8, 9].filter((d) => !used.has(d));
 };
 
 /**
- * @function findEmptySquare
- * @description Finds the first empty (zero-valued) cell on the board, scanning top-to-bottom, left-to-right
- * @param {TBoard} board - the Sudoku board to search
- * @returns {Array<number> | undefined} - [row, col] coordinates of the first empty cell, or undefined if board is full
+ * @function findBestEmpty
+ * @description Finds the empty cell with the fewest valid candidates (MRV heuristic).
+ * Targeting the most-constrained cell first reduces the search tree significantly compared
+ * to a simple top-left scan. Returns null immediately if any empty cell has no valid
+ * candidates, signalling a dead end that requires backtracking.
+ * @param {TBoard} board - the Sudoku board
+ * @returns {[number, number, number[]] | null} - [row, col, candidates] for the most constrained empty cell, or null on a dead end
  */
-const findEmptySquare: TFindSquareFn = (
-    board: TBoard
-): Array<number> | undefined => {
+const findBestEmpty = (board: TBoard): [number, number, number[]] | null => {
+    let best: [number, number, number[]] | null = null;
+
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
             if (!board[i][j]) {
-                return [i, j];
-            }
-        }
-    }
-};
+                const candidates = getCandidates(board, i, j);
 
-/**
- * @function isValidRow
- * @description Validates that no row contains duplicate non-zero values
- * @param {TBoard} board - the Sudoku board to validate
- * @returns {boolean} - true if all rows are valid
- */
-const isValidRow: TBoardValidator = (board: TBoard): boolean => {
-    for (let i = 0; i < 9; i++) {
-        const seen = new Set<number>();
-
-        for (let j = 0; j < 9; j++) {
-            if (board[i][j]) {
-                if (seen.has(board[i][j])) {
-                    return false;
+                if (candidates.length === 0) {
+                    return null;
                 }
 
-                seen.add(board[i][j]);
-            }
-        }
-    }
+                if (!best || candidates.length < best[2].length) {
+                    best = [i, j, candidates];
 
-    return true;
-};
-
-/**
- * @function isValidColumn
- * @description Validates that no column contains duplicate non-zero values
- * @param {TBoard} board - the Sudoku board to validate
- * @returns {boolean} - true if all columns are valid
- */
-const isValidColumn: TBoardValidator = (board: TBoard): boolean => {
-    for (let i = 0; i < 9; i++) {
-        const seen = new Set<number>();
-
-        for (let j = 0; j < 9; j++) {
-            if (board[j][i]) {
-                if (seen.has(board[j][i])) {
-                    return false;
-                }
-
-                seen.add(board[j][i]);
-            }
-        }
-    }
-
-    return true;
-};
-
-/**
- * @function isValidBoxes
- * @description Validates that no 3x3 box contains duplicate non-zero values
- * @param {TBoard} board - the Sudoku board to validate
- * @returns {boolean} - true if all 9 boxes are valid
- */
-const isValidBoxes: TBoardValidator = (board: TBoard): boolean => {
-    for (let y = 0; y < 9; y += 3) {
-        for (let x = 0; x < 9; x += 3) {
-            const seen = new Set<number>();
-
-            for (let i = 0; i < 9; i++) {
-                const cellY = BOX_COORDINATES[i][0] + y;
-                const cellX = BOX_COORDINATES[i][1] + x;
-                const value = board[cellY][cellX];
-
-                if (value) {
-                    if (seen.has(value)) {
-                        return false;
+                    if (candidates.length === 1) {
+                        return best;
                     }
-
-                    seen.add(value);
                 }
             }
         }
     }
 
-    return true;
-};
-
-/**
- * @function validBoard
- * @description Validates that a board satisfies all Sudoku constraints (rows, columns, and boxes)
- * @param {TBoard} board - the Sudoku board to validate
- * @returns {boolean} - true if the board is valid
- */
-const validBoard: TBoardValidator = (board: TBoard): boolean => {
-    return isValidRow(board) && isValidColumn(board) && isValidBoxes(board);
-};
-
-/**
- * @function keepOnlyValid
- * @description Filters an array of boards, keeping only those that satisfy all Sudoku constraints
- * @param {TBoards} boards - array of candidate boards
- * @returns {TBoards} - array of valid boards
- */
-const keepOnlyValid: TIsValidBoardsFn = (boards: TBoards): TBoards => {
-    return boards.filter((board: TBoard) => {
-        return validBoard(board);
-    });
+    return best;
 };
 
 /**
  * @function solve
- * @description Solves a Sudoku board using backtracking with randomized candidate generation.
- * Recursively fills empty cells and backtracks when constraints are violated.
+ * @description Solves a Sudoku board using backtracking with the MRV (Minimum Remaining
+ * Values) heuristic. Picks the most-constrained empty cell at each step to prune the search
+ * tree, and shuffles candidates with Fisher-Yates to produce varied random solutions.
  * @param {TBoard} board - a 9x9 Sudoku board (0 represents empty cells)
  * @returns {TBoard | false} - the solved board if a solution exists, or false otherwise
  */
@@ -219,8 +104,64 @@ export const solve: TSolveFn = (board: TBoard): TBoard | false => {
         return board;
     }
 
-    const possibilities = nextBoards(board);
-    const validBoards = keepOnlyValid(possibilities);
+    const best = findBestEmpty(board);
 
-    return searchForSolution(validBoards);
+    if (!best) {
+        return false;
+    }
+
+    const [y, x, candidates] = best;
+
+    for (let i = candidates.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+
+        [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
+    }
+
+    for (const digit of candidates) {
+        const newBoard = board.map((row, i) =>
+            i === y ? row.map((v, j) => (j === x ? digit : v)) : row
+        );
+        const result = solve(newBoard);
+
+        if (result) {
+            return result;
+        }
+    }
+
+    return false;
+};
+
+/**
+ * @function countSolutions
+ * @description Counts valid solutions for a board, stopping once `limit` is reached.
+ * Uses the MRV heuristic with a fixed candidate order (no randomisation) for determinism.
+ * Mutates the board in-place during recursion and restores each cell before returning,
+ * avoiding per-call array allocation and reducing GC pressure significantly.
+ * Passing limit=2 is the standard uniqueness check: a count of 1 means exactly one solution.
+ * @param {TBoard} board - a 9x9 Sudoku board (0 represents empty cells); mutated transiently
+ * @param {number} limit - stop counting once this many solutions are found (default: 2)
+ * @returns {number} - the number of solutions found, capped at limit
+ */
+export const countSolutions: TCountFn = (board: TBoard, limit = 2): number => {
+    const best = findBestEmpty(board);
+
+    if (!best) {
+        return solved(board) ? 1 : 0;
+    }
+
+    const [y, x, candidates] = best;
+    let count = 0;
+
+    for (const digit of candidates) {
+        board[y][x] = digit;
+        count += countSolutions(board, limit);
+        board[y][x] = 0;
+
+        if (count >= limit) {
+            return count;
+        }
+    }
+
+    return count;
 };
