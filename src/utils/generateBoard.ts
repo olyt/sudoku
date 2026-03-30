@@ -77,11 +77,11 @@ export const checkDistribution = (
         let consecutive = 0;
 
         for (let x = 0; x < 9; x++) {
-            const v = board[y][x];
+            const digit = board[y][x];
 
-            if (v) {
+            if (digit) {
                 consecutive++;
-                numbersCounter[v]++;
+                numbersCounter[digit]++;
             } else {
                 consecutive = 0;
             }
