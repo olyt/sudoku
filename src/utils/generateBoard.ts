@@ -53,26 +53,7 @@ const shufflePositions = (positions: ICellCoordinates[]): void => {
     }
 };
 
-/**
- * @function checkDistribution
- * @description Verifies that a puzzle board satisfies all distribution constraints for the
- * given difficulty: consecutive row limit, box fill limit, and per-digit min/max counts.
- * @param {TBoard} board - the puzzle board to validate
- * @param {number} inARowMax - max allowed consecutive filled cells in any row
- * @param {number} inABoxMax - max allowed filled cells in any 3×3 box
- * @param {number} numMax - max allowed occurrences of any single digit
- * @param {number} numMin - min required occurrences of any single digit
- * @returns {boolean} - true if all constraints are satisfied
- */
-export const checkDistribution = (
-    board: TBoard,
-    inARowMax: number,
-    inABoxMax: number,
-    numMax: number,
-    numMin: number
-): boolean => {
-    const numbersCounter: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
+const checkRowConstraints = (board: TBoard, inARowMax: number): boolean => {
     for (let y = 0; y < 9; y++) {
         let consecutive = 0;
 
@@ -81,7 +62,6 @@ export const checkDistribution = (
 
             if (digit) {
                 consecutive++;
-                numbersCounter[digit]++;
             } else {
                 consecutive = 0;
             }
@@ -93,11 +73,37 @@ export const checkDistribution = (
         }
     }
 
+    return true;
+};
+
+const checkDigitDistribution = (
+    board: TBoard,
+    numMin: number,
+    numMax: number
+): boolean => {
+    const numbersCounter: number[] = new Array(10).fill(0);
+    for (let y = 0; y < 9; y++) {
+        for (let x = 0; x < 9; x++) {
+            const digit = board[y][x];
+            if (digit) {
+                numbersCounter[digit]++;
+            }
+        }
+    }
+
+    const isDigitCountInvalid = numbersCounter.slice(1).some(
+        (count: number) => count > numMax || count < numMin
+    );
+
     /* c8 ignore next 3 -- digit distribution: rarely triggered since removal produces balanced digit counts */
-    if (numbersCounter.slice(1).some((count) => count > numMax || count < numMin)) {
+    if (isDigitCountInvalid) {
         return false;
     }
 
+    return true;
+};
+
+const checkBoxConstraints = (board: TBoard, inABoxMax: number): boolean => {
     for (let by = 0; by < 9; by += 3) {
         for (let bx = 0; bx < 9; bx += 3) {
             let boxFilled = 0;
@@ -118,6 +124,31 @@ export const checkDistribution = (
     }
 
     return true;
+};
+
+/**
+ * @function checkDistribution
+ * @description Verifies that a puzzle board satisfies all distribution constraints for the
+ * given difficulty: consecutive row limit, box fill limit, and per-digit min/max counts.
+ * @param {TBoard} board - the puzzle board to validate
+ * @param {number} inARowMax - max allowed consecutive filled cells in any row
+ * @param {number} inABoxMax - max allowed filled cells in any 3×3 box
+ * @param {number} numMax - max allowed occurrences of any single digit
+ * @param {number} numMin - min required occurrences of any single digit
+ * @returns {boolean} - true if all constraints are satisfied
+ */
+export const checkDistribution = (
+    board: TBoard,
+    inARowMax: number,
+    inABoxMax: number,
+    numMax: number,
+    numMin: number
+): boolean => {
+    return (
+        checkRowConstraints(board, inARowMax) &&
+        checkDigitDistribution(board, numMin, numMax) &&
+        checkBoxConstraints(board, inABoxMax)
+    );
 };
 
 /**
