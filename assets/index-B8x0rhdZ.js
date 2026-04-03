@@ -238,11 +238,11 @@ Error generating stack: `+a.message+`
 `,Cp=()=>(u,c)=>{if(c.gameStatus!==vl.InProgress)return;if(!c.hints.count){u(Zh(!0));return}const s=Ev(c.boards.currentBoard,c.boards.solution);u(Hv),u(Bv(s))},Op=Hm(bp),Mp=Hm(Ep),Bh=400,xp=()=>{const u=kl(),c=Lv(),s=Ih();I.useEffect(()=>{if(!s.error)return;const v=setTimeout(()=>u(Zh(!1)),Bh);return()=>clearTimeout(v)},[s.error,u]),I.useEffect(()=>{if(!c.error)return;const v=setTimeout(()=>u(Qh(!1)),Bh);return()=>clearTimeout(v)},[c.error,u]);const r=()=>{u(Sp())},d=()=>{u(Cp())};return $.jsxs($.Fragment,{children:[$.jsxs(Zr,{onClick:d,$error:s.error,children:[!!s.count&&$.jsx("span",{children:s.count}),$.jsx(Mp,{$error:s.error})]}),$.jsx(Zr,{onClick:r,$error:c.error,children:$.jsx(Op,{$error:c.error})})]})},Dp=wt.memo(xp),Np=()=>$.jsxs(mp,{children:[$.jsx(yp,{children:"sudoku"}),$.jsxs(vp,{children:[$.jsx(Dp,{}),$.jsx(pp,{})]})]}),Rp=wt.memo(Np),Up=It(Tm)`
     border-right: 1px solid black;
 
-    ${({isFinished:u})=>u&&_m}
+    ${({$isFinished:u})=>u&&_m}
     &:last-child {
         border-right: none;
     }
-`,Hp=({digit:u})=>{const[c,s]=I.useState(!1),r=Wr(),d=Rm(u);return I.useEffect(()=>{s(r.every(v=>v.includes(u)))},[r,u]),$.jsx(Up,{onClick:d,isFinished:c,children:u})},Bp=wt.memo(Hp),jp=()=>{const u=()=>{const c=[];for(let s=1;s<=9;s++)c.push($.jsx(Bp,{digit:s},s));return c};return $.jsx(Cm,{$columns:9,$rows:1,children:u()})},qp=It(Um)`
+`,Hp=({digit:u})=>{const[c,s]=I.useState(!1),r=Wr(),d=Rm(u);return I.useEffect(()=>{s(r.every(v=>v.includes(u)))},[r,u]),$.jsx(Up,{onClick:d,$isFinished:c,children:u})},Bp=wt.memo(Hp),jp=()=>{const u=()=>{const c=[];for(let s=1;s<=9;s++)c.push($.jsx(Bp,{digit:s},s));return c};return $.jsx(Cm,{$columns:9,$rows:1,children:u()})},qp=It(Um)`
     height: calc(100% / 3);
     width: 100%;
     color: ${({theme:u})=>u.primary};
