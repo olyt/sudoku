@@ -1,5 +1,9 @@
 import React, { MouseEventHandler, useEffect } from 'react';
-import { useAppDispatch, useHistory, useHints } from '../../../context/AppContext';
+import {
+    useAppDispatch,
+    useHints,
+    useHistory,
+} from '../../../context/AppContext';
 import { tryToUndo } from '../../../context/history/operations';
 import UndoSVG from '../../../assets/svg/undo.svg?react';
 import HintSVG from '../../../assets/svg/hint.svg?react';

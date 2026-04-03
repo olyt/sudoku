@@ -10,13 +10,13 @@ interface IDigitCellProps {
 }
 
 interface IStyledProps {
-    isFinished: boolean;
+    $isFinished: boolean;
 }
 
 const StyledDigitCell = styled(BasicCell)<IStyledProps>`
     border-right: 1px solid black;
 
-    ${({ isFinished }) => isFinished && finishedMixin}
+    ${({ $isFinished }) => $isFinished && finishedMixin}
     &:last-child {
         border-right: none;
     }
@@ -30,11 +30,13 @@ const DigitCell: React.FC<IDigitCellProps> = ({ digit }) => {
     ) as MouseEventHandler<HTMLDivElement>;
 
     useEffect(() => {
-        setIsFinished(currentBoard.every((row: number[]) => row.includes(digit)));
+        setIsFinished(
+            currentBoard.every((row: number[]) => row.includes(digit))
+        );
     }, [currentBoard, digit]);
 
     return (
-        <StyledDigitCell onClick={clickHandler} isFinished={isFinished}>
+        <StyledDigitCell onClick={clickHandler} $isFinished={isFinished}>
             {digit}
         </StyledDigitCell>
     );
