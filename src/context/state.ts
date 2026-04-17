@@ -4,6 +4,7 @@
 
 import {
     EGameStatus,
+    EGeneratorType,
     EModalComponents,
     IAppContext,
     TBoardsState,
@@ -51,4 +52,5 @@ export const context: IAppContext = {
     gameStatus: initialGameStatus,
     history: initialHistory,
     hints: initialHints,
+    generatorType: EGeneratorType.Standard,
 };

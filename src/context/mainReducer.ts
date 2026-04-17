@@ -11,12 +11,14 @@ import modalReducer from './modal/reducer';
 import clickedCellReducer from './clickedCell/reducer';
 import historyReducer from './history/reducer';
 import hintsReducer from './hints/reducer';
+import generatorReducer from './generator/reducer';
 import { TBoardsAction } from './boards/actions';
 import { TGameInfoAction } from './gameStatus/actions';
 import { TModalAction } from './modal/actions';
 import { TClickedCellAction } from './clickedCell/actions';
 import { THistoryAction } from './history/actions';
 import { THintsAction } from './hints/actions';
+import { TGeneratorAction } from './generator/actions';
 
 const mainReducer: React.Reducer<IAppContext, TAction> = (state, action) => ({
     boards: boardsReducer(state.boards, action as TBoardsAction),
@@ -28,6 +30,7 @@ const mainReducer: React.Reducer<IAppContext, TAction> = (state, action) => ({
         state.clickedCell,
         action as TClickedCellAction
     ),
+    generatorType: generatorReducer(state.generatorType, action as TGeneratorAction),
 });
 
 export default mainReducer;
