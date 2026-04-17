@@ -5,7 +5,17 @@
  */
 
 import { generateBoard } from '../utils/generateBoard';
-import { EGameStatus, EModalComponents, TOperation } from './types';
+import { generateSymmetricBoard } from '../utils/generators/symmetricGenerator';
+import { generateIsomorphicBoard } from '../utils/generators/isomorphicGenerator';
+import { generateTechniqueBoard } from '../utils/generators/technique';
+import { EGameStatus, EGeneratorType, EModalComponents, TOperation } from './types';
+
+const GENERATORS: Record<EGeneratorType, (difficulty: keyof IDifficulties) => [TBoard, TBoard]> = {
+    [EGeneratorType.Standard]: generateBoard,
+    [EGeneratorType.Symmetric]: generateSymmetricBoard,
+    [EGeneratorType.Isomorphic]: generateIsomorphicBoard,
+    [EGeneratorType.Technique]: generateTechniqueBoard,
+};
 
 import {
     copyBoard,
@@ -28,8 +38,8 @@ import { resetHints } from './hints/actions';
  */
 export const startGame =
     (difficulty: keyof IDifficulties): TOperation =>
-        (dispatch) => {
-            const [board, solution] = generateBoard(difficulty);
+        (dispatch, state) => {
+            const [board, solution] = GENERATORS[state.generatorType](difficulty);
 
             dispatch(setInitialBoard(copyBoard(board)));
             dispatch(setBoard(board));
