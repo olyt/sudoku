@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import HeaderButton from '../Buttons/HeaderButton';
 
 export const StyledHeader = styled.header`
     box-sizing: border-box;
@@ -45,6 +46,16 @@ export const H1 = styled.h1`
     @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
         grid-column-start: initial;
         justify-self: center;
+    }
+`;
+
+export const TechniqueButton = styled(HeaderButton)`
+    grid-column-start: 1;
+    padding: 10px 20px;
+    box-sizing: border-box;
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+        display: none;
     }
 `;
 

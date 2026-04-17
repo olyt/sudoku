@@ -33,6 +33,7 @@ export enum EGameStatus {
 /** Components that can be rendered inside the modal */
 export enum EModalComponents {
     DifficultyBlock = 'DifficultyBlock',
+    GeneratorsBlock = 'GeneratorsBlock',
     WinBanner = 'WinBanner',
     Empty = 'empty',
 }

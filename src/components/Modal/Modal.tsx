@@ -4,10 +4,13 @@ import { useAppDispatch, useIsGameWon, useModal } from '../../context/AppContext
 import WinBanner from '../WinBanner/WinBanner';
 import DifficultyBlock from '../DifficultyBlock/DifficultyBlock';
 import { InnerModal, OuterModal } from './styles';
-import { setModalIsOpen } from '../../context/modal/actions';
+import { setModalComponent, setModalIsOpen } from '../../context/modal/actions';
+import GeneratorsBlock from '../GeneratorsBlock/GeneratorsBlock';
+import { EModalComponents } from '../../context/types';
 
 const components: { [Key: string]: FC } = {
     DifficultyBlock,
+    GeneratorsBlock,
     WinBanner,
 };
 
@@ -23,6 +26,7 @@ const Modal: FC = () => {
         }
 
         dispatch(setModalIsOpen(false));
+        dispatch(setModalComponent(EModalComponents.Empty));
     }, [isGameWon, dispatch]);
 
     useEffect(() => {
