@@ -5,13 +5,6 @@ import ModalButton from '../Buttons/ModalButton';
 import { setModalComponent, setModalIsOpen } from '../../context/modal/actions';
 import { setGeneratorType } from '../../context/generator/actions';
 
-const GENERATOR_LABELS: Record<EGeneratorType, string> = {
-    [EGeneratorType.Standard]: 'standard',
-    [EGeneratorType.Symmetric]: 'symmetric',
-    [EGeneratorType.Isomorphic]: 'isomorphic',
-    [EGeneratorType.Technique]: 'technique',
-};
-
 const GeneratorsBlock: React.FC = () => {
     const dispatch = useAppDispatch();
     const setGenerator: (generatorType: EGeneratorType) => void = (generatorType) => {
@@ -21,18 +14,13 @@ const GeneratorsBlock: React.FC = () => {
     };
 
     const generateButtons = (): React.ReactElement[] => {
-        return (Object.values(GENERATOR_LABELS) as EGeneratorType[]).map((generatorType) => {
-            const text = generatorType
-                .charAt(0)
-                .toUpperCase()
-                .concat(generatorType.substring(1)) as EGeneratorType;
-
+        return (Object.values(EGeneratorType) as EGeneratorType[]).map((generatorType) => {
             return (
                 <ModalButton
                     key={generatorType}
-                    onClick={() => setGenerator(text)}
+                    onClick={() => setGenerator(generatorType)}
                 >
-                    {text}
+                    {generatorType}
                 </ModalButton>
             );
         });
