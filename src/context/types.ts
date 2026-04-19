@@ -16,10 +16,10 @@ import { TGeneratorAction } from './generator/actions';
 
 /** Available board generation algorithms */
 export enum EGeneratorType {
-    Standard = 'STANDARD',
-    Symmetric = 'SYMMETRIC',
-    Isomorphic = 'ISOMORPHIC',
-    Technique = 'TECHNIQUE',
+    Standard = 'Standard',
+    Symmetric = 'Symmetric',
+    Isomorphic = 'Isomorphic',
+    Technique = 'Technique',
 }
 
 /** Possible states of the game lifecycle */
