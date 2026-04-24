@@ -2,9 +2,9 @@ import React from 'react';
 import { useAppDispatch } from '../../context/AppContext';
 import { startGame } from '../../context/operations';
 import { EModalComponents } from '../../context/types';
-import ModalButton from '../Buttons/ModalButton';
 import { setModalComponent, setModalIsOpen } from '../../context/modal/actions';
 import { DIFFICULTIES } from '../../utils/generateBoard';
+import ModalButtonsList from '../Buttons/Blocks/ButtonsList';
 
 const DifficultyBlock: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -15,25 +15,12 @@ const DifficultyBlock: React.FC = () => {
         dispatch(setModalComponent(EModalComponents.Empty));
     };
 
-    const generateButtons = (): React.ReactElement[] => {
-        return (Object.keys(DIFFICULTIES) as EDifficulties[]).map((difficulty) => {
-            const text = difficulty
-                .charAt(0)
-                .toUpperCase()
-                .concat(difficulty.substring(1));
-
-            return (
-                <ModalButton
-                    key={difficulty}
-                    onClick={() => startNewGame(difficulty)}
-                >
-                    {text}
-                </ModalButton>
-            );
-        });
-    };
-
-    return <>{generateButtons()}</>;
+    return (
+        <ModalButtonsList
+            items={Object.keys(DIFFICULTIES) as EDifficulties[]}
+            clickHandler={startNewGame}
+        />
+    );
 };
 
 export default DifficultyBlock;
