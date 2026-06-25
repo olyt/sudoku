@@ -1,6 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { tryToUndo } from '../history/operations';
-import { EGameStatus, EModalComponents, IAppContext } from '../types';
+import {
+    EGameStatus,
+    EGeneratorType,
+    EModalComponents,
+    IAppContext,
+    TDispatch,
+} from '../types';
 import { EHistoryActionTypes } from '../history/actions';
 import { EClickedCellActionTypes } from '../clickedCell/actions';
 import { EBoardsActionTypes } from '../boards/actions';
@@ -27,14 +33,15 @@ const makeState = (overrides: Partial<IAppContext> = {}): IAppContext => ({
     gameStatus: EGameStatus.InProgress,
     history: initialHistory,
     hints: initialHints,
+    generatorType: EGeneratorType.Standard,
     ...overrides,
 });
 
 describe('tryToUndo operation', () => {
-    let dispatch: ReturnType<typeof vi.fn>;
+    let dispatch: ReturnType<typeof vi.fn> & TDispatch;
 
     beforeEach(() => {
-        dispatch = vi.fn();
+        dispatch = vi.fn() as ReturnType<typeof vi.fn> & TDispatch;
     });
 
     it('does nothing when gameStatus = NotStarted', () => {
