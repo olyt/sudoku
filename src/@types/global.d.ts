@@ -19,11 +19,10 @@ declare type TDifficulty = {
 };
 
 /** Available difficulty levels */
-declare enum EDifficulties {
-    easy = 'easy',
-    medium = 'medium',
-    hard = 'hard',
-}
+declare type EDifficulties = 'easy' | 'medium' | 'hard';
+
+/** Key accepted by board generators and difficulty controls */
+declare type TDifficultyKey = EDifficulties;
 
 /** Maps each difficulty level to its configuration */
 declare type IDifficulties = {
