@@ -56,6 +56,38 @@ export const getCandidates = (board: TBoard, y: number, x: number): number[] => 
     return [1, 2, 3, 4, 5, 6, 7, 8, 9].filter((d) => !used.has(d));
 };
 
+type TEmptyCell = [number, number, number[]];
+
+/**
+ * @function considerCell
+ * @description Evaluates a single empty cell against the current best (MRV) candidate.
+ * Returns null to signal a dead end (the cell has no valid candidates), the existing best
+ * when this cell is not more constrained, or a new [row, col, candidates] tuple when it is.
+ * @param {TBoard} board - the Sudoku board
+ * @param {number} y - row index of the empty cell
+ * @param {number} x - column index of the empty cell
+ * @param {TEmptyCell | null} best - the most constrained empty cell found so far
+ * @returns {TEmptyCell | null} - null on a dead end, otherwise the empty cell to keep as best
+ */
+const considerCell = (
+    board: TBoard,
+    y: number,
+    x: number,
+    best: TEmptyCell | null
+): TEmptyCell | null => {
+    const candidates = getCandidates(board, y, x);
+
+    if (candidates.length === 0) {
+        return null;
+    }
+
+    if (!best || candidates.length < best[2].length) {
+        return [y, x, candidates];
+    }
+
+    return best;
+};
+
 /**
  * @function findBestEmpty
  * @description Finds the empty cell with the fewest valid candidates (MRV heuristic).
@@ -63,27 +95,27 @@ export const getCandidates = (board: TBoard, y: number, x: number): number[] => 
  * to a simple top-left scan. Returns null immediately if any empty cell has no valid
  * candidates, signalling a dead end that requires backtracking.
  * @param {TBoard} board - the Sudoku board
- * @returns {[number, number, number[]] | null} - [row, col, candidates] for the most constrained empty cell, or null on a dead end
+ * @returns {TEmptyCell | null} - [row, col, candidates] for the most constrained empty cell, or null on a dead end
  */
-const findBestEmpty = (board: TBoard): [number, number, number[]] | null => {
-    let best: [number, number, number[]] | null = null;
+const findBestEmpty = (board: TBoard): TEmptyCell | null => {
+    let best: TEmptyCell | null = null;
 
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
-            if (!board[i][j]) {
-                const candidates = getCandidates(board, i, j);
+            if (board[i][j]) {
+                continue;
+            }
 
-                if (candidates.length === 0) {
-                    return null;
-                }
+            const result = considerCell(board, i, j, best);
 
-                if (!best || candidates.length < best[2].length) {
-                    best = [i, j, candidates];
+            if (!result) {
+                return null;
+            }
 
-                    if (candidates.length === 1) {
-                        return best;
-                    }
-                }
+            best = result;
+
+            if (best[2].length === 1) {
+                return best;
             }
         }
     }

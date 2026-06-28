@@ -103,21 +103,25 @@ const checkDigitDistribution = (
     return true;
 };
 
+const countBoxFilled = (board: TBoard, by: number, bx: number): number => {
+    let boxFilled = 0;
+
+    for (let dy = 0; dy < 3; dy++) {
+        for (let dx = 0; dx < 3; dx++) {
+            if (board[by + dy][bx + dx]) {
+                boxFilled++;
+            }
+        }
+    }
+
+    return boxFilled;
+};
+
 const checkBoxConstraints = (board: TBoard, inABoxMax: number): boolean => {
     for (let by = 0; by < 9; by += 3) {
         for (let bx = 0; bx < 9; bx += 3) {
-            let boxFilled = 0;
-
-            for (let dy = 0; dy < 3; dy++) {
-                for (let dx = 0; dx < 3; dx++) {
-                    if (board[by + dy][bx + dx]) {
-                        boxFilled++;
-                    }
-                }
-            }
-
             /* c8 ignore next 3 -- box fill constraint: rarely triggered since random removal distributes cells broadly */
-            if (boxFilled > inABoxMax) {
+            if (countBoxFilled(board, by, bx) > inABoxMax) {
                 return false;
             }
         }
