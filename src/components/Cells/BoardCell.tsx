@@ -26,7 +26,7 @@ export enum ECellStates {
 }
 
 export interface IStyledProps extends ICellCoordinates {
-    state: ECellStates;
+    $state: ECellStates;
 }
 
 const checkBoldBorder = (coordinate: number): boolean => {
@@ -46,7 +46,7 @@ const StyledBoardCell = styled(BasicCell)<IStyledProps>`
     border-left: ${({ x }) => (checkBoldBorder(x) ? 3 : 1)}px solid black;
     border-top: ${({ y }) => (checkBoldBorder(y) ? 3 : 1)}px solid black;
 
-    ${({ state }) => CELL_STATE_MIXIN[state]};
+    ${({ $state }) => CELL_STATE_MIXIN[$state]};
 
     &:nth-child(9n + 1) {
         border-left: none;
@@ -89,7 +89,7 @@ const deriveCellState = (
     return ECellStates.inactive;
 };
 
-const BoardCell: React.FC<ICell> = React.memo(({ value, x, y }) => {
+const BoardCell: React.FC<ICell> = ({ value, x, y }) => {
     const currentBoard = useCurrentBoard();
     const clickedCell = useClickedCell();
     const isGameActive = useIsGameActive();
@@ -137,10 +137,10 @@ const BoardCell: React.FC<ICell> = React.memo(({ value, x, y }) => {
     }, [isGameActive, sameCell, dispatch, y, x, value]);
 
     return (
-        <StyledBoardCell onClick={toggleChecked} x={x} y={y} state={cellState}>
+        <StyledBoardCell onClick={toggleChecked} x={x} y={y} $state={cellState}>
             {value || (isHint && hints.currentHint.value) || null}
         </StyledBoardCell>
     );
-});
+};
 
-export default BoardCell;
+export default React.memo(BoardCell);

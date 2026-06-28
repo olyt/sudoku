@@ -8,7 +8,7 @@ import React, {
     createContext,
     useCallback,
     useContext,
-    useMemo,
+    useLayoutEffect,
     useReducer,
     useRef,
 } from 'react';
@@ -16,7 +16,6 @@ import reducer from './mainReducer';
 import {
     EGameStatus,
     EGeneratorType,
-    IAppContext,
     IState,
     TAction,
     TBoardsState,
@@ -131,8 +130,8 @@ export const useGeneratorType = (): EGeneratorType => useContext(GeneratorContex
 /**
  * @function AppContextProvider
  * @description Wraps the app with all context providers.
- * A single reducer drives all state updates; useMemo on each slice ensures
- * a provider only propagates when its own reference changes.
+ * A single reducer drives all state updates. Each provider receives the
+ * corresponding state slice directly, so unchanged references do not propagate.
  * @param {object} root0 - component props
  * @param {React.ReactNode} root0.children - child elements to render
  * @returns {React.ReactElement} - the nested context providers wrapping children
@@ -141,7 +140,9 @@ export const AppContextProvider = ({ children }: { children: React.ReactNode }) 
     const [state, baseDispatch] = useReducer(reducer, context);
     const stateRef = useRef(state);
 
-    stateRef.current = state;
+    useLayoutEffect(() => {
+        stateRef.current = state;
+    }, [state]);
 
     const dispatchWithThunk = useCallback(
         (action: TAction | TOperation): TAction | void => {
@@ -154,20 +155,14 @@ export const AppContextProvider = ({ children }: { children: React.ReactNode }) 
         []
     );
 
-    const boards = useMemo(() => state.boards, [state.boards]);
-    const modal = useMemo(() => state.modal, [state.modal]);
-    const history = useMemo(() => state.history, [state.history]);
-    const hints = useMemo(() => state.hints, [state.hints]);
-    const clickedCell = useMemo(() => state.clickedCell, [state.clickedCell]);
-
     return (
         <DispatchContext value={dispatchWithThunk}>
-            <BoardsContext value={boards}>
+            <BoardsContext value={state.boards}>
                 <GameStatusContext value={state.gameStatus}>
-                    <ModalContext value={modal}>
-                        <HistoryContext value={history}>
-                            <HintsContext value={hints}>
-                                <ClickedCellContext value={clickedCell}>
+                    <ModalContext value={state.modal}>
+                        <HistoryContext value={state.history}>
+                            <HintsContext value={state.hints}>
+                                <ClickedCellContext value={state.clickedCell}>
                                     <GeneratorContext value={state.generatorType}>
                                         {children}
                                     </GeneratorContext>

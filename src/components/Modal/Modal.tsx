@@ -1,4 +1,4 @@
-import React, { FC, MouseEventHandler, useCallback, useEffect } from 'react';
+import { FC, MouseEventHandler, useEffect, useEffectEvent } from 'react';
 import { leaveAfterWin } from '../../context/operations';
 import { useAppDispatch, useIsGameWon, useModal } from '../../context/AppContext';
 import WinBanner from '../WinBanner/WinBanner';
@@ -20,28 +20,32 @@ const Modal: FC = () => {
     const dispatch = useAppDispatch();
     const Component = components[modal.component];
 
-    const closeModal: () => void = useCallback(() => {
+    const closeModal = (): void => {
         if (isGameWon) {
             dispatch(leaveAfterWin());
         }
 
         dispatch(setModalIsOpen(false));
         dispatch(setModalComponent(EModalComponents.Empty));
-    }, [isGameWon, dispatch]);
+    };
+
+    const closeModalOnEsc = useEffectEvent((event: KeyboardEvent): void => {
+        if (event.code === 'Escape') {
+            closeModal();
+        }
+    });
 
     useEffect(() => {
-        const closeModalOnEsc = (event: KeyboardEvent): void => {
-            if (event.code === 'Escape') {
-                closeModal();
-            }
-        };
+        if (!modal.isOpen) {
+            return;
+        }
 
         document.addEventListener('keyup', closeModalOnEsc);
 
         return () => {
             document.removeEventListener('keyup', closeModalOnEsc);
         };
-    }, [closeModal]);
+    }, [modal.isOpen]);
 
     const closeModalOnClick: MouseEventHandler<HTMLDivElement> = (event) => {
         if (event.target === event.currentTarget) {
