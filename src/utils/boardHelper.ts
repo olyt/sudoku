@@ -1,5 +1,3 @@
-import Boxes from './Boxes';
-
 /** A 9x9 board of all zeros, used as a template for creating blank boards */
 const BLANK_BOARD: TBoard = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -52,46 +50,52 @@ export const getBlankBoard = (): TBoard => {
 };
 
 /**
- * @function checkFinishedRow
- * @description Checks if every cell in given row contains a value
- * @param {TBoard} board - two-dimensional array representing sudoku board
- * @param {number} row - y coordinate of target row
- * @returns {boolean} - if every cell in given row contains a value
+ * @function getBoxIndex
+ * @description Computes the index (0-8) of the 3x3 box containing the given cell coordinates
+ * @param {number} y - y coordinate of target cell
+ * @param {number} x - x coordinate of target cell
+ * @returns {number} - index of the 3x3 box containing the cell
  */
-const checkFinishedRow = (board: TBoard, row: number): boolean => {
-    return board[row].every((num) => !!num);
+export const getBoxIndex = (y: number, x: number): number =>
+    Math.floor(y / 3) * 3 + Math.floor(x / 3);
+
+/**
+ * @function checkFinishedBox
+ * @description Checks if every cell in the 3x3 box with given index contains a value
+ * @param {TBoard} board - two-dimensional array representing sudoku board
+ * @param {number} boxIndex - index (0-8) of target box
+ * @returns {boolean} - if every cell in given box contains a value
+ */
+const checkFinishedBox = (board: TBoard, boxIndex: number): boolean => {
+    const by = Math.floor(boxIndex / 3) * 3;
+    const bx = (boxIndex % 3) * 3;
+
+    for (let dy = 0; dy < 3; dy++) {
+        for (let dx = 0; dx < 3; dx++) {
+            if (!board[by + dy][bx + dx]) {
+                return false;
+            }
+        }
+    }
+
+    return true;
 };
 
 /**
- * @function checkFinishedColumn
- * @description Checks if every cell in given row contains a value
+ * @function getFinishedAreas
+ * @description Computes which rows, columns and boxes of the board are fully filled with values
  * @param {TBoard} board - two-dimensional array representing sudoku board
- * @param {number} column - x coordinate of target column
- * @returns {boolean} - if every cell in given column contains a value
+ * @returns {TFinishedAreas} - flags for each row, column and box indicating whether it is fully filled
  */
-const checkFinishedColumn = (board: TBoard, column: number): boolean => {
-    return board.every((row) => !!row[column]);
-};
-
-/**
- * @function checkIfBoardPartFinished
- * @description Checks whether row, column or box containing given coordinates if fully filled with values
- * @param {TBoard} board - two-dimensional array representing sudoku board
- * @param {number} y - y coordinate of target row
- * @param {number} x - x coordinate of target column
- * @returns {boolean} - whether row, column or box containing given coordinates if fully filled with values
- */
-export const checkIfBoardPartFinished = (
-    board: TBoard,
-    y: number,
-    x: number
-): boolean => {
-    return (
-        checkFinishedRow(board, y) ||
-        checkFinishedColumn(board, x) ||
-        Boxes.checkFinishedBoxes(board, y, x)
-    );
-};
+export const getFinishedAreas = (board: TBoard): TFinishedAreas => ({
+    rows: board.map((row) => row.every(Boolean)),
+    columns: Array.from({ length: 9 }, (_, x) =>
+        board.every((row) => Boolean(row[x]))
+    ),
+    boxes: Array.from({ length: 9 }, (_, boxIndex) =>
+        checkFinishedBox(board, boxIndex)
+    ),
+});
 
 /**
  * @function suggestHint

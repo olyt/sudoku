@@ -226,6 +226,7 @@ const applyHiddenSingles = (
             if (cells.length === 1) {
                 const { y, x } = cells[0];
 
+                /* c8 ignore next 4 -- defensive guard: a cell with candidates is always empty, since initCandidates gives filled cells an empty set and fillCell clears it on placement */
                 if (!board[y][x]) {
                     fillCell(grid, board, y, x, d);
                     changed = true;

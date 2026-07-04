@@ -1,6 +1,12 @@
-import React, { useEffect, useEffectEvent } from 'react';
+import React, { useEffect, useEffectEvent, useMemo } from 'react';
 import BoardCell from '../Cells/BoardCell';
-import { useAppDispatch, useClickedCell, useCurrentBoard, useIsGameActive } from '../../context/AppContext';
+import {
+    useAppDispatch,
+    useClickedCell,
+    useCurrentBoard,
+    useHints,
+    useIsGameActive,
+} from '../../context/AppContext';
 import { arrows, digits, escape, numpadDigits } from '../../constants/keyboard';
 import {
     resetClickedCell,
@@ -11,6 +17,8 @@ import BasicGrid from './BasicGrid';
 import useCellValueHandler, {
     THandlerCreator,
 } from '../../hooks/useCellValueHandler';
+import { getBoxIndex, getFinishedAreas } from '../../utils/boardHelper';
+import { deriveCellState } from '../../utils/cellState';
 
 const calculateNewCoordinate = (
     oldCoordinate: number,
@@ -32,9 +40,14 @@ const calculateNewCoordinate = (
 const BoardGrid: React.FC = () => {
     const currentBoard = useCurrentBoard();
     const clickedCell = useClickedCell();
+    const hints = useHints();
     const isGameActive = useIsGameActive();
     const dispatch = useAppDispatch();
     const digitHandlerCreator = useCellValueHandler() as THandlerCreator;
+    const finishedAreas = useMemo(
+        () => getFinishedAreas(currentBoard),
+        [currentBoard]
+    );
 
     const onKeyUp = useEffectEvent((event: KeyboardEvent) => {
         const { code } = event;
@@ -126,10 +139,54 @@ const BoardGrid: React.FC = () => {
         };
     }, [isGameActive]);
 
-    const cells = currentBoard.map((row: number[], y: number) =>
-        row.map((num, x) => (
-            <BoardCell value={num} x={x} y={y} key={`x:${x},y:${y}`} />
-        ))
+    const cells = useMemo(
+        () =>
+            currentBoard.map((row: number[], y: number) =>
+                row.map((value, x) => {
+                    const isHint =
+                        y === hints.currentHint.y &&
+                        x === hints.currentHint.x &&
+                        !!hints.currentHint.value;
+                    const isSelected = clickedCell.y === y && clickedCell.x === x;
+                    const sameY = clickedCell.y === y;
+                    const sameX = clickedCell.x === x;
+                    const sameValue = clickedCell.value === value;
+                    const digitClicked =
+                        clickedCell.y === -1 &&
+                        clickedCell.x === -1 &&
+                        !!clickedCell.value;
+                    const areaFinished =
+                        !!value &&
+                        (finishedAreas.rows[y] ||
+                            finishedAreas.columns[x] ||
+                            finishedAreas.boxes[getBoxIndex(y, x)]);
+                    const cellState = deriveCellState(
+                        isSelected,
+                        sameY,
+                        sameX,
+                        sameValue,
+                        digitClicked,
+                        areaFinished,
+                        isHint
+                    );
+                    const displayValue =
+                        value || (isHint ? hints.currentHint.value : 0) || null;
+
+                    return (
+                        <BoardCell
+                            cellState={cellState}
+                            displayValue={displayValue}
+                            isGameActive={isGameActive}
+                            isSelected={isSelected}
+                            key={`x:${x},y:${y}`}
+                            value={value}
+                            x={x}
+                            y={y}
+                        />
+                    );
+                })
+            ),
+        [clickedCell, currentBoard, finishedAreas, hints.currentHint, isGameActive]
     );
 
     return (

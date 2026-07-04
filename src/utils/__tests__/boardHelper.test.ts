@@ -3,7 +3,8 @@ import {
     copyBoard,
     getBlankBoard,
     getBoardWithUpdatedValue,
-    checkIfBoardPartFinished,
+    getBoxIndex,
+    getFinishedAreas,
     suggestHint,
 } from '../boardHelper';
 
@@ -67,46 +68,80 @@ describe('getBoardWithUpdatedValue', () => {
     });
 });
 
-describe('checkIfBoardPartFinished', () => {
-    it('returns true when the row is fully filled', () => {
+describe('getBoxIndex', () => {
+    it('maps cell coordinates to their 3x3 box index', () => {
+        expect(getBoxIndex(0, 0)).toBe(0);
+        expect(getBoxIndex(1, 4)).toBe(1);
+        expect(getBoxIndex(2, 8)).toBe(2);
+        expect(getBoxIndex(4, 4)).toBe(4);
+        expect(getBoxIndex(8, 0)).toBe(6);
+        expect(getBoxIndex(8, 8)).toBe(8);
+    });
+});
+
+describe('getFinishedAreas', () => {
+    it('flags nothing on a blank board', () => {
+        const { rows, columns, boxes } = getFinishedAreas(blankBoard());
+
+        expect(rows).toEqual(Array(9).fill(false));
+        expect(columns).toEqual(Array(9).fill(false));
+        expect(boxes).toEqual(Array(9).fill(false));
+    });
+
+    it('flags everything on a fully filled board', () => {
+        const { rows, columns, boxes } = getFinishedAreas(makeBoard(5));
+
+        expect(rows).toEqual(Array(9).fill(true));
+        expect(columns).toEqual(Array(9).fill(true));
+        expect(boxes).toEqual(Array(9).fill(true));
+    });
+
+    it('flags only the fully filled row', () => {
         const board = blankBoard();
 
         for (let x = 0; x < 9; x++) {
             board[2][x] = x + 1;
         }
 
-        expect(checkIfBoardPartFinished(board, 2, 0)).toBe(true);
+        const { rows, columns, boxes } = getFinishedAreas(board);
+
+        expect(rows[2]).toBe(true);
+        expect(rows.filter(Boolean)).toHaveLength(1);
+        expect(columns).toEqual(Array(9).fill(false));
+        expect(boxes).toEqual(Array(9).fill(false));
     });
 
-    it('returns true when the column is fully filled', () => {
+    it('flags only the fully filled column', () => {
         const board = blankBoard();
 
         for (let y = 0; y < 9; y++) {
             board[y][4] = y + 1;
         }
 
-        expect(checkIfBoardPartFinished(board, 0, 4)).toBe(true);
+        const { rows, columns, boxes } = getFinishedAreas(board);
+
+        expect(columns[4]).toBe(true);
+        expect(columns.filter(Boolean)).toHaveLength(1);
+        expect(rows).toEqual(Array(9).fill(false));
+        expect(boxes).toEqual(Array(9).fill(false));
     });
 
-    it('returns true when the box is fully filled', () => {
+    it('flags only the fully filled box', () => {
         const board = blankBoard();
-        const vals = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         let v = 0;
 
-        for (let dy = 0; dy < 3; dy++) {
-            for (let dx = 0; dx < 3; dx++) {
-                board[dy][dx] = vals[v++];
+        for (let dy = 3; dy < 6; dy++) {
+            for (let dx = 3; dx < 6; dx++) {
+                board[dy][dx] = ++v;
             }
         }
 
-        expect(checkIfBoardPartFinished(board, 0, 0)).toBe(true);
-    });
+        const { rows, columns, boxes } = getFinishedAreas(board);
 
-    it('returns false when row, column, and box are all incomplete', () => {
-        const board = blankBoard();
-
-        board[0][0] = 1;
-        expect(checkIfBoardPartFinished(board, 0, 0)).toBe(false);
+        expect(boxes[4]).toBe(true);
+        expect(boxes.filter(Boolean)).toHaveLength(1);
+        expect(rows).toEqual(Array(9).fill(false));
+        expect(columns).toEqual(Array(9).fill(false));
     });
 });
 

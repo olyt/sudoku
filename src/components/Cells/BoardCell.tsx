@@ -1,12 +1,11 @@
-import React, { MouseEventHandler, useCallback, useMemo } from 'react';
-import { useAppDispatch, useClickedCell, useCurrentBoard, useHints, useIsGameActive } from '../../context/AppContext';
+import React, { MouseEventHandler, useCallback } from 'react';
+import { useAppDispatch } from '../../context/AppContext';
 import styled from 'styled-components';
 import BasicCell from './BasicCell';
 import {
     resetClickedCell,
     setClickedCell,
 } from '../../context/clickedCell/actions';
-import { checkIfBoardPartFinished } from '../../utils/boardHelper';
 import { resetCurrentHint } from '../../context/hints/actions';
 import {
     clickedMixin,
@@ -15,18 +14,17 @@ import {
     highlightedOrSimilarNumMixin,
     hintMixin,
 } from './mixins';
-
-export enum ECellStates {
-    clicked = 'clicked',
-    highlighted = 'highlighted',
-    similarNum = 'similarNum',
-    finished = 'finished',
-    hint = 'hint',
-    inactive = 'inactive',
-}
+import { ECellStates } from '../../utils/cellState';
 
 export interface IStyledProps extends ICellCoordinates {
     $state: ECellStates;
+}
+
+export interface IBoardCellProps extends ICell {
+    cellState: ECellStates;
+    displayValue: number | null;
+    isGameActive: boolean;
+    isSelected: boolean;
 }
 
 const checkBoldBorder = (coordinate: number): boolean => {
@@ -57,75 +55,20 @@ const StyledBoardCell = styled(BasicCell)<IStyledProps>`
     }
 `;
 
-const deriveCellState = (
-    sameCell: boolean,
-    sameY: boolean,
-    sameX: boolean,
-    sameValue: boolean,
-    digitClicked: boolean,
-    areaFinished: boolean,
-    isHint: boolean
-): ECellStates => {
-    if (isHint) {
-        return ECellStates.hint;
-    }
-
-    if (sameCell) {
-        return ECellStates.clicked;
-    }
-
-    if ((sameY && !sameX) || (!sameY && sameX)) {
-        return ECellStates.highlighted;
-    }
-
-    if (digitClicked && sameValue) {
-        return ECellStates.similarNum;
-    }
-
-    if (areaFinished) {
-        return ECellStates.finished;
-    }
-
-    return ECellStates.inactive;
-};
-
-const BoardCell: React.FC<ICell> = ({ value, x, y }) => {
-    const currentBoard = useCurrentBoard();
-    const clickedCell = useClickedCell();
-    const isGameActive = useIsGameActive();
-    const hints = useHints();
+const BoardCell: React.FC<IBoardCellProps> = ({
+    cellState,
+    displayValue,
+    isGameActive,
+    isSelected,
+    value,
+    x,
+    y,
+}) => {
     const dispatch = useAppDispatch();
-
-    const isHint =
-        y === hints.currentHint.y &&
-        x === hints.currentHint.x &&
-        !!hints.currentHint.value;
-
-    const sameCell = clickedCell.y === y && clickedCell.x === x;
-
-    const cellState = useMemo<ECellStates>(() => {
-        const sameY = clickedCell.y === y;
-        const sameX = clickedCell.x === x;
-        const sameValue = clickedCell.value === value;
-        const digitClicked =
-            clickedCell.y === -1 && clickedCell.x === -1 && !!clickedCell.value;
-        const areaFinished =
-            !!value && checkIfBoardPartFinished(currentBoard, y, x);
-
-        return deriveCellState(
-            sameCell,
-            sameY,
-            sameX,
-            sameValue,
-            digitClicked,
-            areaFinished,
-            isHint
-        );
-    }, [clickedCell, currentBoard, x, y, value, sameCell, isHint]);
 
     const toggleChecked: MouseEventHandler<HTMLDivElement> = useCallback(() => {
         if (isGameActive) {
-            if (sameCell) {
+            if (isSelected) {
                 dispatch(resetClickedCell);
 
                 return;
@@ -134,11 +77,11 @@ const BoardCell: React.FC<ICell> = ({ value, x, y }) => {
             dispatch(setClickedCell({ y, x, value }));
             dispatch(resetCurrentHint);
         }
-    }, [isGameActive, sameCell, dispatch, y, x, value]);
+    }, [isGameActive, isSelected, dispatch, y, x, value]);
 
     return (
         <StyledBoardCell onClick={toggleChecked} x={x} y={y} $state={cellState}>
-            {value || (isHint && hints.currentHint.value) || null}
+            {displayValue}
         </StyledBoardCell>
     );
 };

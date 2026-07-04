@@ -29,6 +29,13 @@ declare type IDifficulties = {
     [key in EDifficulties]: TDifficulty;
 };
 
+/** Flags for each row, column and 3x3 box indicating whether it is fully filled */
+declare type TFinishedAreas = {
+    boxes: boolean[];
+    columns: boolean[];
+    rows: boolean[];
+};
+
 /** Row (y) and column (x) coordinates of a cell on the board */
 declare interface ICellCoordinates {
     y: number;
