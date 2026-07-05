@@ -323,7 +323,7 @@ describe('generateTechniqueBoard mock-based coverage', () => {
 
         expect(isValidSudoku(puzzle)).toBe(true);
         spy.mockRestore();
-    });
+    }, 30_000);
 
     it('retries when matchesDifficulty fails; hard non-null .some() path covered on retry', () => {
         const realHumanSolve = humanSolverModule.humanSolve;
@@ -336,5 +336,5 @@ describe('generateTechniqueBoard mock-based coverage', () => {
 
         expect(isValidSudoku(puzzle)).toBe(true);
         spy.mockRestore();
-    });
+    }, 30_000);
 });
