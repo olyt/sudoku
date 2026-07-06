@@ -25,6 +25,7 @@
         "build": "vite build",
         "preview": "vite preview",
         "lint": "eslint .",
+        "lint:css": "stylelint \"src/**/*.{ts,tsx}\"",
         "format": "prettier --write .",
         "typecheck": "tsc --noEmit",
         "test": "vitest run",
