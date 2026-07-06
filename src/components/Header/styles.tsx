@@ -26,7 +26,6 @@ export const StyledHeader = styled.header`
         grid-template-columns: 1fr;
         grid-template-rows: repeat(2, 1fr);
     }
-}
 `;
 
 export const H1 = styled.h1`

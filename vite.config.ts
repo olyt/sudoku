@@ -3,9 +3,13 @@ import { defineConfig } from 'vite';
 import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import babel from '@rolldown/plugin-babel';
 import svgr from 'vite-plugin-svgr';
+import browserslistToEsbuild from 'browserslist-to-esbuild';
 
 export default defineConfig({
     base: '/sudoku/',
+    build: {
+        target: browserslistToEsbuild(),
+    },
     plugins: [
         react(),
         babel({
@@ -21,7 +25,6 @@ export default defineConfig({
             provider: 'v8',
             include: ['src/**/*.{ts,tsx}'],
             exclude: [
-                'src/react-app-env.d.ts',
                 'src/index.tsx',
                 'src/App.tsx',
                 'src/GlobalStyles.ts',
