@@ -82,7 +82,7 @@ const tryGenerateSymmetric = (
 ): [TBoard, TBoard] | null => {
     const { mustFill, inARowMax, inABoxMax, numMax, numMin } = DIFFICULTIES[difficulty];
     const solution = solve(getBlankBoard()) as TBoard;
-    const board: TBoard = solution.map((row) => [...row]) as TBoard;
+    const board: TBoard = solution.map((row) => [...row]);
     const pairs = buildPairs();
 
     shuffleArray(pairs);

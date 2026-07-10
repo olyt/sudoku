@@ -81,7 +81,7 @@ const checkDigitDistribution = (
     numMin: number,
     numMax: number
 ): boolean => {
-    const numbersCounter: number[] = new Array(10).fill(0);
+    const numbersCounter: number[] = new Array<number>(10).fill(0);
     for (let y = 0; y < 9; y++) {
         for (let x = 0; x < 9; x++) {
             const digit = board[y][x];
@@ -168,7 +168,7 @@ export const checkDistribution = (
 const tryGenerate: TTryGenerateFn = (difficulty) => {
     const { mustFill, inARowMax, inABoxMax, numMax, numMin } = DIFFICULTIES[difficulty];
     const solution = solve(getBlankBoard()) as TBoard;
-    const board: TBoard = solution.map((row) => [...row]) as TBoard;
+    const board: TBoard = solution.map((row) => [...row]);
 
     const positions: ICellCoordinates[] = [];
 

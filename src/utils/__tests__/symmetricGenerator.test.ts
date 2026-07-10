@@ -115,7 +115,7 @@ describe('generateSymmetricBoard', () => {
         // tryCenterRemoval then sets board[4][4]=0 (zeros=31, odd) → spy returns 2 →
         // center is restored → lines 56, 58, 65, 67 all covered.
         const countSpy = vi.spyOn(solverModule, 'countSolutions').mockImplementation((board) => {
-            const zeros = (board as number[][]).flat().filter((v) => v === 0).length;
+            const zeros = (board).flat().filter((v) => v === 0).length;
 
             return zeros <= 30 && zeros % 2 === 0 ? 1 : 2;
         });

@@ -9,7 +9,8 @@ import {
 } from '../boards/actions';
 import { TBoardsState } from '../types';
 
-const blankBoard = (): TBoard => Array.from({ length: 9 }, () => Array(9).fill(0));
+const blankBoard = (): TBoard =>
+    Array.from({ length: 9 }, () => Array<number>(9).fill(0));
 
 const initialState: TBoardsState = {
     currentBoard: blankBoard(),

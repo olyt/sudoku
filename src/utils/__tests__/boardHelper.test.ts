@@ -9,7 +9,7 @@ import {
 } from '../boardHelper';
 
 const makeBoard = (fill: number): TBoard =>
-    Array.from({ length: 9 }, () => Array(9).fill(fill));
+    Array.from({ length: 9 }, () => Array<number>(9).fill(fill));
 
 const blankBoard = (): TBoard => makeBoard(0);
 
@@ -17,7 +17,7 @@ describe('copyBoard', () => {
     it('returns a deep copy — mutations do not affect original', () => {
         const original: TBoard = [
             [1, 2, 3, 4, 5, 6, 7, 8, 9],
-            ...Array(8).fill(Array(9).fill(0)),
+            ...Array.from({ length: 8 }, () => Array<number>(9).fill(0)),
         ];
         const copy = copyBoard(original);
 

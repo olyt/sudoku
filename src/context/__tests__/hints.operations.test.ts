@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest';
 import { hint } from '../hints/operations';
 import {
     EGameStatus,
@@ -10,7 +10,8 @@ import {
 import { EHintsActionTypes } from '../hints/actions';
 import { defaultCell, initialHistory, initialHints } from '../state';
 
-const blankBoard = (): TBoard => Array.from({ length: 9 }, () => Array(9).fill(0));
+const blankBoard = (): TBoard =>
+    Array.from({ length: 9 }, () => Array<number>(9).fill(0));
 
 const solution: TBoard = [
     [5, 3, 4, 6, 7, 8, 9, 1, 2],
@@ -40,10 +41,10 @@ const makeState = (overrides: Partial<IAppContext> = {}): IAppContext => ({
 });
 
 describe('hint operation', () => {
-    let dispatch: ReturnType<typeof vi.fn> & TDispatch;
+    let dispatch: Mock<TDispatch>;
 
     beforeEach(() => {
-        dispatch = vi.fn() as ReturnType<typeof vi.fn> & TDispatch;
+        dispatch = vi.fn<TDispatch>();
     });
 
     it('does nothing when gameStatus = NotStarted', () => {
@@ -91,9 +92,9 @@ describe('hint operation', () => {
             type: EHintsActionTypes.DecrementHint,
         });
 
-        const hintAction = dispatch.mock.calls[1][0];
-
-        expect(hintAction.type).toBe(EHintsActionTypes.SetCurrentHint);
-        expect(hintAction.payload.value).toBe(solution[0][0]);
+        expect(dispatch.mock.calls[1][0]).toMatchObject({
+            type: EHintsActionTypes.SetCurrentHint,
+            payload: { value: solution[0][0] },
+        });
     });
 });

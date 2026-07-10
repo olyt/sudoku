@@ -16,7 +16,7 @@ const GeneratorsBlock: React.FC = () => {
 
     return (
         <ModalButtonsList
-            items={Object.values(EGeneratorType) as EGeneratorType[]}
+            items={Object.values(EGeneratorType)}
             clickHandler={setGenerator}
         />
     );

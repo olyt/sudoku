@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest';
 import { tryToUndo } from '../history/operations';
 import {
     EGameStatus,
@@ -9,10 +9,11 @@ import {
 } from '../types';
 import { EHistoryActionTypes } from '../history/actions';
 import { EClickedCellActionTypes } from '../clickedCell/actions';
-import { EBoardsActionTypes } from '../boards/actions';
+import { EBoardsActionTypes, setBoard } from '../boards/actions';
 import { defaultCell, initialHistory, initialHints } from '../state';
 
-const blankBoard = (): TBoard => Array.from({ length: 9 }, () => Array(9).fill(0));
+const blankBoard = (): TBoard =>
+    Array.from({ length: 9 }, () => Array<number>(9).fill(0));
 
 const makeBoard = (): TBoard => {
     const board = blankBoard();
@@ -38,10 +39,10 @@ const makeState = (overrides: Partial<IAppContext> = {}): IAppContext => ({
 });
 
 describe('tryToUndo operation', () => {
-    let dispatch: ReturnType<typeof vi.fn> & TDispatch;
+    let dispatch: Mock<TDispatch>;
 
     beforeEach(() => {
-        dispatch = vi.fn() as ReturnType<typeof vi.fn> & TDispatch;
+        dispatch = vi.fn<TDispatch>();
     });
 
     it('does nothing when gameStatus = NotStarted', () => {
@@ -82,7 +83,9 @@ describe('tryToUndo operation', () => {
         });
 
         // Second: setBoard with cell2 zeroed out
-        const setBoardAction = dispatch.mock.calls[1][0];
+        const setBoardAction = dispatch.mock.calls[1][0] as ReturnType<
+            typeof setBoard
+        >;
 
         expect(setBoardAction.type).toBe(EBoardsActionTypes.SetBoard);
         expect(setBoardAction.payload[cell2.y][cell2.x]).toBe(0);

@@ -21,6 +21,21 @@ export default tseslint.config(
     },
     js.configs.recommended,
     ...tseslint.configs.recommended,
+    // Type-checked rules only where the tsconfig applies; root config files
+    // (vite.config.ts, *.mjs) stay on the plain preset above.
+    ...tseslint.configs.recommendedTypeChecked.map((config) => ({
+        ...config,
+        files: ['src/**/*.{ts,tsx}'],
+    })),
+    {
+        files: ['src/**/*.{ts,tsx}'],
+        languageOptions: {
+            parserOptions: {
+                projectService: true,
+                tsconfigRootDir: import.meta.dirname,
+            },
+        },
+    },
     react.configs.flat.recommended,
     react.configs.flat['jsx-runtime'],
     jsxA11y.flatConfigs.recommended,
