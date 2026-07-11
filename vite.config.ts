@@ -54,7 +54,12 @@ export default defineConfig(({ mode }) => ({
                 'src/utils/svgHelper.ts',
             ],
             reporter: ['text', 'html'],
-            thresholds: { lines: 100, functions: 100, branches: 100, statements: 100 },
+            thresholds: {
+                lines: 100,
+                functions: 100,
+                branches: 100,
+                statements: 100,
+            },
         },
     },
 }));

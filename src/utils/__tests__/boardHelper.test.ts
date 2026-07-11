@@ -59,11 +59,19 @@ describe('getBoardWithUpdatedValue', () => {
 
     it('only changes the targeted cell', () => {
         const board = blankBoard();
-        const updated = getBoardWithUpdatedValue(board, { y: 0, x: 0, value: 1 });
+        const updated = getBoardWithUpdatedValue(board, {
+            y: 0,
+            x: 0,
+            value: 1,
+        });
 
         let nonZero = 0;
 
-        updated.forEach((row) => row.forEach((v) => { if (v) nonZero++; }));
+        updated.forEach((row) =>
+            row.forEach((v) => {
+                if (v) nonZero++;
+            })
+        );
         expect(nonZero).toBe(1);
     });
 });

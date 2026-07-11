@@ -8,7 +8,9 @@ import { setGeneratorType } from '../../context/generator/actions';
 const GeneratorsBlock: React.FC = () => {
     const dispatch = useAppDispatch();
 
-    const setGenerator: (generatorType: EGeneratorType) => void = (generatorType) => {
+    const setGenerator: (generatorType: EGeneratorType) => void = (
+        generatorType
+    ) => {
         dispatch(setGeneratorType(generatorType));
         dispatch(setModalIsOpen(false));
         dispatch(setModalComponent(EModalComponents.Empty));

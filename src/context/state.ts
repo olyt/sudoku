@@ -14,7 +14,6 @@ import {
 } from './types';
 import { getBlankBoard } from '../utils/boardHelper';
 
-
 const initialBoardsState: TBoardsState = {
     currentBoard: getBlankBoard(),
     initialBoard: getBlankBoard(),

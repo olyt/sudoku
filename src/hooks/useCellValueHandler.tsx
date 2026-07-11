@@ -5,7 +5,11 @@
  */
 
 import { MouseEventHandler } from 'react';
-import { useAppDispatch, useClickedCell, useInitialBoard } from '../context/AppContext';
+import {
+    useAppDispatch,
+    useClickedCell,
+    useInitialBoard,
+} from '../context/AppContext';
 import { setValueToBoard } from '../context/operations';
 import { setClickedCell } from '../context/clickedCell/actions';
 

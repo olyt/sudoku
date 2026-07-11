@@ -12,10 +12,14 @@ const Header: React.FC = () => {
 
     return (
         <StyledHeader>
-            <TechniqueButton onClick={() => {
-                dispatch(setModalComponent(EModalComponents.GeneratorsBlock)); 
-                dispatch(setModalIsOpen(true)); 
-            }}> 
+            <TechniqueButton
+                onClick={() => {
+                    dispatch(
+                        setModalComponent(EModalComponents.GeneratorsBlock)
+                    );
+                    dispatch(setModalIsOpen(true));
+                }}
+            >
                 {generatorType}
             </TechniqueButton>
             <H1>sudoku</H1>

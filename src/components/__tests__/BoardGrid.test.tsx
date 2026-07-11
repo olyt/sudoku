@@ -73,11 +73,8 @@ const startGame = () => {
     });
 };
 
-const cellAt = (
-    cells: NodeListOf<Element>,
-    y: number,
-    x: number
-): Element => cells[y * 9 + x];
+const cellAt = (cells: NodeListOf<Element>, y: number, x: number): Element =>
+    cells[y * 9 + x];
 
 const pressKeyUp = (code: string) => {
     fireEvent.keyUp(document, { code });

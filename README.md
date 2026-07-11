@@ -11,9 +11,10 @@ You can try it [here](https://olyt.github.io/sudoku/).
 ## Controls
 
 You can use mouse or keyboard
- - *Escape* - cancel/close
- - *Arrows* - move through the board
- - *Numpad block numbers* - set a number to board
+
+- _Escape_ - cancel/close
+- _Arrows_ - move through the board
+- _Numpad block numbers_ - set a number to board
 
 ## Development
 

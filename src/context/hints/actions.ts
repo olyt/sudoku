@@ -1,6 +1,5 @@
 import { TActionMap } from '../types';
 
-
 export enum EHintsActionTypes {
     DecrementHint = 'DecrementHint',
     SetHintError = 'SetHintError',

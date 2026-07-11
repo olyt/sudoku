@@ -14,7 +14,9 @@ const hintCell: ICell = { y: 2, x: 4, value: 7 };
 
 describe('hints reducer', () => {
     it('DecrementHint decrements count', () => {
-        const next = reducer(baseState, { type: EHintsActionTypes.DecrementHint });
+        const next = reducer(baseState, {
+            type: EHintsActionTypes.DecrementHint,
+        });
 
         expect(next.count).toBe(2);
     });
@@ -30,7 +32,9 @@ describe('hints reducer', () => {
 
     it('ResetCurrentHint resets to defaultCell', () => {
         const state: THints = { ...baseState, currentHint: hintCell };
-        const next = reducer(state, { type: EHintsActionTypes.ResetCurrentHint });
+        const next = reducer(state, {
+            type: EHintsActionTypes.ResetCurrentHint,
+        });
 
         expect(next.currentHint).toBe(defaultCell);
     });

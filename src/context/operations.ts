@@ -8,9 +8,17 @@ import { generateBoard } from '../utils/generateBoard';
 import { generateSymmetricBoard } from '../utils/generators/symmetricGenerator';
 import { generateIsomorphicBoard } from '../utils/generators/isomorphicGenerator';
 import { generateTechniqueBoard } from '../utils/generators/technique';
-import { EGameStatus, EGeneratorType, EModalComponents, TOperation } from './types';
+import {
+    EGameStatus,
+    EGeneratorType,
+    EModalComponents,
+    TOperation,
+} from './types';
 
-const GENERATORS: Record<EGeneratorType, (difficulty: keyof IDifficulties) => [TBoard, TBoard]> = {
+const GENERATORS: Record<
+    EGeneratorType,
+    (difficulty: keyof IDifficulties) => [TBoard, TBoard]
+> = {
     [EGeneratorType.Standard]: generateBoard,
     [EGeneratorType.Symmetric]: generateSymmetricBoard,
     [EGeneratorType.Isomorphic]: generateIsomorphicBoard,
@@ -38,17 +46,17 @@ import { resetHints } from './hints/actions';
  */
 export const startGame =
     (difficulty: keyof IDifficulties): TOperation =>
-        (dispatch, state) => {
-            const [board, solution] = GENERATORS[state.generatorType](difficulty);
+    (dispatch, state) => {
+        const [board, solution] = GENERATORS[state.generatorType](difficulty);
 
-            dispatch(setInitialBoard(copyBoard(board)));
-            dispatch(setBoard(board));
-            dispatch(setSolution(solution));
-            dispatch(setGameStatus(EGameStatus.InProgress));
-            dispatch(resetClickedCell);
-            dispatch(resetHistory);
-            dispatch(resetHints);
-        };
+        dispatch(setInitialBoard(copyBoard(board)));
+        dispatch(setBoard(board));
+        dispatch(setSolution(solution));
+        dispatch(setGameStatus(EGameStatus.InProgress));
+        dispatch(resetClickedCell);
+        dispatch(resetHistory);
+        dispatch(resetHints);
+    };
 
 /**
  * @function resetGame
@@ -101,16 +109,16 @@ export const startNewAfterWin = (): TOperation => (dispatch) => {
  */
 export const setValueToBoard =
     (newValue: number): TOperation =>
-        (dispatch, state) => {
-            const { boards, clickedCell } = state;
-            const { y, x } = clickedCell;
-            const updatedBoard = getBoardWithUpdatedValue(boards.currentBoard, {
-                y,
-                x,
-                value: newValue,
-            });
+    (dispatch, state) => {
+        const { boards, clickedCell } = state;
+        const { y, x } = clickedCell;
+        const updatedBoard = getBoardWithUpdatedValue(boards.currentBoard, {
+            y,
+            x,
+            value: newValue,
+        });
 
-            dispatch(setBoard(updatedBoard));
-            dispatch(setClickedCellValue(newValue));
-            dispatch(pushToHistory({ ...clickedCell, value: newValue }));
-        };
+        dispatch(setBoard(updatedBoard));
+        dispatch(setClickedCellValue(newValue));
+        dispatch(pushToHistory({ ...clickedCell, value: newValue }));
+    };

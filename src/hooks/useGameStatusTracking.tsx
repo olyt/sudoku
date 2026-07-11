@@ -4,7 +4,11 @@
  * and updates game status on incorrect cell placement.
  */
 
-import { useAppDispatch, useBoards, useGameStatus } from '../context/AppContext';
+import {
+    useAppDispatch,
+    useBoards,
+    useGameStatus,
+} from '../context/AppContext';
 import { EGameStatus, EModalComponents } from '../context/types';
 import { useEffect } from 'react';
 import { setModalComponent, setModalIsOpen } from '../context/modal/actions';

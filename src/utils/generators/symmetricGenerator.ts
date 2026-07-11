@@ -16,7 +16,10 @@ const buildPairs = (): Array<ICellCoordinates[]> => {
             if (y === 4 && x === 4) {
                 pairs.push([{ y: 4, x: 4 }]);
             } else if (y * 9 + x < (8 - y) * 9 + (8 - x)) {
-                pairs.push([{ y, x }, { y: 8 - y, x: 8 - x }]);
+                pairs.push([
+                    { y, x },
+                    { y: 8 - y, x: 8 - x },
+                ]);
             }
         }
     }
@@ -48,7 +51,11 @@ const shuffleArray = <T>(arr: T[]): void => {
  * @param {number} mustFill - target number of filled cells
  * @returns {number} - updated filledCount after the attempt
  */
-const tryCenterRemoval = (board: TBoard, filledCount: number, mustFill: number): number => {
+const tryCenterRemoval = (
+    board: TBoard,
+    filledCount: number,
+    mustFill: number
+): number => {
     if (filledCount !== mustFill + 1 || board[4][4] === 0) {
         return filledCount;
     }
@@ -80,7 +87,8 @@ const tryCenterRemoval = (board: TBoard, filledCount: number, mustFill: number):
 const tryGenerateSymmetric = (
     difficulty: keyof IDifficulties
 ): [TBoard, TBoard] | null => {
-    const { mustFill, inARowMax, inABoxMax, numMax, numMin } = DIFFICULTIES[difficulty];
+    const { mustFill, inARowMax, inABoxMax, numMax, numMin } =
+        DIFFICULTIES[difficulty];
     const solution = solve(getBlankBoard()) as TBoard;
     const board: TBoard = solution.map((row) => [...row]);
     const pairs = buildPairs();
@@ -115,7 +123,10 @@ const tryGenerateSymmetric = (
 
     const inRange = filledCount >= mustFill - 1 && filledCount <= mustFill + 1;
 
-    if (!inRange || !checkDistribution(board, inARowMax, inABoxMax, numMax, numMin)) {
+    if (
+        !inRange ||
+        !checkDistribution(board, inARowMax, inABoxMax, numMax, numMin)
+    ) {
         return null;
     }
 

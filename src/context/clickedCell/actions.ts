@@ -1,6 +1,5 @@
 import { TActionCreator, TActionMap } from '../types';
 
-
 export enum EClickedCellActionTypes {
     SetClickedCell = 'SET_CLICKED_CELL',
     SetClickedCellValue = 'SET_CLICKED_CELL_VALUE',

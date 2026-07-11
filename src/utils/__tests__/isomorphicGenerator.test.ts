@@ -67,11 +67,14 @@ beforeAll(() => {
 }, 30_000);
 
 describe('generateIsomorphicBoard', () => {
-    it.each(difficulties)('%s: puzzle is a valid Sudoku (no contradictions)', (diff) => {
-        const { puzzle } = results[diff]!;
+    it.each(difficulties)(
+        '%s: puzzle is a valid Sudoku (no contradictions)',
+        (diff) => {
+            const { puzzle } = results[diff]!;
 
-        expect(isValidSudoku(puzzle)).toBe(true);
-    });
+            expect(isValidSudoku(puzzle)).toBe(true);
+        }
+    );
 
     it.each(difficulties)('%s: solution is fully filled and valid', (diff) => {
         const { solution } = results[diff]!;
@@ -88,28 +91,34 @@ describe('generateIsomorphicBoard', () => {
         expect(countSolutions(board, 2)).toBe(1);
     });
 
-    it.each(difficulties)('%s: solution preserves digit frequency (9 of each digit)', (diff) => {
-        const { solution } = results[diff]!;
-        const counts = new Array(10).fill(0);
+    it.each(difficulties)(
+        '%s: solution preserves digit frequency (9 of each digit)',
+        (diff) => {
+            const { solution } = results[diff]!;
+            const counts = new Array(10).fill(0);
 
-        solution.forEach((row) => row.forEach((v) => counts[v]++));
+            solution.forEach((row) => row.forEach((v) => counts[v]++));
 
-        for (let d = 1; d <= 9; d++) {
-            expect(counts[d]).toBe(9);
+            for (let d = 1; d <= 9; d++) {
+                expect(counts[d]).toBe(9);
+            }
         }
-    });
+    );
 
-    it.each(difficulties)('%s: every non-zero puzzle cell matches the solution', (diff) => {
-        const { puzzle, solution } = results[diff]!;
+    it.each(difficulties)(
+        '%s: every non-zero puzzle cell matches the solution',
+        (diff) => {
+            const { puzzle, solution } = results[diff]!;
 
-        for (let r = 0; r < 9; r++) {
-            for (let c = 0; c < 9; c++) {
-                if (puzzle[r][c] !== 0) {
-                    expect(puzzle[r][c]).toBe(solution[r][c]);
+            for (let r = 0; r < 9; r++) {
+                for (let c = 0; c < 9; c++) {
+                    if (puzzle[r][c] !== 0) {
+                        expect(puzzle[r][c]).toBe(solution[r][c]);
+                    }
                 }
             }
         }
-    });
+    );
 
     it('transposeBoard is called when Math.random returns below 0.5', () => {
         const precomputed = generateBoard('easy');

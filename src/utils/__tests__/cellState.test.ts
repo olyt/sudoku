@@ -70,9 +70,7 @@ describe('deriveCellState', () => {
     });
 
     it('does not highlight when the cell shares both row and column', () => {
-        expect(derive({ sameY: true, sameX: true })).toBe(
-            ECellStates.inactive
-        );
+        expect(derive({ sameY: true, sameX: true })).toBe(ECellStates.inactive);
     });
 
     it('returns similarNum when a digit is clicked and values match', () => {

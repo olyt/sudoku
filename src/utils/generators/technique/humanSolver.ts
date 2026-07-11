@@ -367,7 +367,10 @@ const checkHiddenPairCells = (
  * @param {TUnit} unit - the unit to process
  * @returns {boolean} - true if any candidate was removed
  */
-const applyHiddenPairsForUnit = (grid: TCandidateGrid, unit: TUnit): boolean => {
+const applyHiddenPairsForUnit = (
+    grid: TCandidateGrid,
+    unit: TUnit
+): boolean => {
     let changed = false;
 
     for (let d1 = 1; d1 <= 9; d1++) {
@@ -381,8 +384,10 @@ const applyHiddenPairsForUnit = (grid: TCandidateGrid, unit: TUnit): boolean => 
             const cells2 = getUnitCellsForDigit(unit, grid, d2);
 
             if (checkHiddenPairCells(cells1, cells2)) {
-                changed = stripCandidatesExcept(grid, cells1[0], d1, d2) || changed;
-                changed = stripCandidatesExcept(grid, cells1[1], d1, d2) || changed;
+                changed =
+                    stripCandidatesExcept(grid, cells1[0], d1, d2) || changed;
+                changed =
+                    stripCandidatesExcept(grid, cells1[1], d1, d2) || changed;
             }
         }
     }
@@ -700,7 +705,8 @@ const applyBoxLineForRow = (grid: TCandidateGrid, y: number): boolean => {
         if (allSameBox) {
             const by = Math.floor(y / 3) * 3;
 
-            changed = eliminateFromBoxOutsideRow(grid, by, box0 * 3, y, d) || changed;
+            changed =
+                eliminateFromBoxOutsideRow(grid, by, box0 * 3, y, d) || changed;
         }
     }
 
@@ -731,7 +737,8 @@ const applyBoxLineForCol = (grid: TCandidateGrid, x: number): boolean => {
         if (allSameBox) {
             const bx = Math.floor(x / 3) * 3;
 
-            changed = eliminateFromBoxOutsideCol(grid, box0 * 3, bx, x, d) || changed;
+            changed =
+                eliminateFromBoxOutsideCol(grid, box0 * 3, bx, x, d) || changed;
         }
     }
 
@@ -884,7 +891,14 @@ const applyXWingColBased = (grid: TCandidateGrid, d: number): boolean => {
             const c2 = colLines[j];
 
             if (c1.cells[0] === c2.cells[0] && c1.cells[1] === c2.cells[1]) {
-                changed = eliminateXWingFromRows(grid, d, [c1.idx, c2.idx], c1.cells[0], c1.cells[1]) || changed;
+                changed =
+                    eliminateXWingFromRows(
+                        grid,
+                        d,
+                        [c1.idx, c2.idx],
+                        c1.cells[0],
+                        c1.cells[1]
+                    ) || changed;
             }
         }
     }
@@ -912,7 +926,14 @@ const applyXWingForDigit = (grid: TCandidateGrid, d: number): boolean => {
             const r2 = rowLines[j];
 
             if (r1.cells[0] === r2.cells[0] && r1.cells[1] === r2.cells[1]) {
-                changed = eliminateXWingFromCols(grid, d, [r1.idx, r2.idx], r1.cells[0], r1.cells[1]) || changed;
+                changed =
+                    eliminateXWingFromCols(
+                        grid,
+                        d,
+                        [r1.idx, r2.idx],
+                        r1.cells[0],
+                        r1.cells[1]
+                    ) || changed;
             }
         }
     }
@@ -1053,7 +1074,14 @@ const applySwordfishForDigitAndOrientation = (
                         lines[k].idx,
                     ];
 
-                    changed = eliminateSwordfishFromPerp(grid, d, excludeLines, combined, isRow) || changed;
+                    changed =
+                        eliminateSwordfishFromPerp(
+                            grid,
+                            d,
+                            excludeLines,
+                            combined,
+                            isRow
+                        ) || changed;
                 }
             }
         }
@@ -1073,8 +1101,10 @@ const applySwordfish = (grid: TCandidateGrid): boolean => {
     let changed = false;
 
     for (let d = 1; d <= 9; d++) {
-        changed = applySwordfishForDigitAndOrientation(grid, d, true) || changed;
-        changed = applySwordfishForDigitAndOrientation(grid, d, false) || changed;
+        changed =
+            applySwordfishForDigitAndOrientation(grid, d, true) || changed;
+        changed =
+            applySwordfishForDigitAndOrientation(grid, d, false) || changed;
     }
 
     return changed;

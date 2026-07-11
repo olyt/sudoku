@@ -41,7 +41,9 @@ describe('gameStatus reducer', () => {
     });
 
     it('default returns state unchanged', () => {
-        const next = reducer(EGameStatus.InProgress, { type: 'UNKNOWN' } as never);
+        const next = reducer(EGameStatus.InProgress, {
+            type: 'UNKNOWN',
+        } as never);
 
         expect(next).toBe(EGameStatus.InProgress);
     });

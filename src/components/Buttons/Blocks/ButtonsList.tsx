@@ -6,7 +6,7 @@ type TModalButtonsListProps<T extends string> = {
     clickHandler: (value: T) => void;
 };
 
-const ModalButtonsList = <T extends string,>({
+const ModalButtonsList = <T extends string>({
     items,
     clickHandler,
 }: TModalButtonsListProps<T>): React.JSX.Element => {

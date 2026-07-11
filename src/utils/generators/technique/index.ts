@@ -27,7 +27,12 @@ const matchesDifficulty = (
     techniques: ReturnType<typeof humanSolve>,
     target: keyof IDifficulties
 ): boolean => {
-    const mediumTechniques = ['naked_pair', 'hidden_pair', 'pointing_pairs', 'box_line'] as const;
+    const mediumTechniques = [
+        'naked_pair',
+        'hidden_pair',
+        'pointing_pairs',
+        'box_line',
+    ] as const;
     const hardTechniques = ['x_wing', 'swordfish'] as const;
 
     switch (target) {
@@ -35,7 +40,11 @@ const matchesDifficulty = (
             return (
                 techniques !== null &&
                 techniques.includes('hidden_single') &&
-                !techniques.some((t) => [...mediumTechniques, ...hardTechniques].includes(t as never))
+                !techniques.some((t) =>
+                    [...mediumTechniques, ...hardTechniques].includes(
+                        t as never
+                    )
+                )
             );
 
         case 'medium':

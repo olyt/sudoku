@@ -102,8 +102,7 @@ export const useIsGameActive = (): boolean =>
  * @description Returns true when the game status is Win.
  * @returns {boolean} - whether the game has been won
  */
-export const useIsGameWon = (): boolean =>
-    useGameStatus() === EGameStatus.Win;
+export const useIsGameWon = (): boolean => useGameStatus() === EGameStatus.Win;
 
 /**
  * @function useCurrentBoard
@@ -125,7 +124,8 @@ export const useInitialBoard = (): TBoard => useBoards().initialBoard;
  * React bails out on unchanged values since EGeneratorType is a primitive string.
  * @returns {EGeneratorType} - the current generator type
  */
-export const useGeneratorType = (): EGeneratorType => useContext(GeneratorContext);
+export const useGeneratorType = (): EGeneratorType =>
+    useContext(GeneratorContext);
 
 /**
  * @function AppContextProvider
@@ -136,7 +136,11 @@ export const useGeneratorType = (): EGeneratorType => useContext(GeneratorContex
  * @param {React.ReactNode} root0.children - child elements to render
  * @returns {React.ReactElement} - the nested context providers wrapping children
  */
-export const AppContextProvider = ({ children }: { children: React.ReactNode }) => {
+export const AppContextProvider = ({
+    children,
+}: {
+    children: React.ReactNode;
+}) => {
     const [state, baseDispatch] = useReducer(reducer, context);
     const stateRef = useRef(state);
 
@@ -163,7 +167,9 @@ export const AppContextProvider = ({ children }: { children: React.ReactNode }) 
                         <HistoryContext value={state.history}>
                             <HintsContext value={state.hints}>
                                 <ClickedCellContext value={state.clickedCell}>
-                                    <GeneratorContext value={state.generatorType}>
+                                    <GeneratorContext
+                                        value={state.generatorType}
+                                    >
                                         {children}
                                     </GeneratorContext>
                                 </ClickedCellContext>

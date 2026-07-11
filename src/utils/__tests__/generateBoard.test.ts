@@ -49,7 +49,11 @@ const maxConsecutiveInRow = (row: number[]): number => {
     return max;
 };
 
-const filledInBox = (board: TBoard, byStart: number, bxStart: number): number => {
+const filledInBox = (
+    board: TBoard,
+    byStart: number,
+    bxStart: number
+): number => {
     let count = 0;
 
     for (let dy = 0; dy < 3; dy++) {
@@ -67,9 +71,17 @@ describe('DIFFICULTIES', () => {
     });
 
     it('each difficulty has all 5 constraint fields', () => {
-        const fields = ['mustFill', 'inARowMax', 'inABoxMax', 'numMax', 'numMin'];
+        const fields = [
+            'mustFill',
+            'inARowMax',
+            'inABoxMax',
+            'numMax',
+            'numMin',
+        ];
 
-        for (const key of Object.keys(DIFFICULTIES) as (keyof IDifficulties)[]) {
+        for (const key of Object.keys(
+            DIFFICULTIES
+        ) as (keyof IDifficulties)[]) {
             for (const field of fields) {
                 expect(DIFFICULTIES[key]).toHaveProperty(field);
             }
@@ -78,7 +90,9 @@ describe('DIFFICULTIES', () => {
 });
 
 describe('generateBoard', () => {
-    for (const diffKey of Object.keys(DIFFICULTIES) as (keyof IDifficulties)[]) {
+    for (const diffKey of Object.keys(
+        DIFFICULTIES
+    ) as (keyof IDifficulties)[]) {
         describe(`difficulty: ${diffKey}`, () => {
             const diff = DIFFICULTIES[diffKey];
             let board: TBoard;
@@ -120,14 +134,18 @@ describe('generateBoard', () => {
 
             it('no row exceeds inARowMax consecutive filled cells', () => {
                 for (let y = 0; y < 9; y++) {
-                    expect(maxConsecutiveInRow(board[y])).toBeLessThanOrEqual(diff.inARowMax);
+                    expect(maxConsecutiveInRow(board[y])).toBeLessThanOrEqual(
+                        diff.inARowMax
+                    );
                 }
             });
 
             it('no box exceeds inABoxMax filled cells', () => {
                 for (let by = 0; by < 9; by += 3) {
                     for (let bx = 0; bx < 9; bx += 3) {
-                        expect(filledInBox(board, by, bx)).toBeLessThanOrEqual(diff.inABoxMax);
+                        expect(filledInBox(board, by, bx)).toBeLessThanOrEqual(
+                            diff.inABoxMax
+                        );
                     }
                 }
             });

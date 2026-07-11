@@ -1,4 +1,3 @@
-
 import { TActionMap } from '../types';
 
 export enum EHistoryActionTypes {

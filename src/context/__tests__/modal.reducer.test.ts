@@ -17,7 +17,10 @@ describe('modal reducer', () => {
     });
 
     it('SetModalComponent sets component', () => {
-        const next = reducer(initialState, setModalComponent(EModalComponents.DifficultyBlock));
+        const next = reducer(
+            initialState,
+            setModalComponent(EModalComponents.DifficultyBlock)
+        );
 
         expect(next.component).toBe(EModalComponents.DifficultyBlock);
         expect(next.isOpen).toBe(initialState.isOpen);

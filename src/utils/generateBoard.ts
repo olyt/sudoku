@@ -91,9 +91,9 @@ const checkDigitDistribution = (
         }
     }
 
-    const isDigitCountInvalid = numbersCounter.slice(1).some(
-        (count: number) => count > numMax || count < numMin
-    );
+    const isDigitCountInvalid = numbersCounter
+        .slice(1)
+        .some((count: number) => count > numMax || count < numMin);
 
     /* c8 ignore next 3 -- digit distribution: rarely triggered since removal produces balanced digit counts */
     if (isDigitCountInvalid) {
@@ -166,7 +166,8 @@ export const checkDistribution = (
  * @returns {[TBoard, TBoard] | null} - [puzzle, solution] on success, or null on failure
  */
 const tryGenerate: TTryGenerateFn = (difficulty) => {
-    const { mustFill, inARowMax, inABoxMax, numMax, numMin } = DIFFICULTIES[difficulty];
+    const { mustFill, inARowMax, inABoxMax, numMax, numMin } =
+        DIFFICULTIES[difficulty];
     const solution = solve(getBlankBoard()) as TBoard;
     const board: TBoard = solution.map((row) => [...row]);
 

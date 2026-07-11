@@ -46,7 +46,10 @@ describe('tryToUndo operation', () => {
     });
 
     it('does nothing when gameStatus = NotStarted', () => {
-        tryToUndo()(dispatch, makeState({ gameStatus: EGameStatus.NotStarted }));
+        tryToUndo()(
+            dispatch,
+            makeState({ gameStatus: EGameStatus.NotStarted })
+        );
         expect(dispatch).not.toHaveBeenCalled();
     });
 

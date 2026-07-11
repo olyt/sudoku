@@ -60,11 +60,14 @@ beforeAll(() => {
 }, 30_000);
 
 describe('generateSymmetricBoard', () => {
-    it.each(difficulties)('%s: puzzle is a valid Sudoku (no contradictions)', (diff) => {
-        const { puzzle } = results[diff]!;
+    it.each(difficulties)(
+        '%s: puzzle is a valid Sudoku (no contradictions)',
+        (diff) => {
+            const { puzzle } = results[diff]!;
 
-        expect(isValidSudoku(puzzle)).toBe(true);
-    });
+            expect(isValidSudoku(puzzle)).toBe(true);
+        }
+    );
 
     it.each(difficulties)('%s: solution is fully filled and valid', (diff) => {
         const { solution } = results[diff]!;
@@ -81,26 +84,31 @@ describe('generateSymmetricBoard', () => {
         expect(countSolutions(board, 2)).toBe(1);
     });
 
-    it.each(difficulties)('%s: every zero cell has its 180-degree mirror also zero (or is center)', (diff) => {
-        const { puzzle } = results[diff]!;
+    it.each(difficulties)(
+        '%s: every zero cell has its 180-degree mirror also zero (or is center)',
+        (diff) => {
+            const { puzzle } = results[diff]!;
 
-        for (let r = 0; r < 9; r++) {
-            for (let c = 0; c < 9; c++) {
-                if (puzzle[r][c] === 0) {
-                    const mr = 8 - r;
-                    const mc = 8 - c;
-                    const isCenter = r === 4 && c === 4;
+            for (let r = 0; r < 9; r++) {
+                for (let c = 0; c < 9; c++) {
+                    if (puzzle[r][c] === 0) {
+                        const mr = 8 - r;
+                        const mc = 8 - c;
+                        const isCenter = r === 4 && c === 4;
 
-                    if (!isCenter) {
-                        expect(puzzle[mr][mc]).toBe(0);
+                        if (!isCenter) {
+                            expect(puzzle[mr][mc]).toBe(0);
+                        }
                     }
                 }
             }
         }
-    });
+    );
 
     it('retries when checkDistribution fails on first attempt', () => {
-        const spy = vi.spyOn(generateBoardModule, 'checkDistribution').mockReturnValueOnce(false);
+        const spy = vi
+            .spyOn(generateBoardModule, 'checkDistribution')
+            .mockReturnValueOnce(false);
         const [puzzle] = generateSymmetricBoard('easy');
 
         expect(isValidSudoku(puzzle)).toBe(true);
@@ -114,12 +122,16 @@ describe('generateSymmetricBoard', () => {
         // After 15 pairs (30 zeros) further removals are blocked → filledCount=51.
         // tryCenterRemoval then sets board[4][4]=0 (zeros=31, odd) → spy returns 2 →
         // center is restored → lines 56, 58, 65, 67 all covered.
-        const countSpy = vi.spyOn(solverModule, 'countSolutions').mockImplementation((board) => {
-            const zeros = (board).flat().filter((v) => v === 0).length;
+        const countSpy = vi
+            .spyOn(solverModule, 'countSolutions')
+            .mockImplementation((board) => {
+                const zeros = board.flat().filter((v) => v === 0).length;
 
-            return zeros <= 30 && zeros % 2 === 0 ? 1 : 2;
-        });
-        const distSpy = vi.spyOn(generateBoardModule, 'checkDistribution').mockReturnValue(true);
+                return zeros <= 30 && zeros % 2 === 0 ? 1 : 2;
+            });
+        const distSpy = vi
+            .spyOn(generateBoardModule, 'checkDistribution')
+            .mockReturnValue(true);
         const [, solution] = generateSymmetricBoard('easy');
 
         expect(isValidSudoku(solution)).toBe(true);

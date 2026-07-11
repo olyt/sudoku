@@ -19,7 +19,7 @@ const initialState: TBoardsState = {
 };
 
 const filledBoard: TBoard = Array.from({ length: 9 }, (_, i) =>
-    Array.from({ length: 9 }, (__, j) => (i * 9 + j + 1) % 9 + 1)
+    Array.from({ length: 9 }, (__, j) => ((i * 9 + j + 1) % 9) + 1)
 );
 
 describe('boards reducer', () => {

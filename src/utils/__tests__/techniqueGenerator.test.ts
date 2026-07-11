@@ -257,11 +257,14 @@ beforeAll(() => {
 }, 30_000);
 
 describe('generateTechniqueBoard', () => {
-    it.each(difficulties)('%s: puzzle is a valid Sudoku (no contradictions)', (diff) => {
-        const { puzzle } = difficultyResults[diff]!;
+    it.each(difficulties)(
+        '%s: puzzle is a valid Sudoku (no contradictions)',
+        (diff) => {
+            const { puzzle } = difficultyResults[diff]!;
 
-        expect(isValidSudoku(puzzle)).toBe(true);
-    });
+            expect(isValidSudoku(puzzle)).toBe(true);
+        }
+    );
 
     it.each(difficulties)('%s: solution is fully filled and valid', (diff) => {
         const { solution } = difficultyResults[diff]!;
@@ -281,7 +284,14 @@ describe('generateTechniqueBoard', () => {
     it('easy: humanSolve uses only simple techniques', () => {
         const { puzzle } = difficultyResults['easy']!;
         const techniques = humanSolve(puzzle);
-        const mediumAndHard = ['naked_pair', 'hidden_pair', 'pointing_pairs', 'box_line', 'x_wing', 'swordfish'];
+        const mediumAndHard = [
+            'naked_pair',
+            'hidden_pair',
+            'pointing_pairs',
+            'box_line',
+            'x_wing',
+            'swordfish',
+        ];
 
         expect(techniques).not.toBeNull();
         expect(techniques!.includes('hidden_single')).toBe(true);
@@ -291,11 +301,18 @@ describe('generateTechniqueBoard', () => {
     it('medium: humanSolve uses at least one medium technique but no X-Wing/Swordfish', () => {
         const { puzzle } = difficultyResults['medium']!;
         const techniques = humanSolve(puzzle);
-        const mediumTechniques = ['naked_pair', 'hidden_pair', 'pointing_pairs', 'box_line'];
+        const mediumTechniques = [
+            'naked_pair',
+            'hidden_pair',
+            'pointing_pairs',
+            'box_line',
+        ];
         const hardTechniques = ['x_wing', 'swordfish'];
 
         expect(techniques).not.toBeNull();
-        expect(techniques!.some((t) => mediumTechniques.includes(t))).toBe(true);
+        expect(techniques!.some((t) => mediumTechniques.includes(t))).toBe(
+            true
+        );
         expect(techniques!.some((t) => hardTechniques.includes(t))).toBe(false);
     });
 
@@ -315,7 +332,8 @@ describe('generateTechniqueBoard', () => {
 describe('generateTechniqueBoard mock-based coverage', () => {
     it('humanSolve guard: restores cell when board becomes unsolvable by human techniques', () => {
         const realHumanSolve = humanSolverModule.humanSolve;
-        const spy = vi.spyOn(humanSolverModule, 'humanSolve')
+        const spy = vi
+            .spyOn(humanSolverModule, 'humanSolve')
             .mockReturnValueOnce(null)
             .mockImplementation(realHumanSolve);
 
@@ -327,7 +345,8 @@ describe('generateTechniqueBoard mock-based coverage', () => {
 
     it('retries when matchesDifficulty fails; hard non-null .some() path covered on retry', () => {
         const realHumanSolve = humanSolverModule.humanSolve;
-        const spy = vi.spyOn(humanSolverModule, 'humanSolve')
+        const spy = vi
+            .spyOn(humanSolverModule, 'humanSolve')
             .mockReturnValueOnce(['naked_single'] as never)
             .mockReturnValueOnce(['x_wing'] as never)
             .mockImplementation(realHumanSolve);

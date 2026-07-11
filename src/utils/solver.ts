@@ -29,7 +29,11 @@ const solved: TBoardValidator = (board: TBoard): boolean => {
  * @param {number} x - column index of the target cell
  * @returns {number[]} - digits 1–9 that are valid placements for the cell
  */
-export const getCandidates = (board: TBoard, y: number, x: number): number[] => {
+export const getCandidates = (
+    board: TBoard,
+    y: number,
+    x: number
+): number[] => {
     const used = new Set<number>();
 
     for (let i = 0; i < 9; i++) {

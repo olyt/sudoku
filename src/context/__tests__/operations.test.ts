@@ -1,5 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { startGame, resetGame, leaveAfterWin, startNewAfterWin, setValueToBoard } from '../operations';
+import {
+    startGame,
+    resetGame,
+    leaveAfterWin,
+    startNewAfterWin,
+    setValueToBoard,
+} from '../operations';
 import {
     EGameStatus,
     EGeneratorType,
@@ -21,7 +27,7 @@ vi.mock('../../utils/generateBoard', () => ({
             Array.from({ length: 9 }, (__, j) => i * 9 + j + 1)
         );
         const solution: TBoard = Array.from({ length: 9 }, (_, i) =>
-            Array.from({ length: 9 }, (__, j) => (i * 9 + j + 1) % 9 + 1)
+            Array.from({ length: 9 }, (__, j) => ((i * 9 + j + 1) % 9) + 1)
         );
 
         return [board, solution];
@@ -30,8 +36,12 @@ vi.mock('../../utils/generateBoard', () => ({
 
 vi.mock('../../utils/generators/symmetricGenerator', () => ({
     generateSymmetricBoard: vi.fn(() => {
-        const board: TBoard = Array.from({ length: 9 }, () => Array<number>(9).fill(1));
-        const solution: TBoard = Array.from({ length: 9 }, () => Array<number>(9).fill(2));
+        const board: TBoard = Array.from({ length: 9 }, () =>
+            Array<number>(9).fill(1)
+        );
+        const solution: TBoard = Array.from({ length: 9 }, () =>
+            Array<number>(9).fill(2)
+        );
 
         return [board, solution];
     }),
@@ -39,8 +49,12 @@ vi.mock('../../utils/generators/symmetricGenerator', () => ({
 
 vi.mock('../../utils/generators/isomorphicGenerator', () => ({
     generateIsomorphicBoard: vi.fn(() => {
-        const board: TBoard = Array.from({ length: 9 }, () => Array<number>(9).fill(3));
-        const solution: TBoard = Array.from({ length: 9 }, () => Array<number>(9).fill(4));
+        const board: TBoard = Array.from({ length: 9 }, () =>
+            Array<number>(9).fill(3)
+        );
+        const solution: TBoard = Array.from({ length: 9 }, () =>
+            Array<number>(9).fill(4)
+        );
 
         return [board, solution];
     }),
@@ -48,14 +62,19 @@ vi.mock('../../utils/generators/isomorphicGenerator', () => ({
 
 vi.mock('../../utils/generators/technique', () => ({
     generateTechniqueBoard: vi.fn(() => {
-        const board: TBoard = Array.from({ length: 9 }, () => Array<number>(9).fill(5));
-        const solution: TBoard = Array.from({ length: 9 }, () => Array<number>(9).fill(6));
+        const board: TBoard = Array.from({ length: 9 }, () =>
+            Array<number>(9).fill(5)
+        );
+        const solution: TBoard = Array.from({ length: 9 }, () =>
+            Array<number>(9).fill(6)
+        );
 
         return [board, solution];
     }),
 }));
 
-const blankBoard = (): TBoard => Array.from({ length: 9 }, () => Array<number>(9).fill(0));
+const blankBoard = (): TBoard =>
+    Array.from({ length: 9 }, () => Array<number>(9).fill(0));
 
 const makeState = (overrides: Partial<IAppContext> = {}): IAppContext => ({
     clickedCell: defaultCell,
@@ -173,7 +192,8 @@ describe('startNewAfterWin', () => {
 
 describe('startGame with Symmetric generator', () => {
     it('calls generateSymmetricBoard when generatorType is Symmetric', async () => {
-        const { generateSymmetricBoard } = await import('../../utils/generators/symmetricGenerator');
+        const { generateSymmetricBoard } =
+            await import('../../utils/generators/symmetricGenerator');
         const dispatch = vi.fn<TDispatch>();
         const state = makeState({ generatorType: EGeneratorType.Symmetric });
 

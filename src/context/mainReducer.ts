@@ -30,7 +30,10 @@ const mainReducer: React.Reducer<IAppContext, TAction> = (state, action) => ({
         state.clickedCell,
         action as TClickedCellAction
     ),
-    generatorType: generatorReducer(state.generatorType, action as TGeneratorAction),
+    generatorType: generatorReducer(
+        state.generatorType,
+        action as TGeneratorAction
+    ),
 });
 
 export default mainReducer;

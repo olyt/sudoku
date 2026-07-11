@@ -36,7 +36,9 @@ const randomPerm = (n: number): number[] => {
  * @returns {TBoard} - new board with relabelled digits
  */
 const relabelDigits = (board: TBoard, perm: number[]): TBoard =>
-    board.map((row) => row.map((cell) => (cell === 0 ? 0 : perm[cell - 1] + 1)));
+    board.map((row) =>
+        row.map((cell) => (cell === 0 ? 0 : perm[cell - 1] + 1))
+    );
 
 /**
  * @function swapBands
@@ -193,5 +195,8 @@ export const generateIsomorphicBoard = (
         transpose: Math.random() < 0.5,
     };
 
-    return [applyTransforms(puzzle, transforms), applyTransforms(solution, transforms)];
+    return [
+        applyTransforms(puzzle, transforms),
+        applyTransforms(solution, transforms),
+    ];
 };

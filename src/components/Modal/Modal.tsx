@@ -1,6 +1,10 @@
 import { FC, MouseEventHandler, useEffect, useEffectEvent } from 'react';
 import { leaveAfterWin } from '../../context/operations';
-import { useAppDispatch, useIsGameWon, useModal } from '../../context/AppContext';
+import {
+    useAppDispatch,
+    useIsGameWon,
+    useModal,
+} from '../../context/AppContext';
 import WinBanner from '../WinBanner/WinBanner';
 import DifficultyBlock from '../DifficultyBlock/DifficultyBlock';
 import { InnerModal, OuterModal } from './styles';

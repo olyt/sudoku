@@ -41,7 +41,9 @@ describe('generator reducer', () => {
     });
 
     it('default returns state unchanged', () => {
-        const next = reducer(EGeneratorType.Standard, { type: 'UNKNOWN' } as never);
+        const next = reducer(EGeneratorType.Standard, {
+            type: 'UNKNOWN',
+        } as never);
 
         expect(next).toBe(EGeneratorType.Standard);
     });
