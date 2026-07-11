@@ -24,17 +24,13 @@ const calculateNewCoordinate = (
     oldCoordinate: number,
     direction: string
 ): number => {
-    const [arrowUp, arrowRight, arrowDown, arrowLeft] = arrows;
+    const [arrowUp, , , arrowLeft] = arrows;
 
     if (arrowUp === direction || arrowLeft === direction) {
         return oldCoordinate === 0 ? 8 : oldCoordinate - 1;
     }
 
-    if (arrowRight === direction || arrowDown === direction) {
-        return oldCoordinate === 8 ? 0 : oldCoordinate + 1;
-    }
-
-    return oldCoordinate;
+    return oldCoordinate === 8 ? 0 : oldCoordinate + 1;
 };
 
 const BoardGrid: React.FC = () => {
@@ -56,14 +52,10 @@ const BoardGrid: React.FC = () => {
             dispatch(resetClickedCell);
         }
 
-        if (
-            [...Object.keys(digits), ...Object.keys(numpadDigits)].includes(code)
-        ) {
-            const newValue = digits[code] || numpadDigits[code] || 0;
+        const newValue = digits[code] || numpadDigits[code] || 0;
 
-            if (newValue) {
-                digitHandlerCreator<undefined>(newValue)();
-            }
+        if (newValue) {
+            digitHandlerCreator<undefined>(newValue)();
         }
     });
 
@@ -80,51 +72,19 @@ const BoardGrid: React.FC = () => {
             return;
         }
 
-        const [arrowUp, arrowRight, arrowDown, arrowLeft] = arrows;
+        const [arrowUp, , arrowDown] = arrows;
         const { y, x } = clickedCell;
-        const newY = calculateNewCoordinate(y, code);
-        const newX = calculateNewCoordinate(x, code);
+        const isVertical = code === arrowUp || code === arrowDown;
+        const newY = isVertical ? calculateNewCoordinate(y, code) : y;
+        const newX = isVertical ? x : calculateNewCoordinate(x, code);
 
-        switch (code) {
-            case arrowUp:
-                dispatch(
-                    setClickedCell({
-                        y: newY,
-                        x,
-                        value: currentBoard[newY][x],
-                    })
-                );
-                break;
-            case arrowRight:
-                dispatch(
-                    setClickedCell({
-                        y,
-                        x: newX,
-                        value: currentBoard[y][newX],
-                    })
-                );
-                break;
-            case arrowDown:
-                dispatch(
-                    setClickedCell({
-                        y: newY,
-                        x,
-                        value: currentBoard[newY][x],
-                    })
-                );
-                break;
-            case arrowLeft:
-                dispatch(
-                    setClickedCell({
-                        y,
-                        x: newX,
-                        value: currentBoard[y][newX],
-                    })
-                );
-                break;
-            default:
-                break;
-        }
+        dispatch(
+            setClickedCell({
+                y: newY,
+                x: newX,
+                value: currentBoard[newY][newX],
+            })
+        );
     });
 
     useEffect(() => {

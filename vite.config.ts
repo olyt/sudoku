@@ -5,16 +5,22 @@ import babel from '@rolldown/plugin-babel';
 import svgr from 'vite-plugin-svgr';
 import browserslistToEsbuild from 'browserslist-to-esbuild';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
     base: '/sudoku/',
     build: {
         target: browserslistToEsbuild(),
     },
     plugins: [
         react(),
-        babel({
-            presets: [reactCompilerPreset()],
-        }),
+        // The compiler's generated memo-cache branches map back to source
+        // lines as phantom coverage gaps, so it stays out of test builds.
+        ...(mode === 'test'
+            ? []
+            : [
+                  babel({
+                      presets: [reactCompilerPreset()],
+                  }),
+              ]),
         svgr(),
     ],
     test: {
@@ -31,7 +37,14 @@ export default defineConfig({
                 'src/vite-env.d.ts',
                 'src/@types/**',
                 'src/theming/**',
-                'src/components/**',
+                'src/components/Buttons/**',
+                'src/components/Cells/DigitCell.tsx',
+                'src/components/DifficultyBlock/**',
+                'src/components/GeneratorsBlock/**',
+                'src/components/Grids/DigitsGrid.tsx',
+                'src/components/Header/**',
+                'src/components/Modal/**',
+                'src/components/WinBanner/**',
                 'src/hooks/**',
                 'src/constants/**',
                 'src/context/AppContext.tsx',
@@ -44,4 +57,4 @@ export default defineConfig({
             thresholds: { lines: 100, functions: 100, branches: 100, statements: 100 },
         },
     },
-});
+}));
