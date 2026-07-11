@@ -4,7 +4,7 @@
  * When called without a digit, returns a factory function to create handlers for any digit.
  */
 
-import { MouseEventHandler, useCallback } from 'react';
+import { MouseEventHandler } from 'react';
 import { useAppDispatch, useClickedCell, useInitialBoard } from '../context/AppContext';
 import { setValueToBoard } from '../context/operations';
 import { setClickedCell } from '../context/clickedCell/actions';
@@ -34,16 +34,13 @@ const useCellValueHandler: TCellValueHandlerHook = (newValue) => {
     const initialBoard = useInitialBoard();
     const { y, x } = useClickedCell();
     const dispatch = useAppDispatch();
-    const createHandler = useCallback<THandlerCreator>(
-        (valueToSet) => () => {
-            if (y !== -1 && x !== -1 && !initialBoard[y][x]) {
-                dispatch(setValueToBoard(valueToSet));
-            } else {
-                dispatch(setClickedCell({ y: -1, x: -1, value: valueToSet }));
-            }
-        },
-        [initialBoard, y, x, dispatch]
-    );
+    const createHandler: THandlerCreator = (valueToSet) => () => {
+        if (y !== -1 && x !== -1 && !initialBoard[y][x]) {
+            dispatch(setValueToBoard(valueToSet));
+        } else {
+            dispatch(setClickedCell({ y: -1, x: -1, value: valueToSet }));
+        }
+    };
 
     if (!newValue) {
         return createHandler;

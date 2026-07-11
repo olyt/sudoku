@@ -1,4 +1,4 @@
-import React, { useEffect, useEffectEvent, useMemo } from 'react';
+import React, { useEffect, useEffectEvent } from 'react';
 import BoardCell from '../Cells/BoardCell';
 import {
     useAppDispatch,
@@ -40,10 +40,7 @@ const BoardGrid: React.FC = () => {
     const isGameActive = useIsGameActive();
     const dispatch = useAppDispatch();
     const digitHandlerCreator = useCellValueHandler() as THandlerCreator;
-    const finishedAreas = useMemo(
-        () => getFinishedAreas(currentBoard),
-        [currentBoard]
-    );
+    const finishedAreas = getFinishedAreas(currentBoard);
 
     const onKeyUp = useEffectEvent((event: KeyboardEvent) => {
         const { code } = event;
@@ -99,54 +96,50 @@ const BoardGrid: React.FC = () => {
         };
     }, [isGameActive]);
 
-    const cells = useMemo(
-        () =>
-            currentBoard.map((row: number[], y: number) =>
-                row.map((value, x) => {
-                    const isHint =
-                        y === hints.currentHint.y &&
-                        x === hints.currentHint.x &&
-                        !!hints.currentHint.value;
-                    const isSelected = clickedCell.y === y && clickedCell.x === x;
-                    const sameY = clickedCell.y === y;
-                    const sameX = clickedCell.x === x;
-                    const sameValue = clickedCell.value === value;
-                    const digitClicked =
-                        clickedCell.y === -1 &&
-                        clickedCell.x === -1 &&
-                        !!clickedCell.value;
-                    const areaFinished =
-                        !!value &&
-                        (finishedAreas.rows[y] ||
-                            finishedAreas.columns[x] ||
-                            finishedAreas.boxes[getBoxIndex(y, x)]);
-                    const cellState = deriveCellState(
-                        isSelected,
-                        sameY,
-                        sameX,
-                        sameValue,
-                        digitClicked,
-                        areaFinished,
-                        isHint
-                    );
-                    const displayValue =
-                        value || (isHint ? hints.currentHint.value : 0) || null;
+    const cells = currentBoard.map((row: number[], y: number) =>
+        row.map((value, x) => {
+            const isHint =
+                y === hints.currentHint.y &&
+                x === hints.currentHint.x &&
+                !!hints.currentHint.value;
+            const isSelected = clickedCell.y === y && clickedCell.x === x;
+            const sameY = clickedCell.y === y;
+            const sameX = clickedCell.x === x;
+            const sameValue = clickedCell.value === value;
+            const digitClicked =
+                clickedCell.y === -1 &&
+                clickedCell.x === -1 &&
+                !!clickedCell.value;
+            const areaFinished =
+                !!value &&
+                (finishedAreas.rows[y] ||
+                    finishedAreas.columns[x] ||
+                    finishedAreas.boxes[getBoxIndex(y, x)]);
+            const cellState = deriveCellState(
+                isSelected,
+                sameY,
+                sameX,
+                sameValue,
+                digitClicked,
+                areaFinished,
+                isHint
+            );
+            const displayValue =
+                value || (isHint ? hints.currentHint.value : 0) || null;
 
-                    return (
-                        <BoardCell
-                            cellState={cellState}
-                            displayValue={displayValue}
-                            isGameActive={isGameActive}
-                            isSelected={isSelected}
-                            key={`x:${x},y:${y}`}
-                            value={value}
-                            x={x}
-                            y={y}
-                        />
-                    );
-                })
-            ),
-        [clickedCell, currentBoard, finishedAreas, hints.currentHint, isGameActive]
+            return (
+                <BoardCell
+                    cellState={cellState}
+                    displayValue={displayValue}
+                    isGameActive={isGameActive}
+                    isSelected={isSelected}
+                    key={`x:${x},y:${y}`}
+                    value={value}
+                    x={x}
+                    y={y}
+                />
+            );
+        })
     );
 
     return (

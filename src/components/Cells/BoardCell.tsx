@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useCallback } from 'react';
+import React, { MouseEventHandler } from 'react';
 import { useAppDispatch } from '../../context/AppContext';
 import styled from 'styled-components';
 import BasicCell from './BasicCell';
@@ -66,7 +66,7 @@ const BoardCell: React.FC<IBoardCellProps> = ({
 }) => {
     const dispatch = useAppDispatch();
 
-    const toggleChecked: MouseEventHandler<HTMLDivElement> = useCallback(() => {
+    const toggleChecked: MouseEventHandler<HTMLDivElement> = () => {
         if (isGameActive) {
             if (isSelected) {
                 dispatch(resetClickedCell);
@@ -77,7 +77,7 @@ const BoardCell: React.FC<IBoardCellProps> = ({
             dispatch(setClickedCell({ y, x, value }));
             dispatch(resetCurrentHint);
         }
-    }, [isGameActive, isSelected, dispatch, y, x, value]);
+    };
 
     return (
         <StyledBoardCell onClick={toggleChecked} x={x} y={y} $state={cellState}>
